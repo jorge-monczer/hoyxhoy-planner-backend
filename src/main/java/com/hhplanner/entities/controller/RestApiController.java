@@ -1,4 +1,4 @@
-package com.hhplanner.controller;
+package com.hhplanner.entities.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

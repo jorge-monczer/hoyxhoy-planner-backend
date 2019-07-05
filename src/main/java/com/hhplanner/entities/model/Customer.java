@@ -1,4 +1,4 @@
-package com.hhplanner.model;
+package com.hhplanner.entities.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

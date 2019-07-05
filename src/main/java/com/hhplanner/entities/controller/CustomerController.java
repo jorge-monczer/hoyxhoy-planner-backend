@@ -1,4 +1,4 @@
-package com.hhplanner.controller;
+package com.hhplanner.entities.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hhplanner.model.Customer;
-import com.hhplanner.repo.CustomerRepository;
+import com.hhplanner.entities.model.Customer;
+import com.hhplanner.entities.repo.CustomerRepository;
  
 @RestController
 @RequestMapping("/api")
