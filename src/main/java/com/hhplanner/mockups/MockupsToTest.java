@@ -1,9 +1,9 @@
 package com.hhplanner.mockups;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.hhplanner.entities.model.Project;
@@ -18,28 +18,35 @@ public class MockupsToTest {
 		return projects;
 	}
 
+	public static List<Project> createProjectListToSaveTest() {
+		List<Project> projects = new ArrayList<>();
+		projects.add(createProjectTLMK(0));
+		projects.add(createProjectTLMK2(0));
+		projects.add(createProjectTLMK3(0));
+		return projects;
+	}
+	
+	
 	public static Project createProjectTLMK() {
-		return new Project(1, "TLMK", "Mejoras Telemarketer", newDate("01/10/2019"), 10);
+		return createProjectTLMK(1);
 	}
 	public static Project createProjectTLMK2() {
-		return new Project(2, "TLMK2", "Mejoras Telemarketer2", newDate("02/10/2019"), 15);
+		return createProjectTLMK2(2);
 	}
 	public static Project createProjectTLMK3() {
-		return new Project(3, "TLMK3", "Mejoras Telemarketer3", newDate("03/10/2019"), 20);
+		return createProjectTLMK3(3);
 	}
-	public static Project createProjectTLMK4ToSave() {
-		return new Project(0, "TLMK4", "Mejoras Telemarketer4", newDate("01/10/2019"), 10);
+	public static Project createProjectTLMK(int id) {
+		return new Project(id, "TLMK", "Mejoras Telemarketer", LocalDate.of(2019, 10, 1), 10);
 	}
-
-	
-	public static Date newDate(String ddMMyyyy ) {
-		Date date = new Date();
-		try {
-			date = new SimpleDateFormat("dd/MM/yyyy").parse(ddMMyyyy);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date;
+	public static Project createProjectTLMK2(int id) {
+		return new Project(id, "TLMK2", "Mejoras Telemarketer2", LocalDate.of(2019, 10, 2), 15);
+	}
+	public static Project createProjectTLMK3(int id) {
+		return new Project(id, "TLMK3", "Mejoras Telemarketer3", LocalDate.of(2019, 10, 3), 20);
 	}
 	
+	public static Date newDate(int year,int month, int day) {
+		return new GregorianCalendar(year, month, day).getTime();
+	}
 }
