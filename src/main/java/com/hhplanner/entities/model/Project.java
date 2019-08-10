@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -25,8 +28,8 @@ public class Project {
     @Column(unique=true, name = "name", length = 60)
     private String name;
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)    
-    @Column(name = "start_date")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @Column(name = "start_date", columnDefinition = "DATE")
     private LocalDate startDate;
     @Column(name = "spring_days")
     private int springDays;

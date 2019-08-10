@@ -30,7 +30,7 @@ import com.hhplanner.entities.exception.EntityModelDuplicatedException;
 import com.hhplanner.entities.exception.EntityModelNotFoundException;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.service.ProjectService;
-import com.hhplanner.mockups.MockupsToTest;
+import com.hhplanner.mockups.MockupProjectsToTest;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProjectController.class)
@@ -44,37 +44,37 @@ public class ProjectControllerTest {
 	
 	@Test
 	public void getProject_WithId_ReturnsProject() throws Exception {
-		Project projectTLMK = MockupsToTest.createProjectTLMK();
+		Project projectTLMK = MockupProjectsToTest.createProjectTLMK();
 		when(this.projectService.getProjectById(anyInt())).thenReturn(projectTLMK);
-		ResultActions perform = this.mockMvc.perform(get("/api/project/{id}", 1));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{id}", 1));
 		expectedPerform(perform,status().isOk(), projectTLMK,null);
 	}
 
 	@Test
 	public void getProyect_WithId_NotFound_Returns404() throws Exception {
 		when(this.projectService.getProjectById(anyInt())).thenThrow(new EntityModelNotFoundException());
-		this.mockMvc.perform(get("/api/project/{id}", 1))
+		this.mockMvc.perform(get("/api/projects/{id}", 1))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void getProject_WithCode_ReturnsProject() throws Exception {
-		Project projectTLMK = MockupsToTest.createProjectTLMK();
+		Project projectTLMK = MockupProjectsToTest.createProjectTLMK();
 		when(this.projectService.getProjectByCode(anyString())).thenReturn(projectTLMK);
-		ResultActions perform = this.mockMvc.perform(get("/api/project/code/{code}", "TLMK"));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/code/{code}", "TLMK"));
 		expectedPerform(perform,status().isOk(), projectTLMK,null);
 	}
 
 	@Test
 	public void getProyect_WithCode_NotFound_Returns404() throws Exception {
 		when(this.projectService.getProjectByCode(anyString())).thenThrow(new EntityModelNotFoundException());
-		this.mockMvc.perform(get("/api/project/code/{code}", "TLMK"))
+		this.mockMvc.perform(get("/api/projects/code/{code}", "TLMK"))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void getProjects() throws Exception {
-		List<Project> projectList = MockupsToTest.createProjectListToTest();
+		List<Project> projectList = MockupProjectsToTest.createProjectListToTest();
 		when(this.projectService.getProjects()).thenReturn(projectList);
 		ResultActions perform = this.mockMvc.perform(get("/api/projects"));
 		perform.andExpect(status().isOk());
@@ -94,10 +94,10 @@ public class ProjectControllerTest {
 	
 	@Test
 	public void postProject_ReturnsProject() throws Exception {
-		Project projectTLMK = MockupsToTest.createProjectTLMK();
+		Project projectTLMK = MockupProjectsToTest.createProjectTLMK();
 		when(this.projectService.save(any(Project.class))).thenReturn(projectTLMK);
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/project").content(asJsonString(MockupsToTest.createProjectTLMK(0)))
+				MockMvcRequestBuilders.post("/api/projects").content(asJsonString(MockupProjectsToTest.createProjectTLMK(0)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		expectedPerform(perform,status().isCreated(), projectTLMK,null);
 	}
@@ -106,7 +106,7 @@ public class ProjectControllerTest {
 	public void postProject_WithDuplicateCode() throws Exception {
 		when(this.projectService.save(any(Project.class))).thenThrow(EntityModelDuplicatedException.getInstance("msg"));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/project").content(asJsonString(MockupsToTest.createProjectTLMK(0)))
+				MockMvcRequestBuilders.post("/api/projects").content(asJsonString(MockupProjectsToTest.createProjectTLMK(0)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isForbidden());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -114,10 +114,10 @@ public class ProjectControllerTest {
 	
 	@Test
 	public void putProject_WithId_ReturnsProject() throws Exception {
-		Project updatedProjectTLMK = MockupsToTest.createProjectTLMK2(1);
+		Project updatedProjectTLMK = MockupProjectsToTest.createProjectTLMK2(1);
 		when(this.projectService.update(anyInt(),any(Project.class))).thenReturn(updatedProjectTLMK);
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",1).content(asJsonString(MockupsToTest.createProjectTLMK()))
+				MockMvcRequestBuilders.put("/api/projects/{id}",1).content(asJsonString(MockupProjectsToTest.createProjectTLMK()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		expectedPerform(perform,status().isOk(), updatedProjectTLMK,null);
 	}
@@ -126,7 +126,7 @@ public class ProjectControllerTest {
 	public void putProject_WithId_NotFound() throws Exception {
 		when(this.projectService.update(anyInt(),any(Project.class))).thenThrow(new EntityModelNotFoundException());
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",1).content(asJsonString(MockupsToTest.createProjectTLMK()))
+				MockMvcRequestBuilders.put("/api/projects/{id}",1).content(asJsonString(MockupProjectsToTest.createProjectTLMK()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -136,7 +136,7 @@ public class ProjectControllerTest {
 	public void putProject_WithId_DuplicatedCode() throws Exception {
 		when(this.projectService.update(anyInt(),any(Project.class))).thenThrow(EntityModelDuplicatedException.getInstance("msg"));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",1).content(asJsonString(MockupsToTest.createProjectTLMK()))
+				MockMvcRequestBuilders.put("/api/projects/{id}",1).content(asJsonString(MockupProjectsToTest.createProjectTLMK()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isForbidden());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -144,7 +144,7 @@ public class ProjectControllerTest {
 	
 	@Test
 	public void deleteProject_WithId() throws Exception {
-		ResultActions perform = this.mockMvc.perform(delete("/api/project/{id}", 1));
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{id}", 1));
 		perform.andExpect(status().isOk());
 	}
 

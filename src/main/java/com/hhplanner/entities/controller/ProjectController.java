@@ -36,27 +36,27 @@ public class ProjectController {
 		return new ResponseEntity<>(projects, HttpStatus.OK);		
 	}
 
-	@GetMapping("/project/{id}")
+	@GetMapping("/projects/{id}")
 	public ResponseEntity<Project> getProjectById(@PathVariable("id") int id) {
 		return new ResponseEntity<>(this.projectService.getProjectById(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/project/code/{code}")
+	@GetMapping("/projects/code/{code}")
 	public ResponseEntity<Project> getProjectByCode(@PathVariable("code") String code) {
 		return new ResponseEntity<>(this.projectService.getProjectByCode(code), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/project")
+	@PostMapping(value = "/projects")
 	public ResponseEntity<Project> postProject(@RequestBody Project project) {
 		return new ResponseEntity<>(this.projectService.save(project), HttpStatus.CREATED);
 	}
 
-	@PutMapping("/project/{id}")
+	@PutMapping("/projects/{id}")
 	public ResponseEntity<Project> updateProject(@PathVariable("id") int id, @RequestBody Project project) {
 		return new ResponseEntity<>(this.projectService.update(id, project),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/project/{id}")
+	@DeleteMapping("/projects/{id}")
 	public ResponseEntity<Void> deleteProject(@PathVariable("id") int id) {
 		this.projectService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);

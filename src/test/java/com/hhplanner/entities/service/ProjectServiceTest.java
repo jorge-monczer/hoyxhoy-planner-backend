@@ -20,7 +20,7 @@ import com.hhplanner.entities.exception.EntityModelDuplicatedException;
 import com.hhplanner.entities.exception.EntityModelNotFoundException;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.repo.ProjectRepository;
-import com.hhplanner.mockups.MockupsToTest;
+import com.hhplanner.mockups.MockupProjectsToTest;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectServiceTest {
@@ -36,9 +36,9 @@ public class ProjectServiceTest {
 
 	@Test
 	public void getProjectById_returnsProject() {
-		given(this.projectRepository.findById(anyInt())).willReturn(Optional.of(MockupsToTest.createProjectTLMK()));
+		given(this.projectRepository.findById(anyInt())).willReturn(Optional.of(MockupProjectsToTest.createProjectTLMK()));
 		Project project = projectService.getProjectById(1);
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 
 	@Test(expected = EntityModelNotFoundException.class)
@@ -49,9 +49,9 @@ public class ProjectServiceTest {
 	
 	@Test
 	public void getProjectByCode_returnsProject() {
-		given(this.projectRepository.findByCode(anyString())).willReturn(Optional.of(MockupsToTest.createProjectTLMK()));
+		given(this.projectRepository.findByCode(anyString())).willReturn(Optional.of(MockupProjectsToTest.createProjectTLMK()));
 		Project project = this.projectService.getProjectByCode("TLMK");
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 	
 	@Test(expected = EntityModelNotFoundException.class)
@@ -62,7 +62,7 @@ public class ProjectServiceTest {
 
 	@Test
 	public void getProjects() {
-		List<Project> projectList = MockupsToTest.createProjectListToTest();
+		List<Project> projectList = MockupProjectsToTest.createProjectListToTest();
 		given(this.projectRepository.findAll()).willReturn(projectList);
 		Iterable<Project> projects = this.projectService.getProjects();
 		int i = 0;
@@ -73,30 +73,30 @@ public class ProjectServiceTest {
 
 	@Test
 	public void saveProject_ReturnsProject() {
-		given(this.projectRepository.save(any(Project.class))).willReturn(MockupsToTest.createProjectTLMK());
-		Project project = this.projectService.save(MockupsToTest.createProjectTLMK(0));		
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		given(this.projectRepository.save(any(Project.class))).willReturn(MockupProjectsToTest.createProjectTLMK());
+		Project project = this.projectService.save(MockupProjectsToTest.createProjectTLMK(0));		
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 
 	@Test(expected = EntityModelDuplicatedException.class)
 	public void saveProject_DuplicatedCode() {
 		given(this.projectRepository.save(any(Project.class))).willThrow(new DataIntegrityViolationException("msg"));
-		Project project = this.projectService.save(MockupsToTest.createProjectTLMK(0));		
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		Project project = this.projectService.save(MockupProjectsToTest.createProjectTLMK(0));		
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 	
 	@Test
 	public void updateProject_ReturnsProject() {
 		given(this.projectRepository.existsById(anyInt())).willReturn(true);
-		given(this.projectRepository.save(any(Project.class))).willReturn(MockupsToTest.createProjectTLMK2(1));
-		Project project = this.projectService.update(1,MockupsToTest.createProjectTLMK2(1));		
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK2(1));
+		given(this.projectRepository.save(any(Project.class))).willReturn(MockupProjectsToTest.createProjectTLMK2(1));
+		Project project = this.projectService.update(1,MockupProjectsToTest.createProjectTLMK2(1));		
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK2(1));
 	}
 
 	@Test(expected = EntityModelNotFoundException.class)
 	public void updateProject_IDNotFound() {
 		given(this.projectRepository.existsById(anyInt())).willReturn(false);
-		Project project = this.projectService.update(3,MockupsToTest.createProjectTLMK2(1));		
+		Project project = this.projectService.update(3,MockupProjectsToTest.createProjectTLMK2(1));		
 		assertThat(project).isEqualToComparingFieldByField(new Project());
 	}
 	
@@ -104,7 +104,7 @@ public class ProjectServiceTest {
 	public void updateProject_DuplicateCode() {
 		given(this.projectRepository.existsById(anyInt())).willReturn(true);
 		given(this.projectRepository.save(any(Project.class))).willThrow(new DataIntegrityViolationException("msg"));
-		Project project = this.projectService.update(3,MockupsToTest.createProjectTLMK2(1));		
+		Project project = this.projectService.update(3,MockupProjectsToTest.createProjectTLMK2(1));		
 		assertThat(project).isEqualToComparingFieldByField(new Project());
 	}
 	@Test

@@ -26,7 +26,7 @@ import com.hhplanner.entities.exception.EntityModelDuplicatedException;
 import com.hhplanner.entities.exception.EntityModelNotFoundException;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.service.ProjectService;
-import com.hhplanner.mockups.MockupsToTest;
+import com.hhplanner.mockups.MockupProjectsToTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,17 +40,17 @@ public class ProjectRestTest {
 	
 	@Test
 	public void getProject_WithId_ReturnsProject() {
-		when(this.projectService.getProjectById(anyInt())).thenReturn(MockupsToTest.createProjectTLMK());
-		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/project/{id}", Project.class,1);
+		when(this.projectService.getProjectById(anyInt())).thenReturn(MockupProjectsToTest.createProjectTLMK());
+		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/projects/{id}", Project.class,1);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 
 	@Test
 	public void getProyect_WithId_ReturnNotFound() {
 		when(this.projectService.getProjectById(anyInt())).thenThrow(new EntityModelNotFoundException());
-		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/project/{id}", Project.class,1);
+		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/projects/{id}", Project.class,1);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		assertThat(project).isEqualToComparingFieldByField(new Project());		
@@ -58,17 +58,17 @@ public class ProjectRestTest {
 
 	@Test
 	public void getProject_WithCode_ReturnsProject() {
-		when(this.projectService.getProjectByCode(anyString())).thenReturn(MockupsToTest.createProjectTLMK());
-		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/project/code/{code}", Project.class,"TLMK");
+		when(this.projectService.getProjectByCode(anyString())).thenReturn(MockupProjectsToTest.createProjectTLMK());
+		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/projects/code/{code}", Project.class,"TLMK");
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 	
 	@Test
 	public void getProyect_WithCode_RetrunNotFound() throws Exception {
 		when(this.projectService.getProjectByCode(anyString())).thenThrow(new EntityModelNotFoundException());
-		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/project/code/{code}", Project.class,"TLMK");
+		ResponseEntity<Project> responseEntity = this.testRestTemplate.getForEntity("/api/projects/code/{code}", Project.class,"TLMK");
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		assertThat(project).isEqualToComparingFieldByField(new Project());		
@@ -76,7 +76,7 @@ public class ProjectRestTest {
 
 	@Test
 	public void getProjects_ReturnsAllProject() {
-		List<Project> projectList = MockupsToTest.createProjectListToTest();
+		List<Project> projectList = MockupProjectsToTest.createProjectListToTest();
 		when(this.projectService.getProjects()).thenReturn(projectList);
 		ResponseEntity<List<Project>> response = this.testRestTemplate.exchange(
 				"/api/projects", HttpMethod.GET, null,  new ParameterizedTypeReference<List<Project>>(){});
@@ -99,17 +99,17 @@ public class ProjectRestTest {
 	
 	@Test
 	public void postProject_ReturnsProject() {
-		when(this.projectService.save(any(Project.class))).thenReturn(MockupsToTest.createProjectTLMK());
-		ResponseEntity<Project> responseEntity = this.testRestTemplate.postForEntity("/api/project",MockupsToTest.createProjectTLMK(0), Project.class);
+		when(this.projectService.save(any(Project.class))).thenReturn(MockupProjectsToTest.createProjectTLMK());
+		ResponseEntity<Project> responseEntity = this.testRestTemplate.postForEntity("/api/projects",MockupProjectsToTest.createProjectTLMK(0), Project.class);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-		assertThat(project).isEqualToComparingFieldByField(MockupsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
 	}
 
 	@Test
 	public void postProject_WithDuplicateCode() {
 		when(this.projectService.save(any(Project.class))).thenThrow(EntityModelDuplicatedException.getInstance("msg"));
-		ResponseEntity<Project> responseEntity = this.testRestTemplate.postForEntity("/api/project",MockupsToTest.createProjectTLMK(0), Project.class);
+		ResponseEntity<Project> responseEntity = this.testRestTemplate.postForEntity("/api/projects",MockupProjectsToTest.createProjectTLMK(0), Project.class);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 		assertThat(project).isEqualToComparingFieldByField(new Project());
@@ -117,10 +117,10 @@ public class ProjectRestTest {
 	
 	@Test
 	public void putProject_whithId_ReturnsProject() {
-		Project updatedProjectTLMK = MockupsToTest.createProjectTLMK2(1);
+		Project updatedProjectTLMK = MockupProjectsToTest.createProjectTLMK2(1);
 		when(this.projectService.update(anyInt(),any(Project.class))).thenReturn(updatedProjectTLMK);
 		ResponseEntity<Project> responseEntity = this.testRestTemplate.exchange(
-				"/api/project/{id}", HttpMethod.PUT,new HttpEntity<Project>(MockupsToTest.createProjectTLMK()),Project.class,1);
+				"/api/projects/{id}", HttpMethod.PUT,new HttpEntity<Project>(MockupProjectsToTest.createProjectTLMK()),Project.class,1);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(project).isEqualToComparingFieldByField(updatedProjectTLMK);
@@ -130,7 +130,7 @@ public class ProjectRestTest {
 	public void putProject_whithId_NotFound() {
 		when(this.projectService.update(anyInt(),any(Project.class))).thenThrow(new EntityModelNotFoundException());
 		ResponseEntity<Project> responseEntity = this.testRestTemplate.exchange(
-				"/api/project/{id}", HttpMethod.PUT,new HttpEntity<Project>(MockupsToTest.createProjectTLMK()),Project.class,1);
+				"/api/projects/{id}", HttpMethod.PUT,new HttpEntity<Project>(MockupProjectsToTest.createProjectTLMK()),Project.class,1);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		assertThat(project).isEqualToComparingFieldByField(new Project());
@@ -140,7 +140,7 @@ public class ProjectRestTest {
 	public void putProject_whithId_DuplicatedCode() {
 		when(this.projectService.update(anyInt(),any(Project.class))).thenThrow(EntityModelDuplicatedException.getInstance("msg"));
 		ResponseEntity<Project> responseEntity = this.testRestTemplate.exchange(
-				"/api/project/{id}", HttpMethod.PUT,new HttpEntity<Project>(MockupsToTest.createProjectTLMK()),Project.class,1);
+				"/api/projects/{id}", HttpMethod.PUT,new HttpEntity<Project>(MockupProjectsToTest.createProjectTLMK()),Project.class,1);
 		Project project = responseEntity.getBody();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 		assertThat(project).isEqualToComparingFieldByField(new Project());
@@ -149,7 +149,7 @@ public class ProjectRestTest {
 	@Test
 	public void deleteProject_WithId() {
 		ResponseEntity<Void> response = this.testRestTemplate.exchange(
-				"/api/project/{id}", HttpMethod.DELETE,HttpEntity.EMPTY,Void.class,1);
+				"/api/projects/{id}", HttpMethod.DELETE,HttpEntity.EMPTY,Void.class,1);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 	

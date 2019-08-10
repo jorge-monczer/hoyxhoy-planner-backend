@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplanner.HoyxhoyPlannerBackendApplication;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.service.ProjectService;
-import com.hhplanner.mockups.MockupsToTest;
+import com.hhplanner.mockups.MockupProjectsToTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -53,34 +53,34 @@ public class ProjectIntegrationTest {
 	
 	@Test
 	public void getProject_WithId_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
-		ResultActions perform = this.mockMvc.perform(get("/api/project/{id}", projectInDB.getId()));
+		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{id}", projectInDB.getId()));
 		expectedPerform(perform,status().isOk(), projectInDB,null);
 	}
 
 	@Test
 	public void getProyect_WithId_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/project/{id}", 1))
+		this.mockMvc.perform(get("/api/projects/{id}", 1))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void getProject_WithCode_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
-		ResultActions perform = this.mockMvc.perform(get("/api/project/code/{code}", projectInDB.getCode()));
+		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/code/{code}", projectInDB.getCode()));
 		expectedPerform(perform,status().isOk(), projectInDB,null);
 	}
 
 	@Test
 	public void getProyect_WithCode_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/project/code/{code}", "TLMK"))
+		this.mockMvc.perform(get("/api/projects/code/{code}", "TLMK"))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void getProjects() throws Exception {
-		List<Project> projectListToSave = MockupsToTest.createProjectListToSaveTest();
-		int sizeProjectToSave = projectListToSave.size();
+		List<Project> projectListToSave = MockupProjectsToTest.createProjectListToSaveTest();
+//		int sizeProjectToSave = projectListToSave.size();
 		List<Project> savedProjects = new ArrayList<>();
 		for (Project projectToSave : projectListToSave) {
 			Project savedProject =this.service.save(projectToSave);
@@ -104,7 +104,7 @@ public class ProjectIntegrationTest {
 	@Test
 	public void postProject_ReturnsProject() throws Exception {
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/project").content(asJsonString(MockupsToTest.createProjectTLMK(0)))
+				MockMvcRequestBuilders.post("/api/projects").content(asJsonString(MockupProjectsToTest.createProjectTLMK(0)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Project retrievedProject = this.service.getProjectByCode("TLMK");
 		expectedPerform(perform,status().isCreated(), retrievedProject,null);
@@ -112,9 +112,9 @@ public class ProjectIntegrationTest {
 
 	@Test
 	public void postProject_WithDuplicateCode() throws Exception {
-		Project projectInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
+		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/project").content(asJsonString(MockupsToTest.createProjectTLMK(0)))
+				MockMvcRequestBuilders.post("/api/projects").content(asJsonString(MockupProjectsToTest.createProjectTLMK(0)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isForbidden());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -123,11 +123,11 @@ public class ProjectIntegrationTest {
 	
 	@Test
 	public void putProject_WithId_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
+		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
 		projectInDB.setSpringDays(30);
 		projectInDB.setStartDate(LocalDate.of(2019, 11, 30));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",projectInDB.getId()).content(asJsonString(projectInDB))
+				MockMvcRequestBuilders.put("/api/projects/{id}",projectInDB.getId()).content(asJsonString(projectInDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Project retrievedProject = this.service.getProjectById(projectInDB.getId());
 		expectedPerform(perform,status().isOk(), projectInDB,null);
@@ -136,10 +136,10 @@ public class ProjectIntegrationTest {
 
 	@Test
 	public void putProject_WithId_ChangeAllFields_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
-		Project updatedProjectTLMK = MockupsToTest.createProjectTLMK2(projectInDB.getId());
+		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		Project updatedProjectTLMK = MockupProjectsToTest.createProjectTLMK2(projectInDB.getId());
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",projectInDB.getId()).content(asJsonString(updatedProjectTLMK))
+				MockMvcRequestBuilders.put("/api/projects/{id}",projectInDB.getId()).content(asJsonString(updatedProjectTLMK))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Project retrievedProject = this.service.getProjectById(updatedProjectTLMK.getId());
 		expectedPerform(perform,status().isOk(), updatedProjectTLMK,null);
@@ -150,7 +150,7 @@ public class ProjectIntegrationTest {
 	@Test
 	public void putProject_WithId_NotFound() throws Exception {
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",1).content(asJsonString(MockupsToTest.createProjectTLMK()))
+				MockMvcRequestBuilders.put("/api/projects/{id}",1).content(asJsonString(MockupProjectsToTest.createProjectTLMK()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -158,12 +158,12 @@ public class ProjectIntegrationTest {
 
 	@Test
 	public void putProject_WithId_DuplicatedCode() throws Exception {
-		Project projectTLMKInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
-		Project projectTLMK2InDB =this.service.save(MockupsToTest.createProjectTLMK2(0));
+		Project projectTLMKInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		Project projectTLMK2InDB =this.service.save(MockupProjectsToTest.createProjectTLMK2(0));
 		projectTLMKInDB.setCode(projectTLMK2InDB.getCode());
 		projectTLMKInDB.setStartDate(projectTLMK2InDB.getStartDate());		
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/project/{id}",projectTLMKInDB.getId()).content(asJsonString(projectTLMKInDB))
+				MockMvcRequestBuilders.put("/api/projects/{id}",projectTLMKInDB.getId()).content(asJsonString(projectTLMKInDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isForbidden());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -171,8 +171,8 @@ public class ProjectIntegrationTest {
 	
 	@Test
 	public void deleteProject_WithId() throws Exception {
-		Project projectInDB =this.service.save(MockupsToTest.createProjectTLMK(0));
-		ResultActions perform = this.mockMvc.perform(delete("/api/project/{id}", projectInDB.getId()));
+		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{id}", projectInDB.getId()));
 		perform.andExpect(status().isOk());
 		Iterable<Project> projects = this.service.getProjects();
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(projects));
@@ -180,7 +180,7 @@ public class ProjectIntegrationTest {
 
 	@Test
 	public void deleteProjects() throws Exception {
-		List<Project> projectListToSave = MockupsToTest.createProjectListToSaveTest();
+		List<Project> projectListToSave = MockupProjectsToTest.createProjectListToSaveTest();
 		List<Project> savedProjects = new ArrayList<>();
 		for (Project projectToSave : projectListToSave) {
 			Project savedProject =this.service.save(projectToSave);
