@@ -5,16 +5,28 @@ import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hhplanner.entities.converter.LocalDateDeserializer;
 import com.hhplanner.entities.converter.LocalDateSerializer;
 
 @Entity
-public class Project implements SimpleIdCode {
+@Table(uniqueConstraints= {
+          @UniqueConstraint(columnNames = {"project_id", "code"}),
+          @UniqueConstraint(columnNames={"project_id", "name"})  })
+public class Spring implements SimpleIdCode {
 	
 	@Id
 	@GeneratedValue
@@ -28,19 +40,30 @@ public class Project implements SimpleIdCode {
     @JsonSerialize(using = LocalDateSerializer.class)
     @Column(name = "start_date", columnDefinition = "DATE")
     private LocalDate startDate;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @Column(name = "end_date", columnDefinition = "DATE")
+    private LocalDate endDate;
     @Column(name = "spring_days")
     private int springDays;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Project project;
 
-    public Project() {
+    public Spring() {
 		super();
 	}
     
-    public Project(int id, String code, String name, LocalDate startDate, int springDays) {
+    public Spring(int id, String code, String name, LocalDate startDate, LocalDate endDate, int springDays) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.name = name;
 		this.startDate = startDate;
+		this.endDate = endDate;
 		this.springDays = springDays;
 	}
 
@@ -69,13 +92,25 @@ public class Project implements SimpleIdCode {
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
 	public int getSpringDays() {
 		return springDays;
 	}
 	public void setSpringDays(int springDays) {
 		this.springDays = springDays;
 	}
-	
+	public Project getProject() {
+		return project;
+	}
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
 	@Override
 	public String toString() {
 		return new StringBuilder().append("<Project> {")
@@ -83,6 +118,7 @@ public class Project implements SimpleIdCode {
 				.append("'code':").append("'").append(this.code).append("'").append(",")
 				.append("'name':").append("'").append(this.name).append("'").append(",")
 				.append("'startDate':").append("'").append(this.startDate != null ? this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
+				.append("'endDate':").append("'").append(this.endDate != null ? this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
 				.append("'springDays':").append(this.springDays).append("}").toString();
 	}
 	

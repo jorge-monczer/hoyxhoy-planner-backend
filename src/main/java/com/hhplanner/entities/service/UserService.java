@@ -2,7 +2,6 @@ package com.hhplanner.entities.service;
 
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.hhplanner.entities.exception.EntityModelDuplicatedException;
@@ -14,9 +13,11 @@ import com.hhplanner.entities.repo.UserRepository;
 public class UserService {
 
 	private UserRepository userRepository;
+	private LoginService loginService;
 	
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, LoginService loginService) {
 		this.userRepository = userRepository;
+		this.loginService = loginService;
 	}
 
 	public User1 getUserByUsername(String username) {
@@ -35,6 +36,7 @@ public class UserService {
 		if (this.userRepository.existsByUsername(user.getUsername())) {
 			throw EntityModelDuplicatedException.getInstance("User already exists");
 		}
+		user.setPassword(this.loginService.buildPasswordReseted(user.getUsername()));
 		return this.userRepository.save(user);
 	}
 

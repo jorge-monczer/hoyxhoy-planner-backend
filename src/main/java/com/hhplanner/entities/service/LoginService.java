@@ -13,7 +13,7 @@ import com.hhplanner.entities.repo.UserRepository;
 @Service
 public class LoginService {
 
-	public static final String RESET_PASSWORD = "12345";
+	public static final String RESET_PASSWORD = "2019";
 	public static final String MASTER_USER = "masterhoy";
 	public static final String MASTER_PASS = "astroboy2019";
 	private static final int ONE_ROW_CHANGED = 1;
@@ -39,26 +39,13 @@ public class LoginService {
 		return user;
 	}
 
+	//Only for testing proposal
 	public User1 save(User1 user) {
 		try {
 			return this.userRepository.save(user);
 		} catch (DataIntegrityViolationException e) {
 			throw EntityModelDuplicatedException.getInstance(e.getMessage());
 		}
-	}
-
-	public User1 update(String username,User1 user) {
-		Optional<User1> optUser = this.userRepository.findByUsername(username);
-		if (!optUser.isPresent()) {
-			throw new EntityModelNotFoundException();
-		}
-		try {
-			user.setUsername(username);
-			user.setPassword(optUser.get().getPassword());
-			return this.userRepository.save(user);
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		} 
 	}
 
 	public boolean changePassword(String username,String newPassword) {
@@ -73,7 +60,11 @@ public class LoginService {
 	}
 	
 	public boolean resetPassword(String username) {
-		return changePassword(username,RESET_PASSWORD);
+		return changePassword(username,buildPasswordReseted(username));
+	}
+
+	protected String buildPasswordReseted(String username) {
+		return username + RESET_PASSWORD;
 	}
 
 	public void delete(User1 user) {

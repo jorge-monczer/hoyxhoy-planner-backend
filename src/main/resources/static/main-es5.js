@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/springAsignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Asignment</a>\n\t\t<a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a>\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentUserName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/springAsignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Asignment</a>\n\t\t<a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a>\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -67,6 +67,17 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project 
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/springs/springs.component.html":
+/*!**************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/springs/springs.component.html ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"spring.code\" name=\"code\" placeholder=\"Spring Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.name\" name=\"name\" placeholder=\"Spring Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.springDays\" name=\"springDays\" placeholder=\"Spring Day\" type=\"number\" (change)=\"spring.setEndDateMdCalculed()\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.startDateMd.value\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required disabled no-weekend #startDate=\"ngModel\" (change)=\"spring.setEndDateMdCalculed()\" >\n      <mat-error *ngIf=\"startDate.errors && startDate.errors.required\">Email required</mat-error>\n      <mat-error *ngIf=\"startDate.errors && startDate.errors.weekend && !startDate.errors.required \">Start Date on weekend</mat-error>\n      <!--mat-error>This field is required</mat-error-->\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.endDateMd.value\" name=\"endDate\" placeholder=\"End Date\" type=\"date\" required disabled>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addSpring()\" matTooltip=\"Add {{spring.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateSpring()\" matTooltip=\"Confirm update {{spring.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{spring.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/users/users.component.html":
 /*!**********************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/users/users.component.html ***!
@@ -94,6 +105,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _projects_projects_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./projects/projects.component */ "./src/app/projects/projects.component.ts");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
+/* harmony import */ var _springs_springs_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./springs/springs.component */ "./src/app/springs/springs.component.ts");
+
 
 
 
@@ -103,6 +116,7 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [
     { path: '', redirectTo: 'projects', pathMatch: 'full' },
     { path: 'projects', component: _projects_projects_component__WEBPACK_IMPORTED_MODULE_3__["ProjectsComponent"] },
+    { path: 'springs', component: _springs_springs_component__WEBPACK_IMPORTED_MODULE_6__["SpringsComponent"] },
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_5__["UsersComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] }
 ];
@@ -206,6 +220,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _users_users_module__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./users/users.module */ "./src/app/users/users.module.ts");
+/* harmony import */ var _springs_springs_module__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./springs/springs.module */ "./src/app/springs/springs.module.ts");
+
 
 
 
@@ -233,6 +249,7 @@ var AppModule = /** @class */ (function () {
                 _shared_shared_module__WEBPACK_IMPORTED_MODULE_7__["SharedModule"],
                 _projects_projects_module__WEBPACK_IMPORTED_MODULE_8__["ProjectsModule"],
                 _users_users_module__WEBPACK_IMPORTED_MODULE_13__["UsersModule"],
+                _springs_springs_module__WEBPACK_IMPORTED_MODULE_14__["SpringsModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
@@ -624,6 +641,7 @@ var LoginService = /** @class */ (function () {
         this.http = http;
         this.userState = null;
         this.projectState = null;
+        this.springState = null;
         //public loginUserObs: Observable<LoginUser[]>;
         this.baseUrl = './api/login';
     }
@@ -637,6 +655,13 @@ var LoginService = /** @class */ (function () {
     Object.defineProperty(LoginService.prototype, "currentUserName", {
         get: function () {
             return this.userState !== null ? this.userState.username : 'Usuario Anónimo';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LoginService.prototype, "currentName", {
+        get: function () {
+            return this.userState !== null ? this.userState.name : 'Usuario Anónimo';
         },
         enumerable: true,
         configurable: true
@@ -663,7 +688,7 @@ var LoginService = /** @class */ (function () {
     });
     Object.defineProperty(LoginService.prototype, "currentProjectId", {
         get: function () {
-            return (this.projectState !== null) ? this.projectState.id : 'NOPROJECT';
+            return (this.projectState !== null) ? this.projectState.id : NaN;
         },
         enumerable: true,
         configurable: true
@@ -675,9 +700,19 @@ var LoginService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(LoginService.prototype, "currentSpring", {
+        get: function () {
+            return (this.springState !== null) ? this.springState : null;
+        },
+        set: function (spring) {
+            this.springState = spring;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(LoginService.prototype, "currentSpringName", {
         get: function () {
-            return '& Select a spring';
+            return '& ' + ((this.springState !== null) ? this.springState.code + ' - ' + this.springState.name : 'Select a spring');
         },
         enumerable: true,
         configurable: true
@@ -806,7 +841,6 @@ var ProjectsComponent = /** @class */ (function () {
     ProjectsComponent.prototype.refeshProjects = function () {
         this.populateProjects();
         this.initialMode();
-        this.resetControls();
     };
     ProjectsComponent.prototype.populateProjects = function () {
         var _this = this;
@@ -822,7 +856,7 @@ var ProjectsComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ProjectsComponent.prototype.getProjectByKey = function (id) {
+    ProjectsComponent.prototype.getProjectById = function (id) {
         return this.projectsService.getProjectById(id);
     };
     ProjectsComponent.prototype.removeProject = function (id) {
@@ -888,9 +922,9 @@ var ProjectsComponent = /** @class */ (function () {
             selectedRowAux = row;
         });
         this.loginService.currentProject = selectedRowAux;
-        //    if (!this.loginService.currentSpring) {
-        //      this.router.navigate(['/springs']);
-        //    }
+        if (this.loginService.currentSpring === null) {
+            this.router.navigate(['/springs']);
+        }
         //    this.projectSelected = selectedRowAux;
         //    document.querySelector("#selectedRows").innerHTML = selectedRowsString;
     };
@@ -1051,6 +1085,9 @@ var DateModel = /** @class */ (function () {
     };
     DateModel.prototype.lessThan = function (otherValue) {
         return this._value < this.toDate(otherValue);
+    };
+    DateModel.prototype.equalsThan = function (otherValue) {
+        return this._value == this.toDate(otherValue);
     };
     DateModel.prototype.toDate = function (value) {
         var valueToDate = null;
@@ -1213,6 +1250,369 @@ var SharedModule = /** @class */ (function () {
         })
     ], SharedModule);
     return SharedModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/springs/spirng.ts":
+/*!***********************************!*\
+  !*** ./src/app/springs/spirng.ts ***!
+  \***********************************/
+/*! exports provided: Spring */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Spring", function() { return Spring; });
+/* harmony import */ var _shared_date_model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../shared/date.model */ "./src/app/shared/date.model.ts");
+
+var Spring = /** @class */ (function () {
+    function Spring(values) {
+        if (values === void 0) { values = {}; }
+        this.code = '';
+        this.name = '';
+        Object.assign(this, values);
+        this.startDateMd = new _shared_date_model__WEBPACK_IMPORTED_MODULE_0__["DateModel"](this.startDate);
+        this.endDateMd = new _shared_date_model__WEBPACK_IMPORTED_MODULE_0__["DateModel"](this.endDate);
+    }
+    Spring.prototype.applyChanges = function () {
+        this.startDate = this.startDateMd.value;
+        this.endDate = this.endDateMd.value;
+    };
+    Spring.prototype.setEndDateMdCalculed = function () {
+        this.endDateMd.setAddWorkableDays(this.startDateMd, this.springDays);
+    };
+    Spring.prototype.isNeededPropagate = function () {
+        return !this.endDateMd.equalsThan(this.endDate);
+    };
+    return Spring;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/springs/springs.component.scss":
+/*!************************************************!*\
+  !*** ./src/app/springs/springs.component.scss ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3NwcmluZ3Mvc3ByaW5ncy5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/springs/springs.component.ts":
+/*!**********************************************!*\
+  !*** ./src/app/springs/springs.component.ts ***!
+  \**********************************************/
+/*! exports provided: SpringsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpringsComponent", function() { return SpringsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component */ "./src/app/grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component.ts");
+/* harmony import */ var _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component */ "./src/app/grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component.ts");
+/* harmony import */ var _springs_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./springs.service */ "./src/app/springs/springs.service.ts");
+/* harmony import */ var _spirng__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./spirng */ "./src/app/springs/spirng.ts");
+/* harmony import */ var _shared_date_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/date.model */ "./src/app/shared/date.model.ts");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+
+
+
+
+
+
+
+
+
+var SpringsComponent = /** @class */ (function () {
+    function SpringsComponent(springsService, loginService) {
+        this.springsService = springsService;
+        this.loginService = loginService;
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.gridOptions.enableCellChangeFlash = true;
+        this.gridOptions.rowSelection = 'single';
+        this.spring = this.springsService.setSpringDefaultValues();
+        this.columnDefs = [
+            { headerName: 'Key', field: 'key', hide: true },
+            { headerName: 'Spring Code', field: 'code', filter: 'text', width: 150 },
+            { headerName: 'Spring Name', field: 'name', filter: 'text', width: 150 },
+            { headerName: 'Status', field: 'status', filter: 'text', width: 150 },
+            { headerName: 'Spring Days', field: 'springDays', filter: 'number', width: 150 },
+            { headerName: 'Start Date', field: 'startDate', filter: 'text', width: 150, valueFormatter: this.dateFormatter },
+            { headerName: 'End Date', field: 'endDate', filter: 'text', width: 150, valueFormatter: this.dateFormatter },
+            { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
+            { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
+        ];
+    }
+    SpringsComponent.prototype.ngOnInit = function () {
+        this.populateSprings();
+    };
+    SpringsComponent.prototype.refeshSprings = function () {
+        this.populateSprings();
+        this.initialMode();
+    };
+    SpringsComponent.prototype.populateSprings = function () {
+        var _this = this;
+        this.springs.subscribe(function (springList) {
+            _this.rowData = springList ? springList.map(function (s) { return new _spirng__WEBPACK_IMPORTED_MODULE_6__["Spring"](s); }) : springList;
+            _this.spring = _this.springsService.changeSpringDefaultValues(_this.spring, _this.rowData);
+        }, function (error) { return _this.handleError(error); });
+    };
+    SpringsComponent.prototype.currencyFormatter = function (params) {
+        return '£' + params.value;
+    };
+    SpringsComponent.prototype.dateFormatter = function (params) {
+        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    Object.defineProperty(SpringsComponent.prototype, "springs", {
+        get: function () {
+            return this.springsService.getSprings();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SpringsComponent.prototype.getSpringById = function (id) {
+        return this.springsService.getSpringById(id);
+    };
+    SpringsComponent.prototype.removeSpring = function (id) {
+        var _this = this;
+        this.springsService.deleteSpringById(id).subscribe(function (data) { return _this.refeshSprings(); }, function (error) { return console.log(error); });
+    };
+    SpringsComponent.prototype.editSpring = function (data) {
+        this.spring = new _spirng__WEBPACK_IMPORTED_MODULE_6__["Spring"](data);
+        this.errorMessage = "";
+    };
+    SpringsComponent.prototype.addSpring = function () {
+        var _this = this;
+        this.spring.applyChanges();
+        this.springsService.addSpring(this.spring).subscribe(function (data) { return _this.refeshSprings(); }, function (error) { return _this.handleError(error); });
+    };
+    SpringsComponent.prototype.updateSpring = function () {
+        var _this = this;
+        if (this.spring.isNeededPropagate()) {
+            this.propagateSprings(this.spring);
+        }
+        this.spring.applyChanges();
+        this.springsService.updateSpring(this.spring).subscribe(function (data) { return _this.refeshSprings(); }, function (error) { return _this.handleError(error); });
+    };
+    SpringsComponent.prototype.propagateSprings = function (spring) {
+        var _this = this;
+        var dateToPropagate = new _shared_date_model__WEBPACK_IMPORTED_MODULE_7__["DateModel"](this.loginService.currentProject.startDate.toString());
+        dateToPropagate.setAddWorkableDays(dateToPropagate, 0);
+        this.rowData.forEach(function (sprg) {
+            if (sprg.code == spring.code) {
+                sprg = spring;
+            }
+            var spr = _this.propagateAndupdateSpring(sprg, dateToPropagate);
+            dateToPropagate = spr.endDateMd;
+        });
+    };
+    SpringsComponent.prototype.propagateAndupdateSpring = function (sprg, endDateMd) {
+        sprg.startDateMd.setAddWorkableDays(endDateMd, 2);
+        sprg.setEndDateMdCalculed();
+        sprg.applyChanges();
+        this.springsService.updateSpring(sprg).subscribe();
+        return sprg;
+    };
+    SpringsComponent.prototype.resetControls = function () {
+        var _this = this;
+        this.myForm.resetForm();
+        Object.keys(this.myForm.controls).forEach(function (field) {
+            var control = _this.myForm.control.get(field); // {2}
+            control.markAsUntouched(); // {3}
+        });
+    };
+    // Call from MatRemoveButtonGridRenderComponent
+    SpringsComponent.prototype.removeFromComponent = function (spring) {
+        this.removeSpring(spring.id);
+        this.initialMode();
+    };
+    // Call from MatEditButtonGridRenderComponent
+    SpringsComponent.prototype.editFromComponent = function (data) {
+        this.isEditMode = true;
+        this.editSpring(data);
+    };
+    SpringsComponent.prototype.cancelEditMode = function () {
+        this.initialMode();
+    };
+    SpringsComponent.prototype.initialMode = function () {
+        this.spring = new _spirng__WEBPACK_IMPORTED_MODULE_6__["Spring"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.resetControls();
+    };
+    SpringsComponent.prototype.onSelectionChanged = function () {
+        var selectedRows = this.gridApi.getSelectedRows();
+        var selectedRowAux;
+        selectedRows.forEach(function (row, index) {
+            selectedRowAux = row;
+        });
+        this.loginService.currentSpring = selectedRowAux;
+    };
+    SpringsComponent.prototype.onGridReady = function (params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    };
+    SpringsComponent.prototype.handleError = function (error) {
+        this.errorMessage = error.status == 403 ? "Spring already exists" : "Known Error";
+        console.log(error);
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"])
+    ], SpringsComponent.prototype, "myForm", void 0);
+    SpringsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-springs',
+            template: __webpack_require__(/*! raw-loader!./springs.component.html */ "./node_modules/raw-loader/index.js!./src/app/springs/springs.component.html"),
+            styles: [__webpack_require__(/*! ./springs.component.scss */ "./src/app/springs/springs.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_springs_service__WEBPACK_IMPORTED_MODULE_5__["SpringsService"], _login_login_service__WEBPACK_IMPORTED_MODULE_8__["LoginService"]])
+    ], SpringsComponent);
+    return SpringsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/springs/springs.module.ts":
+/*!*******************************************!*\
+  !*** ./src/app/springs/springs.module.ts ***!
+  \*******************************************/
+/*! exports provided: SpringsModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpringsModule", function() { return SpringsModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _springs_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./springs.component */ "./src/app/springs/springs.component.ts");
+
+
+
+
+
+var SpringsModule = /** @class */ (function () {
+    function SpringsModule() {
+    }
+    SpringsModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"],
+                ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__["AgGridModule"].withComponents([])
+            ],
+            exports: [
+                _springs_component__WEBPACK_IMPORTED_MODULE_4__["SpringsComponent"]
+            ],
+            declarations: [_springs_component__WEBPACK_IMPORTED_MODULE_4__["SpringsComponent"]]
+        })
+    ], SpringsModule);
+    return SpringsModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/springs/springs.service.ts":
+/*!********************************************!*\
+  !*** ./src/app/springs/springs.service.ts ***!
+  \********************************************/
+/*! exports provided: SpringsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpringsService", function() { return SpringsService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _spirng__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./spirng */ "./src/app/springs/spirng.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+
+
+var SpringsService = /** @class */ (function () {
+    function SpringsService(http, loginService) {
+        this.http = http;
+        this.loginService = loginService;
+        this.currentProjectId = "";
+        this._baseUrl = './api/projects/';
+    }
+    SpringsService.prototype.getSprings = function () {
+        return this.http.get(this.baseUrl);
+        ;
+    };
+    SpringsService.prototype.getSpringById = function (id) {
+        return this.http.get(this.baseUrl + "/" + id);
+    };
+    SpringsService.prototype.addSpring = function (spring) {
+        return this.http.post(this.baseUrl, spring);
+        ;
+    };
+    SpringsService.prototype.deleteSpringById = function (id) {
+        return this.http.delete(this.baseUrl + "/" + id);
+    };
+    SpringsService.prototype.updateSpring = function (spring) {
+        return this.http.put(this.baseUrl + "/" + spring.id, spring);
+    };
+    SpringsService.prototype.setSpringDefaultValues = function (spring) {
+        if (spring === void 0) { spring = new _spirng__WEBPACK_IMPORTED_MODULE_3__["Spring"](); }
+        spring.springDays = this.loginService.currentProject.springDays;
+        spring.startDateMd.value = this.loginService.currentProject.startDate.toString();
+        spring.setEndDateMdCalculed();
+        return spring;
+    };
+    SpringsService.prototype.changeSpringDefaultValues = function (spring, rowData) {
+        spring = this.setSpringDefaultValues(spring);
+        if (rowData) {
+            rowData.forEach(function (s) {
+                if (spring.startDateMd.lessThan(s.endDateMd)) {
+                    spring.startDateMd.setAddWorkableDays(s.endDateMd, 2);
+                    spring.setEndDateMdCalculed();
+                }
+            });
+        }
+        return spring;
+    };
+    Object.defineProperty(SpringsService.prototype, "baseUrl", {
+        get: function () {
+            return this._baseUrl + this.loginService.currentProjectId + '/springs';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SpringsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"], _login_login_service__WEBPACK_IMPORTED_MODULE_2__["LoginService"]])
+    ], SpringsService);
+    return SpringsService;
 }());
 
 

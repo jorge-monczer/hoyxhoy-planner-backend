@@ -8,6 +8,7 @@ import com.hhplanner.entities.model.Project;
 
 public interface ProjectRepository extends CrudRepository<Project, Integer> {
 
+    public void flush();
 	public Optional<Project> findByCode(String code);
 
 }

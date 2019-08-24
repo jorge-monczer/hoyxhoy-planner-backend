@@ -41,10 +41,10 @@ import com.hhplanner.mockups.MockupProjectsToTest;
 public class ProjectIntegrationTest {
 
 	@Autowired
-	private MockMvc mockMvc;
+	protected MockMvc mockMvc;
 
 	@Autowired
-	private ProjectService service;
+	protected ProjectService service;
 
 	@After
 	public void delecteAll() {
@@ -53,49 +53,48 @@ public class ProjectIntegrationTest {
 	
 	@Test
 	public void getProject_WithId_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{id}", projectInDB.getId()));
-		expectedPerform(perform,status().isOk(), projectInDB,null);
+		Project mockInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{id}", mockInDB.getId()));
+		expectedPerform(perform,status().isOk(), mockInDB,null);
 	}
 
 	@Test
-	public void getProyect_WithId_NotFound_Returns404() throws Exception {
+	public void getProject_WithId_NotFound_Returns404() throws Exception {
 		this.mockMvc.perform(get("/api/projects/{id}", 1))
 				.andExpect(status().isNotFound());
 	}
 	
-	@Test
 	public void getProject_WithCode_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/code/{code}", projectInDB.getCode()));
-		expectedPerform(perform,status().isOk(), projectInDB,null);
+		Project springInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/code/{code}", springInDB.getCode()));
+		expectedPerform(perform,status().isOk(), springInDB,null);
 	}
 
 	@Test
-	public void getProyect_WithCode_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/projects/code/{code}", "TLMK"))
+	public void getProject_WithCode_NotFound_Returns404() throws Exception {
+		this.mockMvc.perform(get("/api/projects/code/{code}", MockupProjectsToTest.createProjectTLMK(0).getCode()))
 				.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void getProjects() throws Exception {
-		List<Project> projectListToSave = MockupProjectsToTest.createProjectListToSaveTest();
+		List<Project> springsListToSave = MockupProjectsToTest.createProjectListToSaveTest();
 //		int sizeProjectToSave = projectListToSave.size();
-		List<Project> savedProjects = new ArrayList<>();
-		for (Project projectToSave : projectListToSave) {
-			Project savedProject =this.service.save(projectToSave);
-			savedProjects.add(savedProject);
+		List<Project> savedSprings = new ArrayList<>();
+		for (Project springToSave : springsListToSave) {
+			Project savedProject =this.service.save(springToSave);
+			savedSprings.add(savedProject);
 		}
 		ResultActions perform = this.mockMvc.perform(get("/api/projects"));
 		perform.andExpect(status().isOk());
 		perform.andExpect(jsonPath("$").isArray());
-        for (int i = 0; i < savedProjects.size(); i++) {
-        	expectedPerform(perform,status().isOk(), savedProjects.get(i), i);
+        for (int i = 0; i < savedSprings.size(); i++) {
+        	expectedPerform(perform,status().isOk(), savedSprings.get(i), i);
 		}
 	}
 
 	@Test
-	public void getProjects_ReturnsNoContent() throws Exception {
+	public void getProject_ReturnsNoContent() throws Exception {
 		ResultActions perform = this.mockMvc.perform(get("/api/projects"));
 		perform.andExpect(status().isNoContent());
 		perform.andExpect(jsonPath("$").isArray());
@@ -106,44 +105,43 @@ public class ProjectIntegrationTest {
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.post("/api/projects").content(asJsonString(MockupProjectsToTest.createProjectTLMK(0)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		Project retrievedProject = this.service.getProjectByCode("TLMK");
-		expectedPerform(perform,status().isCreated(), retrievedProject,null);
+		Project retrievedSpring = this.service.getProjectByCode(MockupProjectsToTest.createProjectTLMK(0).getCode());
+		expectedPerform(perform,status().isCreated(), retrievedSpring,null);
 	}
 
 	@Test
 	public void postProject_WithDuplicateCode() throws Exception {
-		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		this.service.save(MockupProjectsToTest.createProjectTLMK(0));
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.post("/api/projects").content(asJsonString(MockupProjectsToTest.createProjectTLMK(0)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isForbidden());
 		perform.andExpect(jsonPath("$").doesNotExist());
-		this.service.delete(projectInDB.getId());
 	}
 	
 	@Test
 	public void putProject_WithId_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
-		projectInDB.setSpringDays(30);
-		projectInDB.setStartDate(LocalDate.of(2019, 11, 30));
+		Project springInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		springInDB.setSpringDays(30);
+		springInDB.setStartDate(LocalDate.of(2019, 11, 30));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{id}",projectInDB.getId()).content(asJsonString(projectInDB))
+				MockMvcRequestBuilders.put("/api/projects/{id}",springInDB.getId()).content(asJsonString(springInDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		Project retrievedProject = this.service.getProjectById(projectInDB.getId());
-		expectedPerform(perform,status().isOk(), projectInDB,null);
-		assertObjectsEqual(projectInDB, retrievedProject);
+		Project retrievedSpring = this.service.getProjectById(springInDB.getId());
+		expectedPerform(perform,status().isOk(), springInDB,null);
+		assertObjectsEqual(springInDB, retrievedSpring);
 	}
 
 	@Test
 	public void putProject_WithId_ChangeAllFields_ReturnsProject() throws Exception {
-		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
-		Project updatedProjectTLMK = MockupProjectsToTest.createProjectTLMK2(projectInDB.getId());
+		Project springInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		Project updatedSpringS2 = MockupProjectsToTest.createProjectTLMK2(springInDB.getId());
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{id}",projectInDB.getId()).content(asJsonString(updatedProjectTLMK))
+				MockMvcRequestBuilders.put("/api/projects/{id}",springInDB.getId()).content(asJsonString(updatedSpringS2))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		Project retrievedProject = this.service.getProjectById(updatedProjectTLMK.getId());
-		expectedPerform(perform,status().isOk(), updatedProjectTLMK,null);
-		assertObjectsEqual(updatedProjectTLMK, retrievedProject);
+		Project retrievedSpring = this.service.getProjectById(updatedSpringS2.getId());
+		expectedPerform(perform,status().isOk(), updatedSpringS2,null);
+		assertObjectsEqual(updatedSpringS2, retrievedSpring);
 	}
 	
 	
@@ -158,12 +156,13 @@ public class ProjectIntegrationTest {
 
 	@Test
 	public void putProject_WithId_DuplicatedCode() throws Exception {
-		Project projectTLMKInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
-		Project projectTLMK2InDB =this.service.save(MockupProjectsToTest.createProjectTLMK2(0));
-		projectTLMKInDB.setCode(projectTLMK2InDB.getCode());
-		projectTLMKInDB.setStartDate(projectTLMK2InDB.getStartDate());		
+		Project springS1InDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		Project springS2InDB =this.service.save(MockupProjectsToTest.createProjectTLMK2(0));
+		springS1InDB.setCode(springS2InDB.getCode());
+		springS1InDB.setSpringDays(30);
+		springS1InDB.setStartDate(LocalDate.of(2019, 11, 30));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{id}",projectTLMKInDB.getId()).content(asJsonString(projectTLMKInDB))
+				MockMvcRequestBuilders.put("/api/projects/{id}",springS1InDB.getId()).content(asJsonString(springS1InDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isForbidden());
 		perform.andExpect(jsonPath("$").doesNotExist());
@@ -171,39 +170,40 @@ public class ProjectIntegrationTest {
 	
 	@Test
 	public void deleteProject_WithId() throws Exception {
-		Project projectInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
-		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{id}", projectInDB.getId()));
+		Project springInDB =this.service.save(MockupProjectsToTest.createProjectTLMK(0));
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{id}", springInDB.getId()));
 		perform.andExpect(status().isOk());
-		Iterable<Project> projects = this.service.getProjects();
-		Assert.assertTrue(IterableUtil.isNullOrEmpty(projects));
+		Iterable<Project> springs = this.service.getProjects();
+		Assert.assertTrue(IterableUtil.isNullOrEmpty(springs));
 	}
 
 	@Test
-	public void deleteProjects() throws Exception {
-		List<Project> projectListToSave = MockupProjectsToTest.createProjectListToSaveTest();
-		List<Project> savedProjects = new ArrayList<>();
-		for (Project projectToSave : projectListToSave) {
-			Project savedProject =this.service.save(projectToSave);
-			savedProjects.add(savedProject);
+	public void deleteProject() throws Exception {
+		List<Project> springListToSave = MockupProjectsToTest.createProjectListToSaveTest();;
+		List<Project> savedSprings = new ArrayList<>();
+		for (Project springToSave : springListToSave) {
+			Project savedSpring =this.service.save(springToSave);
+			savedSprings.add(savedSpring);
 		}
 		ResultActions perform = this.mockMvc.perform(delete("/api/projects"));
 		perform	.andExpect(status().isNoContent());
 		Iterable<Project> projects = this.service.getProjects();
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(projects));
 	}
-	
-	private static void expectedPerform(ResultActions perform, ResultMatcher status, Project project, Integer idx) throws Exception {
+
+	protected void expectedPerform(ResultActions perform, ResultMatcher status, Project proj, Integer idx)
+			throws Exception {
 		String arr = idx==null? "": "[" + idx + "].";
 		perform	.andExpect(status)
-				.andExpect(jsonPath(arr + "id").value(project.getId()))
-				.andExpect(jsonPath(arr + "code").value(project.getCode()))
-				.andExpect(jsonPath(arr + "name").value(project.getName()))
-				.andExpect(jsonPath(arr + "startDate").value(project.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE)))
-				.andExpect(jsonPath(arr + "springDays").value(project.getSpringDays()))
+				.andExpect(jsonPath(arr + "id").value(proj.getId()))
+				.andExpect(jsonPath(arr + "code").value(proj.getCode()))
+				.andExpect(jsonPath(arr + "name").value(proj.getName()))
+				.andExpect(jsonPath(arr + "startDate").value(proj.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE)))
+				.andExpect(jsonPath(arr + "springDays").value(proj.getSpringDays()))
 				;
 	}
-
-	private static String asJsonString(final Object obj) {
+	
+	protected String asJsonString(final Object obj) {
 	    try {
 	        return new ObjectMapper().writeValueAsString(obj);
 	    } catch (Exception e) {

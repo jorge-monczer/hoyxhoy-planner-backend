@@ -47,6 +47,12 @@ public class ProjectService {
 		}
 	}
 
+	public Project saveAndFlush(Project project) {
+		Project save = save(project);
+		this.projectRepository.flush();
+		return save;
+	}
+	
 	public Project update(int id,Project project) {
 		if (!this.projectRepository.existsById(id)) {
 			throw new EntityModelNotFoundException();
