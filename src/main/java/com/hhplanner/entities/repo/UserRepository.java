@@ -24,4 +24,5 @@ public interface UserRepository extends CrudRepository<User1, String> {
     @Modifying
     @Transactional	
 	public void deleteByUsername(String username);
+    public void flush();
 }

@@ -40,6 +40,12 @@ public class UserService {
 		return this.userRepository.save(user);
 	}
 
+	public User1 saveAndFlush(User1 user) {
+		User1 save = save(user);
+		this.userRepository.flush();
+		return save;
+	}
+	
 	public User1 update(String username,User1 user) {
 		if (!this.userRepository.existsByUsername(username)) {
 			throw new EntityModelNotFoundException();
