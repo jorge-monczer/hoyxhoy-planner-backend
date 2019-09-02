@@ -30,7 +30,40 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/springAsignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Asignment</a>\n\t\t<a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a>\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a>\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/asignment/asignment.component.html":
+/*!******************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/asignment/asignment.component.html ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"asignment.feature\" name=\"featureSelected\" placeholder=\"Feature Selected\" [compareWith]=\"compareFeatures\" required>\n        <mat-option *ngFor=\"let feat of features\" [value]=\"feat\">\n            {{feat.code + \" \" + feat.title}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <mat-select [(ngModel)]=\"asignment.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addAsignment()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateAsignment()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/backlog/features.component.html":
+/*!***************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/backlog/features.component.html ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"feature.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.title\" name=\"title\" placeholder=\"Title\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <!--mat-form-field>\n      <input matInput [(ngModel)]=\"feature.status\" name=\"status\" placeholder=\"Status\" required #status=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field-->\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.estimatedHours\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\" maxlength=\"3\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.committedDate\" name=\"committedDate\" placeholder=\"Committed Date\" type=\"date\" required #committedDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addFeature()\" matTooltip=\"Add {{feature.title}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateFeature()\" matTooltip=\"Confirm update {{feature.title}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{feature.title}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>BackLog List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/capacity/capacity.component.html":
+/*!****************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/capacity/capacity.component.html ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"capacity.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"capacity.availableHours\" name=\"availableHours\" placeholder=\"Available Hours\" type=\"number\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addCapacity()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateCapacity()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -106,6 +139,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _users_users_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./users/users.component */ "./src/app/users/users.component.ts");
 /* harmony import */ var _springs_springs_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./springs/springs.component */ "./src/app/springs/springs.component.ts");
+/* harmony import */ var _backlog_features_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./backlog/features.component */ "./src/app/backlog/features.component.ts");
+/* harmony import */ var _asignment_asignment_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./asignment/asignment.component */ "./src/app/asignment/asignment.component.ts");
+/* harmony import */ var _capacity_capacity_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./capacity/capacity.component */ "./src/app/capacity/capacity.component.ts");
+
+
+
 
 
 
@@ -117,6 +156,9 @@ var routes = [
     { path: '', redirectTo: 'projects', pathMatch: 'full' },
     { path: 'projects', component: _projects_projects_component__WEBPACK_IMPORTED_MODULE_3__["ProjectsComponent"] },
     { path: 'springs', component: _springs_springs_component__WEBPACK_IMPORTED_MODULE_6__["SpringsComponent"] },
+    { path: 'backlog', component: _backlog_features_component__WEBPACK_IMPORTED_MODULE_7__["FeaturesComponent"] },
+    { path: 'asignment', component: _asignment_asignment_component__WEBPACK_IMPORTED_MODULE_8__["AsignmentComponent"] },
+    { path: 'capacity', component: _capacity_capacity_component__WEBPACK_IMPORTED_MODULE_9__["CapacityComponent"] },
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_5__["UsersComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] }
 ];
@@ -221,6 +263,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _users_users_module__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./users/users.module */ "./src/app/users/users.module.ts");
 /* harmony import */ var _springs_springs_module__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./springs/springs.module */ "./src/app/springs/springs.module.ts");
+/* harmony import */ var _backlog_features_module__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./backlog/features.module */ "./src/app/backlog/features.module.ts");
+/* harmony import */ var _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./asignment/asignment.module */ "./src/app/asignment/asignment.module.ts");
+/* harmony import */ var _capacity_capacity_module__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./capacity/capacity.module */ "./src/app/capacity/capacity.module.ts");
+
+
+
 
 
 
@@ -250,6 +298,9 @@ var AppModule = /** @class */ (function () {
                 _projects_projects_module__WEBPACK_IMPORTED_MODULE_8__["ProjectsModule"],
                 _users_users_module__WEBPACK_IMPORTED_MODULE_13__["UsersModule"],
                 _springs_springs_module__WEBPACK_IMPORTED_MODULE_14__["SpringsModule"],
+                _backlog_features_module__WEBPACK_IMPORTED_MODULE_15__["FeaturesModule"],
+                _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__["AsignmentModule"],
+                _capacity_capacity_module__WEBPACK_IMPORTED_MODULE_17__["CapacityModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
@@ -267,6 +318,881 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/asignment/asignment.component.scss":
+/*!****************************************************!*\
+  !*** ./src/app/asignment/asignment.component.scss ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FzaWdubWVudC9hc2lnbm1lbnQuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/asignment/asignment.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/asignment/asignment.component.ts ***!
+  \**************************************************/
+/*! exports provided: AsignmentComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsignmentComponent", function() { return AsignmentComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component */ "./src/app/grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component.ts");
+/* harmony import */ var _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component */ "./src/app/grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component.ts");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _backlog_features_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../backlog/features.service */ "./src/app/backlog/features.service.ts");
+/* harmony import */ var _users_users_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../users/users.service */ "./src/app/users/users.service.ts");
+/* harmony import */ var _asignment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./asignment */ "./src/app/asignment/asignment.ts");
+/* harmony import */ var _asignment_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./asignment.service */ "./src/app/asignment/asignment.service.ts");
+
+
+
+
+
+
+
+
+
+
+var AsignmentComponent = /** @class */ (function () {
+    function AsignmentComponent(asignmentsService, featuresService, userService, loginService) {
+        this.asignmentsService = asignmentsService;
+        this.featuresService = featuresService;
+        this.userService = userService;
+        this.loginService = loginService;
+        this.asignment = new _asignment__WEBPACK_IMPORTED_MODULE_8__["Asignment"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.rowSelection = 'single';
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.gridOptions.enableCellChangeFlash = true;
+        this.columnDefs = [
+            { headerName: 'Id', field: 'id', hide: true },
+            { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
+            { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 400 },
+            { headerName: 'Estimated Hs.', field: 'feature.estimatedHours', filter: 'text', width: 130 },
+            { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 },
+            { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
+            { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
+        ];
+    }
+    AsignmentComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.populateAsignments();
+        this.featuresService.getFeatures().toPromise().then(function (feats) { return _this.features = feats; });
+        this.userService.getUsers().toPromise().then(function (users) { return _this.users = users; });
+    };
+    AsignmentComponent.prototype.refeshAsignments = function () {
+        this.populateAsignments();
+        this.initialMode();
+    };
+    AsignmentComponent.prototype.populateAsignments = function () {
+        var _this = this;
+        this.asignments.subscribe(function (asignmentList) { return _this.rowData = asignmentList; }, function (error) { return _this.handleError(error); });
+    };
+    AsignmentComponent.prototype.dateFormatter = function (params) {
+        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    Object.defineProperty(AsignmentComponent.prototype, "asignments", {
+        get: function () {
+            return this.asignmentsService.getAsignments();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AsignmentComponent.prototype.getAsignmentById = function (id) {
+        return this.asignmentsService.getAsignmentById(id);
+    };
+    AsignmentComponent.prototype.removeAsignment = function (id) {
+        var _this = this;
+        this.asignmentsService.deleteAsignmentById(id).subscribe(function (data) { return _this.refeshAsignments(); }, function (error) { return console.log(error); });
+    };
+    AsignmentComponent.prototype.editAsignment = function (data) {
+        this.asignment = new _asignment__WEBPACK_IMPORTED_MODULE_8__["Asignment"](data);
+        this.errorMessage = "";
+    };
+    AsignmentComponent.prototype.addAsignment = function () {
+        var _this = this;
+        //  this.project.status = "OPEN";
+        this.asignmentsService.addAsignment(this.asignment).subscribe(function (data) { return _this.refeshAsignments(); }, function (error) { return _this.handleError(error); });
+    };
+    AsignmentComponent.prototype.handleError = function (error) {
+        this.errorMessage = error.status == 403 ? "SpringAsignment already exists" : "Known Error";
+        console.log(error);
+    };
+    AsignmentComponent.prototype.updateAsignment = function () {
+        var _this = this;
+        this.asignmentsService.updateAsignment(this.asignment).subscribe(function (data) { return _this.refeshAsignments(); }, function (error) { return _this.handleError(error); });
+    };
+    AsignmentComponent.prototype.resetControls = function () {
+        var _this = this;
+        this.myForm.resetForm();
+        Object.keys(this.myForm.controls).forEach(function (field) {
+            var control = _this.myForm.control.get(field);
+            control.markAsUntouched();
+        });
+    };
+    // Call from MatRemoveButtonGridRenderComponent
+    AsignmentComponent.prototype.removeFromComponent = function (asignment) {
+        this.removeAsignment(asignment.id);
+        this.initialMode();
+    };
+    // Call from MatEditButtonGridRenderComponent
+    AsignmentComponent.prototype.editFromComponent = function (data) {
+        this.isEditMode = true;
+        this.editAsignment(data);
+    };
+    AsignmentComponent.prototype.cancelEditMode = function () {
+        this.initialMode();
+    };
+    AsignmentComponent.prototype.initialMode = function () {
+        this.asignment = new _asignment__WEBPACK_IMPORTED_MODULE_8__["Asignment"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.resetControls();
+    };
+    AsignmentComponent.prototype.onGridReady = function (params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    };
+    AsignmentComponent.prototype.compareFeatures = function (o1, o2) {
+        return (o1 && o2) ? o1.id === o2.id : o1 === o2;
+    };
+    AsignmentComponent.prototype.compareUsers = function (o1, o2) {
+        return (o1 && o2) ? o1.username === o2.username : o1 === o2;
+    };
+    AsignmentComponent.prototype.getMatTooltipButton = function () {
+        if (this.asignment.feature) {
+            return this.asignment.feature.title;
+        }
+        return "";
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"])
+    ], AsignmentComponent.prototype, "myForm", void 0);
+    AsignmentComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-asignment',
+            template: __webpack_require__(/*! raw-loader!./asignment.component.html */ "./node_modules/raw-loader/index.js!./src/app/asignment/asignment.component.html"),
+            styles: [__webpack_require__(/*! ./asignment.component.scss */ "./src/app/asignment/asignment.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_asignment_service__WEBPACK_IMPORTED_MODULE_9__["AsignmentService"], _backlog_features_service__WEBPACK_IMPORTED_MODULE_6__["FeaturesService"], _users_users_service__WEBPACK_IMPORTED_MODULE_7__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
+    ], AsignmentComponent);
+    return AsignmentComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/asignment/asignment.module.ts":
+/*!***********************************************!*\
+  !*** ./src/app/asignment/asignment.module.ts ***!
+  \***********************************************/
+/*! exports provided: AsignmentModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsignmentModule", function() { return AsignmentModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _asignment_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./asignment.component */ "./src/app/asignment/asignment.component.ts");
+
+
+
+
+
+var AsignmentModule = /** @class */ (function () {
+    function AsignmentModule() {
+    }
+    AsignmentModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"],
+                ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__["AgGridModule"].withComponents([])
+            ],
+            declarations: [_asignment_component__WEBPACK_IMPORTED_MODULE_4__["AsignmentComponent"]]
+        })
+    ], AsignmentModule);
+    return AsignmentModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/asignment/asignment.service.ts":
+/*!************************************************!*\
+  !*** ./src/app/asignment/asignment.service.ts ***!
+  \************************************************/
+/*! exports provided: AsignmentService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AsignmentService", function() { return AsignmentService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+
+
+
+
+var AsignmentService = /** @class */ (function () {
+    function AsignmentService(http, loginService) {
+        this.http = http;
+        this.loginService = loginService;
+        this._baseUrl = './api/springs/';
+    }
+    AsignmentService.prototype.getAsignments = function () {
+        return this.http.get(this.baseUrl);
+    };
+    AsignmentService.prototype.getAsignmentById = function (id) {
+        return this.http.get(this.baseUrl + "/" + id);
+    };
+    AsignmentService.prototype.addAsignment = function (asignment) {
+        return this.http.post(this.baseUrl, asignment);
+    };
+    AsignmentService.prototype.deleteAsignmentById = function (id) {
+        return this.http.delete(this.baseUrl + "/" + id);
+    };
+    AsignmentService.prototype.updateAsignment = function (asignment) {
+        return this.http.put(this.baseUrl + "/" + asignment.id, asignment);
+    };
+    Object.defineProperty(AsignmentService.prototype, "baseUrl", {
+        get: function () {
+            return this._baseUrl + this.loginService.currentSpringId + '/asignments';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AsignmentService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+    ], AsignmentService);
+    return AsignmentService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/asignment/asignment.ts":
+/*!****************************************!*\
+  !*** ./src/app/asignment/asignment.ts ***!
+  \****************************************/
+/*! exports provided: Asignment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Asignment", function() { return Asignment; });
+var Asignment = /** @class */ (function () {
+    function Asignment(values) {
+        if (values === void 0) { values = {}; }
+        Object.assign(this, values);
+    }
+    return Asignment;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/backlog/feature.ts":
+/*!************************************!*\
+  !*** ./src/app/backlog/feature.ts ***!
+  \************************************/
+/*! exports provided: Feature */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Feature", function() { return Feature; });
+var Feature = /** @class */ (function () {
+    function Feature(values) {
+        if (values === void 0) { values = {}; }
+        this.title = '';
+        this.status = '';
+        this.estimatedHours = 0;
+        this.committedDate = null;
+        Object.assign(this, values);
+    }
+    return Feature;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/backlog/features.component.scss":
+/*!*************************************************!*\
+  !*** ./src/app/backlog/features.component.scss ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2JhY2tsb2cvZmVhdHVyZXMuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/backlog/features.component.ts":
+/*!***********************************************!*\
+  !*** ./src/app/backlog/features.component.ts ***!
+  \***********************************************/
+/*! exports provided: FeaturesComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeaturesComponent", function() { return FeaturesComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component */ "./src/app/grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component.ts");
+/* harmony import */ var _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component */ "./src/app/grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component.ts");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _feature__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./feature */ "./src/app/backlog/feature.ts");
+/* harmony import */ var _features_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./features.service */ "./src/app/backlog/features.service.ts");
+
+
+
+
+
+
+
+
+var FeaturesComponent = /** @class */ (function () {
+    function FeaturesComponent(featuresService, loginService) {
+        this.featuresService = featuresService;
+        this.loginService = loginService;
+        this.feature = new _feature__WEBPACK_IMPORTED_MODULE_6__["Feature"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.rowSelection = 'single';
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.gridOptions.enableCellChangeFlash = true;
+        this.columnDefs = [
+            { headerName: 'Id', field: 'id', hide: true },
+            { headerName: 'F.Code', field: 'code', filter: 'text', width: 100 },
+            { headerName: 'Feature Title', field: 'title', filter: 'text', width: 400 },
+            { headerName: 'Estimated Hours', field: 'estimatedHours', filter: 'text', width: 130 },
+            { headerName: 'Committed Date', field: 'committedDate', filter: 'text', width: 170 },
+            { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
+            { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
+        ];
+    }
+    FeaturesComponent.prototype.ngOnInit = function () {
+        this.populateFeatures();
+    };
+    FeaturesComponent.prototype.refeshFeatures = function () {
+        this.populateFeatures();
+        this.initialMode();
+    };
+    FeaturesComponent.prototype.populateFeatures = function () {
+        var _this = this;
+        this.features.subscribe(function (featureList) { return _this.rowData = featureList; }, function (error) { return _this.handleError(error); });
+    };
+    FeaturesComponent.prototype.dateFormatter = function (params) {
+        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    Object.defineProperty(FeaturesComponent.prototype, "features", {
+        get: function () {
+            return this.featuresService.getFeatures();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FeaturesComponent.prototype.getFeatureById = function (id) {
+        return this.featuresService.getFeatureById(id);
+    };
+    FeaturesComponent.prototype.removeFeature = function (id) {
+        var _this = this;
+        this.featuresService.deleteFeatureById(id).subscribe(function (data) { return _this.refeshFeatures(); }, function (error) { return console.log(error); });
+    };
+    FeaturesComponent.prototype.editFeature = function (data) {
+        this.feature = new _feature__WEBPACK_IMPORTED_MODULE_6__["Feature"](data);
+        this.errorMessage = "";
+    };
+    FeaturesComponent.prototype.addFeature = function () {
+        var _this = this;
+        //  this.project.status = "OPEN";
+        this.featuresService.addFeature(this.feature).subscribe(function (data) { return _this.refeshFeatures(); }, function (error) { return _this.handleError(error); });
+    };
+    FeaturesComponent.prototype.handleError = function (error) {
+        this.errorMessage = error.status == 403 ? "Feature already exists" : "Known Error";
+        console.log(error);
+    };
+    FeaturesComponent.prototype.updateFeature = function () {
+        var _this = this;
+        this.featuresService.updateFeature(this.feature).subscribe(function (data) { return _this.refeshFeatures(); }, function (error) { return _this.handleError(error); });
+    };
+    FeaturesComponent.prototype.resetControls = function () {
+        var _this = this;
+        this.myForm.resetForm();
+        Object.keys(this.myForm.controls).forEach(function (field) {
+            var control = _this.myForm.control.get(field);
+            control.markAsUntouched();
+        });
+    };
+    // Call from MatRemoveButtonGridRenderComponent
+    FeaturesComponent.prototype.removeFromComponent = function (feature) {
+        this.removeFeature(feature.id);
+        this.initialMode();
+    };
+    // Call from MatEditButtonGridRenderComponent
+    FeaturesComponent.prototype.editFromComponent = function (data) {
+        this.isEditMode = true;
+        this.editFeature(data);
+    };
+    FeaturesComponent.prototype.cancelEditMode = function () {
+        this.initialMode();
+    };
+    FeaturesComponent.prototype.initialMode = function () {
+        this.feature = new _feature__WEBPACK_IMPORTED_MODULE_6__["Feature"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.resetControls();
+    };
+    FeaturesComponent.prototype.onGridReady = function (params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"])
+    ], FeaturesComponent.prototype, "myForm", void 0);
+    FeaturesComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-features',
+            template: __webpack_require__(/*! raw-loader!./features.component.html */ "./node_modules/raw-loader/index.js!./src/app/backlog/features.component.html"),
+            styles: [__webpack_require__(/*! ./features.component.scss */ "./src/app/backlog/features.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_features_service__WEBPACK_IMPORTED_MODULE_7__["FeaturesService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
+    ], FeaturesComponent);
+    return FeaturesComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/backlog/features.module.ts":
+/*!********************************************!*\
+  !*** ./src/app/backlog/features.module.ts ***!
+  \********************************************/
+/*! exports provided: FeaturesModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeaturesModule", function() { return FeaturesModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _features_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./features.component */ "./src/app/backlog/features.component.ts");
+
+
+
+
+
+var FeaturesModule = /** @class */ (function () {
+    function FeaturesModule() {
+    }
+    FeaturesModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"],
+                ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__["AgGridModule"].withComponents([])
+            ],
+            declarations: [_features_component__WEBPACK_IMPORTED_MODULE_4__["FeaturesComponent"]]
+        })
+    ], FeaturesModule);
+    return FeaturesModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/backlog/features.service.ts":
+/*!*********************************************!*\
+  !*** ./src/app/backlog/features.service.ts ***!
+  \*********************************************/
+/*! exports provided: FeaturesService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeaturesService", function() { return FeaturesService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+
+
+
+
+var FeaturesService = /** @class */ (function () {
+    function FeaturesService(http, loginService) {
+        this.http = http;
+        this.loginService = loginService;
+        this.currentProjectId = "";
+        this._baseUrl = './api/projects/';
+    }
+    FeaturesService.prototype.getFeatures = function () {
+        return this.http.get(this.baseUrl);
+    };
+    FeaturesService.prototype.getFeatureById = function (id) {
+        return this.http.get(this.baseUrl + "/" + id);
+    };
+    FeaturesService.prototype.addFeature = function (feature) {
+        return this.http.post(this.baseUrl, feature);
+    };
+    FeaturesService.prototype.deleteFeatureById = function (id) {
+        return this.http.delete(this.baseUrl + "/" + id);
+    };
+    FeaturesService.prototype.updateFeature = function (feature) {
+        return this.http.put(this.baseUrl + "/" + feature.id, feature);
+    };
+    Object.defineProperty(FeaturesService.prototype, "baseUrl", {
+        get: function () {
+            return this._baseUrl + this.loginService.currentProjectId + '/features';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FeaturesService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+    ], FeaturesService);
+    return FeaturesService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/capacity/capacity.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/capacity/capacity.component.scss ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NhcGFjaXR5L2NhcGFjaXR5LmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/capacity/capacity.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/capacity/capacity.component.ts ***!
+  \************************************************/
+/*! exports provided: CapacityComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapacityComponent", function() { return CapacityComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component */ "./src/app/grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component.ts");
+/* harmony import */ var _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component */ "./src/app/grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component.ts");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _users_users_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../users/users.service */ "./src/app/users/users.service.ts");
+/* harmony import */ var _capacity__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./capacity */ "./src/app/capacity/capacity.ts");
+/* harmony import */ var _capacity_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./capacity.service */ "./src/app/capacity/capacity.service.ts");
+
+
+
+
+
+
+
+
+
+var CapacityComponent = /** @class */ (function () {
+    function CapacityComponent(capacitysService, userService, loginService) {
+        this.capacitysService = capacitysService;
+        this.userService = userService;
+        this.loginService = loginService;
+        this.capacity = new _capacity__WEBPACK_IMPORTED_MODULE_7__["Capacity"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.rowSelection = 'single';
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.gridOptions.enableCellChangeFlash = true;
+        this.columnDefs = [
+            { headerName: 'Id', field: 'id', hide: true },
+            { headerName: 'User', field: 'user.name', filter: 'text', width: 150 },
+            { headerName: 'Available Hs.', field: 'availableHours', filter: 'text', width: 130 },
+            { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
+            { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
+        ];
+    }
+    CapacityComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.populateCapacitys();
+        this.userService.getUsers().toPromise().then(function (users) { return _this.users = users; });
+    };
+    CapacityComponent.prototype.refeshCapacitys = function () {
+        this.populateCapacitys();
+        this.initialMode();
+    };
+    CapacityComponent.prototype.populateCapacitys = function () {
+        var _this = this;
+        this.capacities.subscribe(function (capacityList) { return _this.rowData = capacityList; }, function (error) { return _this.handleError(error); });
+    };
+    CapacityComponent.prototype.dateFormatter = function (params) {
+        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    Object.defineProperty(CapacityComponent.prototype, "capacities", {
+        get: function () {
+            return this.capacitysService.getCapacities();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CapacityComponent.prototype.getCapacityById = function (id) {
+        return this.capacitysService.getCapacityById(id);
+    };
+    CapacityComponent.prototype.removeCapacity = function (id) {
+        var _this = this;
+        this.capacitysService.deleteCapacityById(id).subscribe(function (data) { return _this.refeshCapacitys(); }, function (error) { return console.log(error); });
+    };
+    CapacityComponent.prototype.editCapacity = function (data) {
+        this.capacity = new _capacity__WEBPACK_IMPORTED_MODULE_7__["Capacity"](data);
+        this.errorMessage = "";
+    };
+    CapacityComponent.prototype.addCapacity = function () {
+        var _this = this;
+        //  this.project.status = "OPEN";
+        this.capacitysService.addCapacity(this.capacity).subscribe(function (data) { return _this.refeshCapacitys(); }, function (error) { return _this.handleError(error); });
+    };
+    CapacityComponent.prototype.handleError = function (error) {
+        this.errorMessage = error.status == 403 ? "User capacity already exists" : "Known Error";
+        console.log(error);
+    };
+    CapacityComponent.prototype.updateCapacity = function () {
+        var _this = this;
+        this.capacitysService.updateCapacity(this.capacity).subscribe(function (data) { return _this.refeshCapacitys(); }, function (error) { return _this.handleError(error); });
+    };
+    CapacityComponent.prototype.resetControls = function () {
+        var _this = this;
+        this.myForm.resetForm();
+        Object.keys(this.myForm.controls).forEach(function (field) {
+            var control = _this.myForm.control.get(field);
+            control.markAsUntouched();
+        });
+    };
+    // Call from MatRemoveButtonGridRenderComponent
+    CapacityComponent.prototype.removeFromComponent = function (capacity) {
+        this.removeCapacity(capacity.id);
+        this.initialMode();
+    };
+    // Call from MatEditButtonGridRenderComponent
+    CapacityComponent.prototype.editFromComponent = function (data) {
+        this.isEditMode = true;
+        this.editCapacity(data);
+    };
+    CapacityComponent.prototype.cancelEditMode = function () {
+        this.initialMode();
+    };
+    CapacityComponent.prototype.initialMode = function () {
+        this.capacity = new _capacity__WEBPACK_IMPORTED_MODULE_7__["Capacity"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.resetControls();
+    };
+    CapacityComponent.prototype.onGridReady = function (params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    };
+    CapacityComponent.prototype.compareUsers = function (o1, o2) {
+        return (o1 && o2) ? o1.username === o2.username : o1 === o2;
+    };
+    CapacityComponent.prototype.getMatTooltipButton = function () {
+        if (this.capacity.user) {
+            return this.capacity.user.username;
+        }
+        return "";
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"])
+    ], CapacityComponent.prototype, "myForm", void 0);
+    CapacityComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-capacity',
+            template: __webpack_require__(/*! raw-loader!./capacity.component.html */ "./node_modules/raw-loader/index.js!./src/app/capacity/capacity.component.html"),
+            styles: [__webpack_require__(/*! ./capacity.component.scss */ "./src/app/capacity/capacity.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_capacity_service__WEBPACK_IMPORTED_MODULE_8__["CapacityService"], _users_users_service__WEBPACK_IMPORTED_MODULE_6__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
+    ], CapacityComponent);
+    return CapacityComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/capacity/capacity.module.ts":
+/*!*********************************************!*\
+  !*** ./src/app/capacity/capacity.module.ts ***!
+  \*********************************************/
+/*! exports provided: CapacityModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapacityModule", function() { return CapacityModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _capacity_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./capacity.component */ "./src/app/capacity/capacity.component.ts");
+
+
+
+
+
+var CapacityModule = /** @class */ (function () {
+    function CapacityModule() {
+    }
+    CapacityModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"],
+                ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__["AgGridModule"].withComponents([])
+            ],
+            declarations: [_capacity_component__WEBPACK_IMPORTED_MODULE_4__["CapacityComponent"]]
+        })
+    ], CapacityModule);
+    return CapacityModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/capacity/capacity.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/capacity/capacity.service.ts ***!
+  \**********************************************/
+/*! exports provided: CapacityService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CapacityService", function() { return CapacityService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+
+
+
+
+var CapacityService = /** @class */ (function () {
+    function CapacityService(http, loginService) {
+        this.http = http;
+        this.loginService = loginService;
+        this._baseUrl = './api/springs/';
+    }
+    CapacityService.prototype.getCapacities = function () {
+        return this.http.get(this.baseUrl);
+    };
+    CapacityService.prototype.getCapacityById = function (id) {
+        return this.http.get(this.baseUrl + "/" + id);
+    };
+    CapacityService.prototype.addCapacity = function (capacity) {
+        return this.http.post(this.baseUrl, capacity);
+    };
+    CapacityService.prototype.deleteCapacityById = function (id) {
+        return this.http.delete(this.baseUrl + "/" + id);
+    };
+    CapacityService.prototype.updateCapacity = function (capacity) {
+        return this.http.put(this.baseUrl + "/" + capacity.id, capacity);
+    };
+    Object.defineProperty(CapacityService.prototype, "baseUrl", {
+        get: function () {
+            return this._baseUrl + this.loginService.currentSpringId + '/capacities';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CapacityService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+    ], CapacityService);
+    return CapacityService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/capacity/capacity.ts":
+/*!**************************************!*\
+  !*** ./src/app/capacity/capacity.ts ***!
+  \**************************************/
+/*! exports provided: Capacity */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capacity", function() { return Capacity; });
+var Capacity = /** @class */ (function () {
+    function Capacity(values) {
+        if (values === void 0) { values = {}; }
+        Object.assign(this, values);
+    }
+    return Capacity;
 }());
 
 
@@ -706,6 +1632,13 @@ var LoginService = /** @class */ (function () {
         },
         set: function (spring) {
             this.springState = spring;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LoginService.prototype, "currentSpringId", {
+        get: function () {
+            return (this.springState !== null) ? this.springState.id : NaN;
         },
         enumerable: true,
         configurable: true
