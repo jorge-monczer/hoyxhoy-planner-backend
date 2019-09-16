@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -36,6 +37,9 @@ public class Asignment {
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private User1 user;
 
+	@Transient
+	private double remaining;
+	
     public Asignment() {
 		super();
 	}
@@ -70,6 +74,12 @@ public class Asignment {
 	}
 	public void setUser(User1 user) {
 		this.user = user;
+	}
+	public double getRemaining() {
+		return remaining;
+	}
+	public void setRemaining(double remaining) {
+		this.remaining = remaining;
 	}
 
 	@Override

@@ -2,14 +2,16 @@ package com.hhplanner.entities.service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-import com.hhplanner.entities.exception.EntityModelDuplicatedException;
-import com.hhplanner.entities.exception.EntityModelNotFoundException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.repo.UserRepository;
 
 @Service
+@Transactional
 public class UserService {
 
 	private UserRepository userRepository;
@@ -23,7 +25,7 @@ public class UserService {
 	public User1 getUserByUsername(String username) {
 		Optional<User1> user = this.userRepository.findByUsername(username);
 		if (!user.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.userNotFoundException();
 		}
 		return user.get();
 	}
@@ -34,7 +36,7 @@ public class UserService {
 
 	public User1 save(User1 user) {
 		if (this.userRepository.existsByUsername(user.getUsername())) {
-			throw EntityModelDuplicatedException.getInstance("User already exists");
+			throw BusinessExceptionFactory.userAlreadyExistsException();
 		}
 		user.setPassword(this.loginService.buildPasswordReseted(user.getUsername()));
 		return this.userRepository.save(user);
@@ -48,7 +50,7 @@ public class UserService {
 	
 	public User1 update(String username,User1 user) {
 		if (!this.userRepository.existsByUsername(username)) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.userNotFoundException();
 		}
 		user.setUsername(username);
 		return this.userRepository.save(user);

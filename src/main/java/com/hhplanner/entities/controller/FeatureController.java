@@ -1,6 +1,7 @@
 package com.hhplanner.entities.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Feature;
 import com.hhplanner.entities.service.FeatureService;
 import com.hhplanner.utils.CollectionUtils;
 
 @RestController
 @RequestMapping("/api")
-public class FeatureController {
+public class FeatureController extends BasicController {
 
 	private final FeatureService featrueService;
 	
@@ -48,12 +51,28 @@ public class FeatureController {
 	
 	@PostMapping(value = "/projects/{pid}/features")
 	public ResponseEntity<Feature> postFeature(@PathVariable("pid") int pid,@RequestBody Feature feature) {
-		return new ResponseEntity<>(this.featrueService.save(feature, pid), HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(this.featrueService.save(feature, pid), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.featureDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/projects/{pid}/features/{id}")
 	public ResponseEntity<Feature> updateFeature(@PathVariable("pid") int pid,@PathVariable("id") int id, @RequestBody Feature feature) {
-		return new ResponseEntity<>(this.featrueService.update(id, feature, pid),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.featrueService.update(id, feature, pid),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.featureDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/projects/{pid}/features/{id}")

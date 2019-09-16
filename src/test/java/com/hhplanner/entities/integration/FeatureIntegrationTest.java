@@ -29,12 +29,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplanner.HoyxhoyPlannerBackendApplication;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Feature;
-import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.service.FeatureService;
-import com.hhplanner.entities.service.ProjectService;
-import com.hhplanner.mockups.MockupFeaturesToTest;
-import com.hhplanner.mockups.MockupProjectsToTest;
+import com.hhplanner.mockups.AsignmentBuilder;
+import com.hhplanner.mockups.BuilderFactory;
+import com.hhplanner.mockups.FeatureBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -43,6 +43,7 @@ import com.hhplanner.mockups.MockupProjectsToTest;
 )
 @AutoConfigureMockMvc
 public class FeatureIntegrationTest {
+	private static int ANY_PROJEC_ID = 1233333;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -51,57 +52,53 @@ public class FeatureIntegrationTest {
 	private FeatureService service;
 
 	@Autowired
-	private ProjectService projectService;
-    private int pid;
+	private BuilderFactory builderFactory;
 
-    @Before
-    public void init() {
-		Project projectInDB = this.projectService.save(MockupProjectsToTest.createProjectTLMK(0));
-    	this.pid = projectInDB.getId();
-    }
-    
+	private FeatureBuilder builder;
+
+	@Before
+	public void init() {
+		this.builderFactory.init();
+		this.builder = this.builderFactory.getFeatureBuilder();
+	}
+	
 	@After
 	public void delecteAll() {
-		this.service.deleteAll();
-		this.projectService.delete(this.pid);
+		this.builder.deleteAll();
 	}
 	
 	@Test
 	public void getFeature_WithId_ReturnsFeature() throws Exception {
-		Feature featureInDB = this.service.save(MockupFeaturesToTest.createFeatureF1(0),this.pid);
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/{id}",this.pid, featureInDB.getId()));
+		Feature featureInDB = this.builder.buildP1().buildF1(0).save().getFeature();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/{id}",this.builder.getProjectId(), featureInDB.getId()));
 		expectedPerform(perform,status().isOk(), featureInDB,null);
 	}
 
 	@Test
 	public void getFeature_WithId_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/projects/{pid}/features/{id}",this.pid, 1))
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/{id}",ANY_PROJEC_ID, 1))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_NOT_FOUND));
 	}
 	
 	@Test
 	public void getFeature_WithCode_ReturnsFeature() throws Exception {
-		Feature featureInDB =this.service.saveAndFlush(MockupFeaturesToTest.createFeatureF1(0),this.pid);
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/code/{code}", this.pid, featureInDB.getCode()));
+		Feature featureInDB = this.builder.buildP1().buildF1(0).save().getFeature();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/code/{code}", this.builder.getProjectId(), featureInDB.getCode()));
 		expectedPerform(perform,status().isOk(), featureInDB,null);
 	}
 
 	@Test
 	public void getFeature_WithCode_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/projects/{pid}/features/code/{code}", this.pid, "F1"))
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/code/{code}", ANY_PROJEC_ID, "F1"))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_NOT_FOUND));
 	}
 	
 	@Test
 	public void getFeaturesByProjectId() throws Exception {
-		List<Feature> featureListToSave = MockupFeaturesToTest.createFeaturesListToSaveTest();
-//		int sizeProjectToSave = projectListToSave.size();
-		List<Feature> savedFeatures = new ArrayList<>();
-		for (Feature featureToSave : featureListToSave) {
-			Feature savedFeature =this.service.saveAndFlush(featureToSave,this.pid);
-			savedFeatures.add(savedFeature);
-		}
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features",this.pid));
+		List<Feature> savedFeatures = this.createFeatureListSavedTest();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features",this.builder.getProjectId()));
 		perform.andExpect(status().isOk());
 		perform.andExpect(jsonPath("$").isArray());
         for (int i = 0; i < savedFeatures.size(); i++) {
@@ -109,40 +106,48 @@ public class FeatureIntegrationTest {
 		}
 	}
 
+	private List<Feature> createFeatureListSavedTest() {
+		List<Feature> savedList = new ArrayList<>();
+		savedList.add(this.builder.buildP1().buildF1(0).save().getFeature());
+		savedList.add(this.builder.buildF2(0).save().getFeature());
+		savedList.add(this.builder.buildF3(0).save().getFeature());
+		return savedList;
+	}
+	
 	@Test
 	public void getFeaturesByProjectId_ReturnsNoContent() throws Exception {
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features",this.pid));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features",ANY_PROJEC_ID));
 		perform.andExpect(status().isNoContent());
 		perform.andExpect(jsonPath("$").isArray());
 	}
 	
 	@Test
 	public void postFeatureOfProjectId_ReturnsFeature() throws Exception {
+		Feature featureF1 = this.builder.buildP1().buildF1(0).getFeature();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/projects/{pid}/features",this.pid).content(asJsonString(MockupFeaturesToTest.createFeatureF1(0)))
+				MockMvcRequestBuilders.post("/api/projects/{pid}/features",this.builder.getProjectId()).content(asJsonString(featureF1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		Feature retrievedProject = this.service.getFeatureByCodeAndProjectId("F1",this.pid);
-		expectedPerform(perform,status().isCreated(), retrievedProject,null);
+		Feature retrievedFeature = this.service.getFeatureByCodeAndProjectId(featureF1.getCode(),this.builder.getProjectId());
+		expectedPerform(perform,status().isCreated(), retrievedFeature,null);
 	}
 
 	@Test
 	public void postFeatureOfProjectId_WithDuplicateCode() throws Exception {
-		Feature projectInDB =this.service.saveAndFlush(MockupFeaturesToTest.createFeatureF1(0),this.pid);
+		this.builder.buildP1().buildF1(0).save().getFeature();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/projects/{pid}/features",this.pid).content(asJsonString(MockupFeaturesToTest.createFeatureF1(0)))
+				MockMvcRequestBuilders.post("/api/projects/{pid}/features",this.builder.getProjectId()).content(asJsonString(this.builder.buildF1(0).getFeature()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
-		this.service.delete(projectInDB.getId());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_DUPLICATED));
 	}
 	
 	@Test
 	public void putFeature_WithId_ReturnsFeature() throws Exception {
-		Feature featureInDB =this.service.saveAndFlush(MockupFeaturesToTest.createFeatureF1(0),this.pid);
+		Feature featureInDB = this.builder.buildP1().buildF1(0).save().getFeature();
 		featureInDB.setEstimatedHours(30);
 		featureInDB.setCommittedDate(LocalDate.of(2019, 11, 30));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",this.pid,featureInDB.getId()).content(asJsonString(featureInDB))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",this.builder.getProjectId(),featureInDB.getId()).content(asJsonString(featureInDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Feature retrievedFeature = this.service.getFeatureById(featureInDB.getId());
 		expectedPerform(perform,status().isOk(), featureInDB,null);
@@ -151,10 +156,10 @@ public class FeatureIntegrationTest {
 
 	@Test
 	public void putFeature_WithId_ChangeAllFields_ReturnsFeature() throws Exception {
-		Feature featureInDB =this.service.saveAndFlush(MockupFeaturesToTest.createFeatureF1(0),this.pid);
-		Feature updatedFeatureF1 = MockupFeaturesToTest.createFeatureF2(featureInDB.getId());
+		Feature featureInDB = this.builder.buildP1().buildF1(0).save().getFeature();
+		Feature updatedFeatureF1 = this.builder.buildF2(featureInDB.getId()).getFeature();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",this.pid,featureInDB.getId()).content(asJsonString(updatedFeatureF1))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",this.builder.getProjectId(),featureInDB.getId()).content(asJsonString(updatedFeatureF1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Feature retrievedFeature = this.service.getFeatureById(updatedFeatureF1.getId());
 		expectedPerform(perform,status().isOk(), updatedFeatureF1,null);
@@ -163,47 +168,59 @@ public class FeatureIntegrationTest {
 	
 	@Test
 	public void putFeature_WithId_NotFound() throws Exception {
+		this.builder.buildP1();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",1,1).content(asJsonString(MockupFeaturesToTest.createFeatureF1()))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",this.builder.getProjectId(),1).content(asJsonString(this.builder.buildF1(1)))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_NOT_FOUND));
 	}
 
 	@Test
 	public void putFeatureOfProjectId_WithId_DuplicatedCode() throws Exception {
-		Feature featureF1InDB =this.service.save(MockupFeaturesToTest.createFeatureF1(0),this.pid);
-		Feature featureF2InDB =this.service.save(MockupFeaturesToTest.createFeatureF2(0),this.pid);
+		Feature featureF1InDB = this.builder.buildP1().buildF1(0).save().getFeature();
+		Feature featureF2InDB = this.builder.buildF2(0).save().getFeature();
 		featureF1InDB.setCode(featureF2InDB.getCode());
 		featureF1InDB.setCommittedDate(featureF2InDB.getCommittedDate());		
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}", this.pid, featureF1InDB.getId()).content(asJsonString(featureF1InDB))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}", this.builder.getProjectId(), featureF1InDB.getId()).content(asJsonString(featureF1InDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_DUPLICATED));
+	}
+
+	@Test
+	public void putFeature_WithId_ExceddedAvailableHoursForAsignment() throws Exception {
+		Feature featureInDB = this.builder.buildP1().buildF1(0).save().getFeature(); // create F1  40 hs.
+		AsignmentBuilder asbuilder = this.builderFactory.getAsignmentBuilder();
+		asbuilder.buildS1().buildU1().buildCapacity(5).buildAsignment(0).save().getAsignment(); // asign U1 x 5 hs. consume 8 days.
+		featureInDB.setEstimatedHours(55);  // with 55 consume 11 days and spring has 10 days
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/projects/{pid}/features/{id}",this.builder.getProjectId(),featureInDB.getId()).content(asJsonString(featureInDB))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		Feature retrievedFeature = this.service.getFeatureById(featureInDB.getId());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.USER_CAPACITY_INSUFFICIENT));
+		assertObjectsEqual(this.builder.buildF1(featureInDB.getId()).getFeature(), retrievedFeature);
+		asbuilder.deleteAll();
 	}
 	
 	@Test
 	public void deleteProject_WithId() throws Exception {
-		Feature featureInDB =this.service.save(MockupFeaturesToTest.createFeatureF1(0),this.pid);
-		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/features/{id}", this.pid, featureInDB.getId()));
+		Feature featureInDB = this.builder.buildP1().buildF1(0).save().getFeature();
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/features/{id}", this.builder.getProjectId(), featureInDB.getId()));
 		perform.andExpect(status().isOk());
-		Iterable<Feature> features = this.service.getFeaturesByProjectId(this.pid);
+		Iterable<Feature> features = this.service.getFeaturesByProjectId(this.builder.getProjectId());
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(features));
 	}
 
 	@Test
 	public void deleteProjects() throws Exception {
-		List<Feature> featureListToSave = MockupFeaturesToTest.createFeaturesListToSaveTest();
-		List<Feature> savedFeatures = new ArrayList<>();
-		for (Feature featureToSave : featureListToSave) {
-			Feature savedFeature =this.service.save(featureToSave,this.pid);
-			savedFeatures.add(savedFeature);
-		}
-		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/features", this.pid));
+		this.createFeatureListSavedTest();
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/features", this.builder.getProjectId()));
 		perform	.andExpect(status().isNoContent());
-		Iterable<Feature> projects = this.service.getFeaturesByProjectId(this.pid);
-		Assert.assertTrue(IterableUtil.isNullOrEmpty(projects));
+		Iterable<Feature> features = this.service.getFeaturesByProjectId(this.builder.getProjectId());
+		Assert.assertTrue(IterableUtil.isNullOrEmpty(features));
 	}
 	
 	private static void expectedPerform(ResultActions perform, ResultMatcher status, Feature feature, Integer idx) throws Exception {

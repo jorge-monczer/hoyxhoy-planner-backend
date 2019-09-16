@@ -1,14 +1,15 @@
 package com.hhplanner.entities.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public class EntityModelNotFoundException extends BusinessException {
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class EntityModelNotFoundException extends RuntimeException {
+	private static final long serialVersionUID = 7672033519040613942L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	public EntityModelNotFoundException() {
+		this("Entity not found");
+	}
+	
+	public EntityModelNotFoundException(String msg) {
+		super(msg);
+	}
+	
 }

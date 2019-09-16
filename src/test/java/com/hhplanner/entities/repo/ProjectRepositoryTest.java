@@ -79,7 +79,7 @@ public class ProjectRepositoryTest {
 
 	@Test
 	public void saveProject_WithNoExistingId_ReturnsProject() throws Exception {
-		Project project = MockupProjectsToTest.createProjectTLMK();
+		Project project = MockupProjectsToTest.createProjectTLMK(1);
 		Project projectSaved = this.repository.save(project);
 		em.flush();
 		assertThat(projectSaved).isNotNull();

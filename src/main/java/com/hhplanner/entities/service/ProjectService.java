@@ -2,15 +2,16 @@ package com.hhplanner.entities.service;
 
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-import com.hhplanner.entities.exception.EntityModelDuplicatedException;
-import com.hhplanner.entities.exception.EntityModelNotFoundException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.repo.ProjectRepository;
 
 @Service
+@Transactional
 public class ProjectService {
 
 	private ProjectRepository projectRepository;
@@ -22,7 +23,7 @@ public class ProjectService {
 	public Project getProjectById(int id) {
 		Optional<Project> project = this.projectRepository.findById(id);
 		if (!project.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.projectNotFoundException();
 		}
 		return project.get();
 	}
@@ -30,7 +31,7 @@ public class ProjectService {
 	public Project getProjectByCode(String code) {
 		Optional<Project> project = this.projectRepository.findByCode(code);
 		if (!project.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.projectNotFoundException();
 		}
 		return project.get();
 	}
@@ -40,11 +41,7 @@ public class ProjectService {
 	}
 
 	public Project save(Project project) {
-		try {
-			return this.projectRepository.save(project);
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		}
+		return this.projectRepository.save(project);
 	}
 
 	public Project saveAndFlush(Project project) {
@@ -55,14 +52,10 @@ public class ProjectService {
 	
 	public Project update(int id,Project project) {
 		if (!this.projectRepository.existsById(id)) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.projectNotFoundException();
 		}
-		try {
-			project.setId(id);
-			return this.projectRepository.save(project);
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		} 
+		project.setId(id);
+		return this.projectRepository.save(project);
 	}
 
 	public void delete(int id) {

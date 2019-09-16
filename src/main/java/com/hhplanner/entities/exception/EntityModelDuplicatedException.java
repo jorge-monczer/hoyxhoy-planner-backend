@@ -1,16 +1,12 @@
 package com.hhplanner.entities.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public class EntityModelDuplicatedException extends BusinessException {
 
-@ResponseStatus(HttpStatus.FORBIDDEN)
-public class EntityModelDuplicatedException extends RuntimeException {
-
+	private static final long serialVersionUID = 2758024782684305281L;
 	public static final String UNIQUE_KEY_ON_PROJECT_CODE="PUBLIC.PROJECT(CODE)";
 	public static final String UNIQUE_KEY_ON_PROJECT_NAME="PUBLIC.PROJECT(NAME)";
 	public static final String DUPLICATE_PROJECT_CODE="Code Project Duplicated";
 	public static final String DUPLICATE_PROJECT_NAME="Name Project Duplicated";
-	private static final long serialVersionUID = -7955662959094070357L;
 	
 	public EntityModelDuplicatedException(String msg) {
 		super(msg);

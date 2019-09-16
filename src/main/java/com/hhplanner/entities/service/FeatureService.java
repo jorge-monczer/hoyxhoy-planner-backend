@@ -2,30 +2,38 @@ package com.hhplanner.entities.service;
 
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-import com.hhplanner.entities.exception.EntityModelDuplicatedException;
-import com.hhplanner.entities.exception.EntityModelNotFoundException;
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
+import com.hhplanner.entities.model.Asignment;
 import com.hhplanner.entities.model.Feature;
 import com.hhplanner.entities.model.Project;
+import com.hhplanner.entities.repo.AsignmentRepository;
 import com.hhplanner.entities.repo.FeatureRepository;
 
 @Service
+@Transactional
 public class FeatureService {
 
 	private FeatureRepository featureRepository;
+	private AsignmentRepository asignmentRepository;
 	private ProjectService projectService;
+	private SpringService springService;
 	
-	public FeatureService(FeatureRepository featureRepository, ProjectService projectService) {
+	public FeatureService(FeatureRepository featureRepository, AsignmentRepository asignmentRepository, ProjectService projectService, SpringService springService) {
 		this.featureRepository = featureRepository;
+		this.asignmentRepository = asignmentRepository;
 		this.projectService = projectService;
+		this.springService = springService;
 	}
 
 	public Feature getFeatureById(int id) {
 		Optional<Feature> feature = this.featureRepository.findById(id);
 		if (!feature.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.featureNotFoundException();
 		}
 		return feature.get();
 	}
@@ -33,7 +41,7 @@ public class FeatureService {
 	public Feature getFeatureByCodeAndProjectId( String code, int projectId) {
 		Optional<Feature> feature = this.featureRepository.findByCodeAndProjectId(code, projectId);
 		if (!feature.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.featureNotFoundException();
 		}
 		return feature.get();
 	}
@@ -44,16 +52,9 @@ public class FeatureService {
 
 	public Feature save(Feature feature, int projectId) {
 		Project project = this.projectService.getProjectById(projectId);
-		try {
-			feature.setProject(project);
-			Feature save = this.featureRepository.save(feature);
-//			this.springRepository.flush();
-			return save;
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		} catch (Exception e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		}
+		feature.setProject(project);
+		Feature save = this.featureRepository.save(feature);
+		return save;
 	}
 
 	public Feature saveAndFlush(Feature feature, int projectId) {
@@ -62,18 +63,20 @@ public class FeatureService {
 		return save;
 	}
 	
+	@Transactional(rollbackOn = BusinessException.class)
 	public Feature update(int id,Feature feature, int projectId) {
 		if (!this.featureRepository.existsById(id)) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.featureNotFoundException();
 		}
 		Project project = this.projectService.getProjectById(projectId);
-		try {
-			feature.setId(id);
-			feature.setProject(project);
-			return this.featureRepository.save(feature);
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		} 
+		feature.setId(id);
+		feature.setProject(project);
+		Feature save = this.featureRepository.save(feature);
+		Optional<Asignment> asignment = this.asignmentRepository.findByFeature(feature);
+		if (asignment.isPresent() && !this.springService.validateEnoughSpringDays(asignment.get().getSpring())) {
+			throw BusinessExceptionFactory.userCapacityInsufficientException();
+		}
+		return save;
 	}
 
 	public void delete(int id) {

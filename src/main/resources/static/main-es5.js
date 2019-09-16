@@ -432,9 +432,9 @@ var AsignmentComponent = /** @class */ (function () {
         //  this.project.status = "OPEN";
         this.asignmentsService.addAsignment(this.asignment).subscribe(function (data) { return _this.refeshAsignments(); }, function (error) { return _this.handleError(error); });
     };
-    AsignmentComponent.prototype.handleError = function (error) {
-        this.errorMessage = error.status == 403 ? "SpringAsignment already exists" : "Known Error";
-        console.log(error);
+    AsignmentComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     AsignmentComponent.prototype.updateAsignment = function () {
         var _this = this;
@@ -749,9 +749,9 @@ var FeaturesComponent = /** @class */ (function () {
         //  this.project.status = "OPEN";
         this.featuresService.addFeature(this.feature).subscribe(function (data) { return _this.refeshFeatures(); }, function (error) { return _this.handleError(error); });
     };
-    FeaturesComponent.prototype.handleError = function (error) {
-        this.errorMessage = error.status == 403 ? "Feature already exists" : "Known Error";
-        console.log(error);
+    FeaturesComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     FeaturesComponent.prototype.updateFeature = function () {
         var _this = this;
@@ -1010,9 +1010,9 @@ var CapacityComponent = /** @class */ (function () {
         //  this.project.status = "OPEN";
         this.capacitysService.addCapacity(this.capacity).subscribe(function (data) { return _this.refeshCapacitys(); }, function (error) { return _this.handleError(error); });
     };
-    CapacityComponent.prototype.handleError = function (error) {
-        this.errorMessage = error.status == 403 ? "User capacity already exists" : "Known Error";
-        console.log(error);
+    CapacityComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     CapacityComponent.prototype.updateCapacity = function () {
         var _this = this;
@@ -1805,9 +1805,9 @@ var ProjectsComponent = /** @class */ (function () {
         //  this.project.status = "OPEN";
         this.projectsService.addProject(this.project).subscribe(function (data) { return _this.refeshProjects(); }, function (error) { return _this.handleError(error); });
     };
-    ProjectsComponent.prototype.handleError = function (error) {
-        this.errorMessage = error.status == 403 ? "Project already exists" : "Known Error";
-        console.log(error);
+    ProjectsComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     ProjectsComponent.prototype.updateProject = function () {
         var _this = this;
@@ -2403,9 +2403,9 @@ var SpringsComponent = /** @class */ (function () {
         this.gridColumnApi = params.columnApi;
         this.gridColumnApi.autoSizeColumns();
     };
-    SpringsComponent.prototype.handleError = function (error) {
-        this.errorMessage = error.status == 403 ? "Spring already exists" : "Known Error";
-        console.log(error);
+    SpringsComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
@@ -2677,9 +2677,9 @@ var UsersComponent = /** @class */ (function () {
         //  this.project.status = "OPEN";
         this.userService.addUser(this.user).subscribe(function (data) { return _this.refeshUsers(); }, function (error) { return _this.handleError(error); });
     };
-    UsersComponent.prototype.handleError = function (error) {
-        this.errorMessage = error.status == 403 ? "User already exists" : "Known Error";
-        console.log(error);
+    UsersComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     UsersComponent.prototype.updateUser = function () {
         var _this = this;

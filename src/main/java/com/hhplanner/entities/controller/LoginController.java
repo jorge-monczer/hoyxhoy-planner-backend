@@ -15,7 +15,7 @@ import com.hhplanner.entities.service.LoginService;
 
 @RestController
 @RequestMapping("/api")
-public class LoginController {
+public class LoginController extends BasicController {
 
 	private final LoginService loginService;
 	

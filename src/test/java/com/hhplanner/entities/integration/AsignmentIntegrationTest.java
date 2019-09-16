@@ -1,6 +1,7 @@
 package com.hhplanner.entities.integration;
 
 import static com.hhplanner.utils.AssertUtils.assertObjectsEqual;
+import static org.junit.Assert.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,15 +28,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplanner.HoyxhoyPlannerBackendApplication;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Asignment;
-import com.hhplanner.entities.model.Project;
-import com.hhplanner.entities.model.Spring;
 import com.hhplanner.entities.service.AsignmentService;
-import com.hhplanner.entities.service.ProjectService;
-import com.hhplanner.entities.service.SpringService;
-import com.hhplanner.mockups.MockupAsignmentsToTest;
-import com.hhplanner.mockups.MockupProjectsToTest;
-import com.hhplanner.mockups.MockupSpringsToTest;
+import com.hhplanner.mockups.AsignmentBuilder;
+import com.hhplanner.mockups.BuilderFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -44,6 +41,7 @@ import com.hhplanner.mockups.MockupSpringsToTest;
 )
 @AutoConfigureMockMvc
 public class AsignmentIntegrationTest {
+	private static int ANY_SPRING_ID = 1233333;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -52,68 +50,53 @@ public class AsignmentIntegrationTest {
 	private AsignmentService service;
 
 	@Autowired
-	private ProjectService projectService;
-	@Autowired
-	private SpringService springService;
-	
-	@Autowired
-	MockupAsignmentsToTest mockupAsignmentsToTest;
+	private BuilderFactory builderFactory;
 
-	private int pid;
-	private int sid;
+	private AsignmentBuilder builder;
 
     @Before
     public void init() {
-		Project projectInDB = this.projectService.saveAndFlush(MockupProjectsToTest.createProjectTLMK(0));
-		pid = projectInDB.getId();
-		Spring springInDB = this.springService.saveAndFlush(MockupSpringsToTest.createSpringS1(0),pid);
-		sid = springInDB.getId();
+		this.builderFactory.init();
+		this.builder = this.builderFactory.getAsignmentBuilder();
     }
     
 	@After
 	public void delecteAll() {
-		this.service.deleteAll();
-		this.mockupAsignmentsToTest.deleteAll();
-		this.springService.delete(this.sid);
-		this.projectService.delete(this.pid);
+		this.builder.deleteAll();
 	}
 	
 	@Test
 	public void getAsignment_WithId_ReturnsAsignment() throws Exception {
-		Asignment asignmentInDB = this.service.saveAndFlush(this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid),this.sid);
-		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/{id}",this.sid, asignmentInDB.getId()));
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/{id}",this.builder.getSpringId(), asignmentInDB.getId()));
 		expectedPerform(perform,status().isOk(), asignmentInDB,null);
 	}
 
 	@Test
 	public void getAsignment_WithId_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/springs/{sid}/asignments/{id}",this.sid, 1))
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/{id}",ANY_SPRING_ID, 1))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_NOT_ASIGNED));
 	}
 	
 	@Test
 	public void getAsignment_WithFeatureId_ReturnsAsignment() throws Exception {
-		Asignment asignmentInDB =this.service.saveAndFlush(this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid),this.sid);
-		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/features/{fid}", this.sid, asignmentInDB.getFeature().getId()));
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/features/{fid}", this.builder.getSpringId(), asignmentInDB.getFeature().getId()));
 		expectedPerform(perform,status().isOk(), asignmentInDB,null);
 	}
 
 	@Test
 	public void getAsignment_WithFeatureId_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/springs/{sid}/asignments/features/{fid}", this.sid, 1))
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/features/{fid}", ANY_SPRING_ID, 1))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_NOT_ASIGNED));
 	}
 	
 	@Test
 	public void getAsignmentsBySpringId() throws Exception {
-		List<Asignment> asignmentListToSave = this.mockupAsignmentsToTest.createAsignmentsListToSaveTest(this.pid);
-//		int sizeProjectToSave = projectListToSave.size();
-		List<Asignment> savedAsignments = new ArrayList<>();
-		for (Asignment asignmentToSave : asignmentListToSave) {
-			Asignment savedAsignment =this.service.saveAndFlush(asignmentToSave,this.sid);
-			savedAsignments.add(savedAsignment);
-		}
-		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments",this.sid));
+		List<Asignment> savedAsignments = this.createAsignmentListSavedTest();
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments",this.builder.getSpringId()));
 		perform.andExpect(status().isOk());
 		perform.andExpect(jsonPath("$").isArray());
         for (int i = 0; i < savedAsignments.size(); i++) {
@@ -121,18 +104,28 @@ public class AsignmentIntegrationTest {
 		}
 	}
 
+	private List<Asignment> createAsignmentListSavedTest() {
+		List<Asignment> savedList = new ArrayList<>();
+		savedList.add(this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment());
+		savedList.add(this.builder.buildF2().buildU2().buildCapacity(6).buildAsignment(0).save().getAsignment());
+		savedList.add(this.builder.buildF3().buildU3().buildCapacity(4).buildAsignment(0).save().getAsignment());
+		return savedList;
+	}
+	
+	
+	
 	@Test
 	public void getAsignmentsBySpringId_ReturnsNoContent() throws Exception {
-		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments",this.sid));
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments",ANY_SPRING_ID));
 		perform.andExpect(status().isNoContent());
 		perform.andExpect(jsonPath("$").isArray());
 	}
 	
 	@Test
 	public void postAsignmentOfSpringId_ReturnsAsignment() throws Exception {
-		Asignment asignmentF1 = this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid);  //Insert Feature and User in DB
+		Asignment asignmentF1 = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).getAsignment();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/springs/{sid}/asignments",this.sid).content(asJsonString(asignmentF1))
+				MockMvcRequestBuilders.post("/api/springs/{sid}/asignments",this.builder.getSpringId()).content(asJsonString(asignmentF1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Asignment retrievedAsignment = this.service.getAsignmentByFeatureId(asignmentF1.getFeature().getId());
 		expectedPerform(perform,status().isCreated(), retrievedAsignment,null);
@@ -140,83 +133,113 @@ public class AsignmentIntegrationTest {
 
 	@Test
 	public void postAsignmentOfSpringId_WithDuplicate() throws Exception {
-		Asignment asignmentF1 = this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid);
-		Asignment asignmentInDB =this.service.saveAndFlush(asignmentF1,this.sid);
-		Asignment asignmentDuplicateToSave = new Asignment(0,asignmentF1.getFeature(),asignmentF1.getUser());
+		this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		Asignment asignmentDuplicateToSave = this.builder.buildAsignment(0).getAsignment();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/springs/{sid}/asignments",this.sid).content(asJsonString(asignmentDuplicateToSave))
+				MockMvcRequestBuilders.post("/api/springs/{sid}/asignments",this.builder.getSpringId()).content(asJsonString(asignmentDuplicateToSave))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
-		this.service.delete(asignmentInDB.getId());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_ALREADY_ASIGNED));
 	}
-	
-//	public void putAsignment_WithId_ReturnsAsignment() throws Exception {
-//		Asignment asignmentInDB =this.service.saveAndFlush(this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid),this.sid);
-//		asignmentInDB.setAvailableHours(30);
-//		ResultActions perform = this.mockMvc.perform(
-//				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}",this.sid,asignmentInDB.getId()).content(asJsonString(asignmentInDB))
-//				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-//		Asignment retrievedAsignment = this.service.getAsignmentById(asignmentInDB.getId());
-//		expectedPerform(perform,status().isOk(), asignmentInDB,null);
-//		assertObjectsEqual(asignmentInDB, retrievedAsignment);
-//	}
+
+	@Test
+	public void postAsignmentOfSpringId_ExcededAvailableUser() throws Exception {
+		// Spring 1  10 days, F1 40 hours, F2 52 hours User 1 capacity  8 // 8*10=80 < 40+52= 92
+		this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save();
+		Asignment asignmentF2ExcededToSave = this.builder.buildF2().buildAsignment(0).getAsignment();
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.post("/api/springs/{sid}/asignments",this.builder.getSpringId()).content(asJsonString(asignmentF2ExcededToSave))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.USER_CAPACITY_INSUFFICIENT));
+		assertFalse(this.service.existsAsignmentByFeatureCode(asignmentF2ExcededToSave.getFeature().getCode()));
+	}
+
+	@Test
+	public void postAsignmentOfSpringId_ReturnsCapacityNotFound() throws Exception {
+		Asignment asignmentF1 = this.builder.buildP1().buildS1().buildF1().buildU1().buildAsignment(0).getAsignment();  //No Capacity in DB
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.post("/api/springs/{sid}/asignments",this.builder.getSpringId()).content(asJsonString(asignmentF1))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.CAPACITY_NOT_FOUND));
+	}
 
 	@Test
 	public void putAsignment_WithId_ChangeAllFields_ReturnsAsignment() throws Exception {
-		Asignment asignmentInDB =this.service.saveAndFlush(this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid),this.sid);
-		Asignment updatedAsignmentF1 = this.mockupAsignmentsToTest.createAsignmentF2(asignmentInDB.getId(),this.pid);
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		Asignment updatedAsignmentF1 = this.builder.buildF2().buildU2().buildCapacity(6).buildAsignment(asignmentInDB.getId()).getAsignment();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}",this.sid,asignmentInDB.getId()).content(asJsonString(updatedAsignmentF1))
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}",this.builder.getSpringId(),asignmentInDB.getId()).content(asJsonString(updatedAsignmentF1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Asignment retrievedAsignment = this.service.getAsignmentById(updatedAsignmentF1.getId());
 		expectedPerform(perform,status().isOk(), updatedAsignmentF1,null);
 		assertObjectsEqual(updatedAsignmentF1, retrievedAsignment);
 	}
+
+	@Test
+	public void putAsignment_WithId_ChangeFeature_ExcededAvailableUser() throws Exception {
+		this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		Asignment asignmentF2ExcededToSave = this.builder.buildF2().buildAsignment(0).getAsignment();
+		Asignment asignmentInDB = this.builder.buildF3().buildU3().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		asignmentF2ExcededToSave.setId(asignmentInDB.getId());
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}",this.builder.getSpringId(),asignmentF2ExcededToSave.getId()).content(asJsonString(asignmentF2ExcededToSave))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.USER_CAPACITY_INSUFFICIENT));
+		Asignment retrievedAsignment = this.service.getAsignmentById(asignmentInDB.getId());
+		assertObjectsEqual(asignmentInDB, retrievedAsignment);
+	}
+	
+	@Test
+	public void putAsignment_WithId_ChangeAllFields_ReturnsCapacityNotFound() throws Exception {
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		Asignment updatedAsignmentF1 = this.builder.buildF2().buildU2().buildAsignment(asignmentInDB.getId()).getAsignment();
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}",this.builder.getSpringId(),asignmentInDB.getId()).content(asJsonString(updatedAsignmentF1))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.CAPACITY_NOT_FOUND));
+	}
 	
 	@Test
 	public void putAsignment_WithId_NotFound() throws Exception {
-		Asignment asignmentF1 = this.mockupAsignmentsToTest.createAsignmentF1(this.pid);
+		Asignment asignmentF1 = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(1).getAsignment(); 
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/springs/{pid}/asignments/{id}",1,1).content(asJsonString(asignmentF1))
+				MockMvcRequestBuilders.put("/api/springs/{pid}/asignments/{id}",this.builder.getSpringId(),asignmentF1.getId()).content(asJsonString(asignmentF1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_NOT_ASIGNED));
 	}
 
 	@Test
 	public void putAsignmentOfSpringId_WithId_Duplicated() throws Exception {
-		Asignment asignmentF1InDB =this.service.save(this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid),this.sid);
-		Asignment asignmentF2InDB =this.service.save(this.mockupAsignmentsToTest.createAsignmentF2(0,this.pid),this.sid);
+		Asignment asignmentF1InDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		Asignment asignmentF2InDB = this.builder.buildF2().buildU2().buildCapacity(6).buildAsignment(0).save().getAsignment();
 		asignmentF1InDB.setFeature(asignmentF2InDB.getFeature());
-//		asignmentF1InDB.setAvailableHours(asignmentF2InDB.getAvailableHours());		
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}", this.sid, asignmentF1InDB.getId()).content(asJsonString(asignmentF1InDB))
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/{id}", this.builder.getSpringId(), asignmentF1InDB.getId()).content(asJsonString(asignmentF1InDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_ALREADY_ASIGNED));
 	}
 	
 	@Test
 	public void deleteAsignment_WithId() throws Exception {
-		Asignment asignmentInDB =this.service.save(this.mockupAsignmentsToTest.createAsignmentF1(0,this.pid),this.sid);
-		ResultActions perform = this.mockMvc.perform(delete("/api/springs/{sid}/asignments/{id}", this.sid, asignmentInDB.getId()));
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		ResultActions perform = this.mockMvc.perform(delete("/api/springs/{sid}/asignments/{id}", this.builder.getSpringId(), asignmentInDB.getId()));
 		perform.andExpect(status().isOk());
-		Iterable<Asignment> asignments = this.service.getAsignmentsBySpringId(this.sid);
+		Iterable<Asignment> asignments = this.service.getAsignmentsBySpringId(this.builder.getSpringId());
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(asignments));
 	}
 
 	@Test
 	public void deleteAsingments_WithSpringId() throws Exception {
-		List<Asignment> asignmentListToSave = this.mockupAsignmentsToTest.createAsignmentsListToSaveTest(this.pid);
-		List<Asignment> savedAsignments = new ArrayList<>();
-		for (Asignment asignmentToSave : asignmentListToSave) {
-			Asignment savedAsignment =this.service.saveAndFlush(asignmentToSave,this.sid);
-			savedAsignments.add(savedAsignment);
-		}
-		ResultActions perform = this.mockMvc.perform(delete("/api/springs/{sid}/asignments", this.sid));
+		this.createAsignmentListSavedTest();
+		ResultActions perform = this.mockMvc.perform(delete("/api/springs/{sid}/asignments", this.builder.getSpringId()));
 		perform	.andExpect(status().isNoContent());
-		Iterable<Asignment> projects = this.service.getAsignmentsBySpringId(this.sid);
+		Iterable<Asignment> projects = this.service.getAsignmentsBySpringId(this.builder.getSpringId());
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(projects));
 	}
 	

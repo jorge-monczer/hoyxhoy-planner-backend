@@ -417,9 +417,9 @@ let AsignmentComponent = class AsignmentComponent {
         //  this.project.status = "OPEN";
         this.asignmentsService.addAsignment(this.asignment).subscribe(data => this.refeshAsignments(), error => this.handleError(error));
     }
-    handleError(error) {
-        this.errorMessage = error.status == 403 ? "SpringAsignment already exists" : "Known Error";
-        console.log(error);
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     }
     updateAsignment() {
         this.asignmentsService.updateAsignment(this.asignment).subscribe(data => this.refeshAsignments(), error => this.handleError(error));
@@ -710,9 +710,9 @@ let FeaturesComponent = class FeaturesComponent {
         //  this.project.status = "OPEN";
         this.featuresService.addFeature(this.feature).subscribe(data => this.refeshFeatures(), error => this.handleError(error));
     }
-    handleError(error) {
-        this.errorMessage = error.status == 403 ? "Feature already exists" : "Known Error";
-        console.log(error);
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     }
     updateFeature() {
         this.featuresService.updateFeature(this.feature).subscribe(data => this.refeshFeatures(), error => this.handleError(error));
@@ -952,9 +952,9 @@ let CapacityComponent = class CapacityComponent {
         //  this.project.status = "OPEN";
         this.capacitysService.addCapacity(this.capacity).subscribe(data => this.refeshCapacitys(), error => this.handleError(error));
     }
-    handleError(error) {
-        this.errorMessage = error.status == 403 ? "User capacity already exists" : "Known Error";
-        console.log(error);
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     }
     updateCapacity() {
         this.capacitysService.updateCapacity(this.capacity).subscribe(data => this.refeshCapacitys(), error => this.handleError(error));
@@ -1664,9 +1664,9 @@ let ProjectsComponent = class ProjectsComponent {
         //  this.project.status = "OPEN";
         this.projectsService.addProject(this.project).subscribe(data => this.refeshProjects(), error => this.handleError(error));
     }
-    handleError(error) {
-        this.errorMessage = error.status == 403 ? "Project already exists" : "Known Error";
-        console.log(error);
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     }
     updateProject() {
         this.projectsService.updateProject(this.project).subscribe(data => this.refeshProjects(), error => this.handleError(error));
@@ -2230,9 +2230,9 @@ let SpringsComponent = class SpringsComponent {
         this.gridColumnApi = params.columnApi;
         this.gridColumnApi.autoSizeColumns();
     }
-    handleError(error) {
-        this.errorMessage = error.status == 403 ? "Spring already exists" : "Known Error";
-        console.log(error);
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     }
 };
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -2484,9 +2484,9 @@ let UsersComponent = class UsersComponent {
         //  this.project.status = "OPEN";
         this.userService.addUser(this.user).subscribe(data => this.refeshUsers(), error => this.handleError(error));
     }
-    handleError(error) {
-        this.errorMessage = error.status == 403 ? "User already exists" : "Known Error";
-        console.log(error);
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     }
     updateUser() {
         this.userService.updateUser(this.user).subscribe(data => this.refeshUsers(), error => this.handleError(error));

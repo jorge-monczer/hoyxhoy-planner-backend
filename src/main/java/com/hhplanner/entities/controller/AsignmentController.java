@@ -1,6 +1,7 @@
 package com.hhplanner.entities.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Asignment;
 import com.hhplanner.entities.service.AsignmentService;
 import com.hhplanner.utils.CollectionUtils;
 
 @RestController
 @RequestMapping("/api")
-public class AsignmentController {
+public class AsignmentController extends BasicController {
 
 	private final AsignmentService asignmentService;
 	
@@ -48,12 +51,28 @@ public class AsignmentController {
 	
 	@PostMapping(value = "/springs/{sid}/asignments")
 	public ResponseEntity<Asignment> postAsignment(@PathVariable("sid") int sid,@RequestBody Asignment asignment) {
-		return new ResponseEntity<>(this.asignmentService.save(asignment, sid), HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(this.asignmentService.save(asignment, sid), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.featureAlreadyAsignedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/springs/{sid}/asignments/{id}")
 	public ResponseEntity<Asignment> updateAsignment(@PathVariable("sid") int sid,@PathVariable("id") int id, @RequestBody Asignment asignment) {
-		return new ResponseEntity<>(this.asignmentService.update(id, asignment, sid),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.asignmentService.update(id, asignment, sid),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.featureAlreadyAsignedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/springs/{sid}/asignments/{id}")

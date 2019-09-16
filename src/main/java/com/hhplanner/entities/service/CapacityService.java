@@ -2,17 +2,19 @@ package com.hhplanner.entities.service;
 
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-import com.hhplanner.entities.exception.EntityModelDuplicatedException;
-import com.hhplanner.entities.exception.EntityModelNotFoundException;
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Capacity;
 import com.hhplanner.entities.model.Spring;
 import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.repo.CapacityRepository;
 
 @Service
+@Transactional
 public class CapacityService {
 
 	private CapacityRepository capacityRepository;
@@ -26,7 +28,7 @@ public class CapacityService {
 	public Capacity getCapacityById(int id) {
 		Optional<Capacity> capacity = this.capacityRepository.findById(id);
 		if (!capacity.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.capacityNotFoundException();
 		}
 		return capacity.get();
 	}
@@ -34,7 +36,7 @@ public class CapacityService {
 	public Capacity getCapacityByUserAndSpringId( User1 user, int springId) {
 		Optional<Capacity> capacity = this.capacityRepository.findByUserAndSpringId(user, springId);
 		if (!capacity.isPresent()) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.capacityNotFoundException();
 		}
 		return capacity.get();
 	}
@@ -45,16 +47,9 @@ public class CapacityService {
 
 	public Capacity save(Capacity capacity, int springId) {
 		Spring spring = this.springService.getSpringById(springId);
-		try {
-			capacity.setSpring(spring);
-			Capacity save = this.capacityRepository.save(capacity);
-//			this.springRepository.flush();
-			return save;
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		} catch (Exception e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		}
+		capacity.setSpring(spring);
+		Capacity save = this.capacityRepository.save(capacity);
+		return save;
 	}
 
 	public Capacity saveAndFlush(Capacity capacity,int springId) {
@@ -63,18 +58,19 @@ public class CapacityService {
 		return save;
 	}
 	
+	@Transactional(rollbackOn = BusinessException.class)
 	public Capacity update(int id,Capacity capacity, int springId) {
 		if (!this.capacityRepository.existsById(id)) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.capacityNotFoundException();
 		}
 		Spring spring = this.springService.getSpringById(springId);
-		try {
-			capacity.setId(id);
-			capacity.setSpring(spring);
-			return this.capacityRepository.save(capacity);
-		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
-		} 
+		capacity.setId(id);
+		capacity.setSpring(spring);
+		Capacity save = this.capacityRepository.save(capacity);
+		if (!this.springService.validateEnoughSpringDays(spring)) {
+			throw BusinessExceptionFactory.userCapacityInsufficientException();
+		}
+		return save;
 	}
 
 	public void delete(int id) {

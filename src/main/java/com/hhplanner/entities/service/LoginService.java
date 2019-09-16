@@ -5,8 +5,7 @@ import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.hhplanner.entities.exception.EntityModelDuplicatedException;
-import com.hhplanner.entities.exception.EntityModelNotFoundException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.repo.UserRepository;
 
@@ -29,12 +28,12 @@ public class LoginService {
 			if (username != null && username.equals(MASTER_USER)) {
 				optUser = Optional.of(new User1(MASTER_USER,MASTER_PASS,MASTER_USER,"N/A",null,null));
 			} else {
-				throw new EntityModelNotFoundException();
+				throw BusinessExceptionFactory.userNotFoundException();
 			}
 		}
 		User1 user = optUser.get();
 		if(!user.getPassword().equals(password)) {
-			throw new EntityModelNotFoundException();			
+			throw BusinessExceptionFactory.passwordInvalidException();
 		}
 		return user;
 	}
@@ -44,18 +43,18 @@ public class LoginService {
 		try {
 			return this.userRepository.save(user);
 		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
+			throw BusinessExceptionFactory.userAlreadyExistsException();
 		}
 	}
 
 	public boolean changePassword(String username,String newPassword) {
 		if (!this.userRepository.existsByUsername(username)) {
-			throw new EntityModelNotFoundException();
+			throw BusinessExceptionFactory.userNotFoundException();
 		}
 		try {
 			return this.userRepository.changePassword(username, newPassword) == ONE_ROW_CHANGED;
 		} catch (DataIntegrityViolationException e) {
-			throw EntityModelDuplicatedException.getInstance(e.getMessage());
+			throw BusinessExceptionFactory.userAlreadyExistsException();
 		} 
 	}
 	
@@ -63,7 +62,7 @@ public class LoginService {
 		return changePassword(username,buildPasswordReseted(username));
 	}
 
-	protected String buildPasswordReseted(String username) {
+	public String buildPasswordReseted(String username) {
 		return username + RESET_PASSWORD;
 	}
 

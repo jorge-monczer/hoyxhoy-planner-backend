@@ -9,12 +9,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.hhplanner.entities.model.Spring;
 
+@Transactional
 public interface SpringRepository extends CrudRepository<Spring, Integer> {
 
 	public Iterable<Spring> findByProjectIdOrderByStartDate(int projectId);
     public Optional<Spring> findByCodeAndProjectId(String code, int projectId);	
     @Modifying
-    @Transactional
     public void deleteByProjectId(int projectId);
     public void flush();
     

@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import org.assertj.core.util.IterableUtil;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplanner.HoyxhoyPlannerBackendApplication;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.service.UserService;
-import com.hhplanner.mockups.MockupUsersToTest;
+import com.hhplanner.mockups.BuilderFactory;
+import com.hhplanner.mockups.UserBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -47,33 +50,39 @@ public class UserIntegrationTest {
 	@Autowired
 	private UserService service;
 
+	@Autowired
+	private BuilderFactory builderFactory;
+
+	private UserBuilder builder;
+
+	@Before
+	public void init() {
+		this.builderFactory.init();
+		this.builder = this.builderFactory.getUserBuilder();
+	}
+	
 	@After
 	public void delecteAll() {
-		this.service.deleteAll();
+		this.builder.deleteAll();
 	}
 	
 	@Test
 	public void getUser_WithUsername_ReturnsUser() throws Exception {
-		User1 userInDB =this.service.save(MockupUsersToTest.createUser1());
+		User1 userInDB =this.builder.buildU1().save().getUser();
 		ResultActions perform = this.mockMvc.perform(get("/api/users/{username}", userInDB.getUsername()));
 		expectedPerform(perform,status().isOk(), userInDB,null);
 	}
 
 	@Test
 	public void getUser_WithUsername_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/users/{username}", "supermario"))
+		ResultActions perform = this.mockMvc.perform(get("/api/users/{username}", "supermario"))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.USER_NOT_FOUND));
 	}
 	
 	@Test
 	public void getUsers() throws Exception {
-		List<User1> userListToSave = MockupUsersToTest.createUserListToSaveTest();
-//		int sizeProjectToSave = projectListToSave.size();
-		List<User1> savedUsers = new ArrayList<>();
-		for (User1 userToSave : userListToSave) {
-			User1 savedUser =this.service.save(userToSave);
-			savedUsers.add(savedUser);
-		}
+		List<User1> savedUsers = this.createUserListSavedToTest();
 		ResultActions perform = this.mockMvc.perform(get("/api/users"));
 		perform.andExpect(status().isOk());
 		perform.andExpect(jsonPath("$").isArray());
@@ -82,6 +91,15 @@ public class UserIntegrationTest {
 		}
 	}
 
+	private List<User1> createUserListSavedToTest() {
+		List<User1> users = new ArrayList<>();
+		users.add(this.builder.buildU1().save().getUser());
+		users.add(this.builder.buildU2().save().getUser());
+		users.add(this.builder.buildU3().save().getUser());
+		return users;
+	}
+	
+	
 	@Test
 	public void getUsers_ReturnsNoContent() throws Exception {
 		ResultActions perform = this.mockMvc.perform(get("/api/users"));
@@ -91,7 +109,7 @@ public class UserIntegrationTest {
 	
 	@Test
 	public void postUser_ReturnsUser() throws Exception {
-		User1 userToSave = MockupUsersToTest.createUser1();
+		User1 userToSave = this.builder.buildU1().getUser();
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.post("/api/users").content(asJsonString(userToSave))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
@@ -101,19 +119,19 @@ public class UserIntegrationTest {
 
 	@Test
 	public void postUser_WithDuplicateUsername() throws Exception {
-		User1 userInDB =this.service.save(MockupUsersToTest.createUser1());
-		User1 userToSave = MockupUsersToTest.createUser2();
+		User1 userInDB =this.builder.buildU1().save().getUser();
+		User1 userToSave = this.builder.buildU2().getUser();
 		userToSave.setUsername(userInDB.getUsername());
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.post("/api/users").content(asJsonString(userToSave))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.USER_ALREADY_EXISTS));
 	}
 	
 	@Test
 	public void putUser_WithUsername_ReturnsUser() throws Exception {
-		User1 userInDB =this.service.save(MockupUsersToTest.createUser1());
+		User1 userInDB =this.builder.buildU1().save().getUser();
 		userInDB.setPassword("123456");
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.put("/api/users/{username}",userInDB.getUsername()).content(asJsonString(userInDB))
@@ -124,8 +142,8 @@ public class UserIntegrationTest {
 
 	@Test
 	public void putUser_WithUsername_ChangeAllFields_ReturnsProject() throws Exception {
-		User1 userInDB =this.service.save(MockupUsersToTest.createUser1());
-		User1 updatedUser = MockupUsersToTest.createUser2();
+		User1 userInDB =this.builder.buildU1().save().getUser();
+		User1 updatedUser = this.builder.buildU2().getUser();
 		updatedUser.setUsername(userInDB.getUsername());
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.put("/api/users/{username}",userInDB.getUsername()).content(asJsonString(updatedUser))
@@ -138,15 +156,15 @@ public class UserIntegrationTest {
 	@Test
 	public void putUser_WithUsername_NotFound() throws Exception {
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/users/{username}","user1").content(asJsonString(MockupUsersToTest.createUser1()))
+				MockMvcRequestBuilders.put("/api/users/{username}","user1").content(asJsonString(this.builder.buildU1().getUser()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.USER_NOT_FOUND));
 	}
 
 	@Test
 	public void deleteUser_WithUsername() throws Exception {
-		User1 userInDB =this.service.save(MockupUsersToTest.createUser1());
+		User1 userInDB =this.builder.buildU1().save().getUser();
 		ResultActions perform = this.mockMvc.perform(delete("/api/users/{username}", userInDB.getUsername()));
 		perform.andExpect(status().isOk());
 		Iterable<User1> users = this.service.getUsers();
@@ -155,12 +173,7 @@ public class UserIntegrationTest {
 
 	@Test
 	public void deleteUsers() throws Exception {
-		List<User1> userListToSave = MockupUsersToTest.createUserListToSaveTest();
-		List<User1> savedUsers = new ArrayList<>();
-		for (User1 userToSave : userListToSave) {
-			User1 savedUser =this.service.save(userToSave);
-			savedUsers.add(savedUser);
-		}
+		this.createUserListSavedToTest();
 		ResultActions perform = this.mockMvc.perform(delete("/api/users"));
 		perform	.andExpect(status().isNoContent());
 		Iterable<User1> users = this.service.getUsers();

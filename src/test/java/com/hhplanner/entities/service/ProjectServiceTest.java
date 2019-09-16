@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.hhplanner.entities.exception.EntityModelDuplicatedException;
 import com.hhplanner.entities.exception.EntityModelNotFoundException;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.repo.ProjectRepository;
@@ -36,9 +35,9 @@ public class ProjectServiceTest {
 
 	@Test
 	public void getProjectById_returnsProject() {
-		given(this.projectRepository.findById(anyInt())).willReturn(Optional.of(MockupProjectsToTest.createProjectTLMK()));
+		given(this.projectRepository.findById(anyInt())).willReturn(Optional.of(MockupProjectsToTest.createProjectTLMK(1)));
 		Project project = projectService.getProjectById(1);
-		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK(1));
 	}
 
 	@Test(expected = EntityModelNotFoundException.class)
@@ -49,9 +48,9 @@ public class ProjectServiceTest {
 	
 	@Test
 	public void getProjectByCode_returnsProject() {
-		given(this.projectRepository.findByCode(anyString())).willReturn(Optional.of(MockupProjectsToTest.createProjectTLMK()));
+		given(this.projectRepository.findByCode(anyString())).willReturn(Optional.of(MockupProjectsToTest.createProjectTLMK(1)));
 		Project project = this.projectService.getProjectByCode("TLMK");
-		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK(1));
 	}
 	
 	@Test(expected = EntityModelNotFoundException.class)
@@ -73,16 +72,16 @@ public class ProjectServiceTest {
 
 	@Test
 	public void saveProject_ReturnsProject() {
-		given(this.projectRepository.save(any(Project.class))).willReturn(MockupProjectsToTest.createProjectTLMK());
+		given(this.projectRepository.save(any(Project.class))).willReturn(MockupProjectsToTest.createProjectTLMK(1));
 		Project project = this.projectService.save(MockupProjectsToTest.createProjectTLMK(0));		
-		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK(1));
 	}
 
-	@Test(expected = EntityModelDuplicatedException.class)
+	@Test(expected = DataIntegrityViolationException.class)
 	public void saveProject_DuplicatedCode() {
 		given(this.projectRepository.save(any(Project.class))).willThrow(new DataIntegrityViolationException("msg"));
 		Project project = this.projectService.save(MockupProjectsToTest.createProjectTLMK(0));		
-		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK());
+		assertThat(project).isEqualToComparingFieldByField(MockupProjectsToTest.createProjectTLMK(1));
 	}
 	
 	@Test
@@ -100,7 +99,7 @@ public class ProjectServiceTest {
 		assertThat(project).isEqualToComparingFieldByField(new Project());
 	}
 	
-	@Test(expected = EntityModelDuplicatedException.class)
+	@Test(expected = DataIntegrityViolationException.class)
 	public void updateProject_DuplicateCode() {
 		given(this.projectRepository.existsById(anyInt())).willReturn(true);
 		given(this.projectRepository.save(any(Project.class))).willThrow(new DataIntegrityViolationException("msg"));

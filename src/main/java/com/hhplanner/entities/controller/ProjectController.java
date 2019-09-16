@@ -1,6 +1,7 @@
 package com.hhplanner.entities.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.service.ProjectService;
 import com.hhplanner.utils.CollectionUtils;
 
 @RestController
 @RequestMapping("/api")
-public class ProjectController {
+public class ProjectController extends BasicController {
 
 	private final ProjectService projectService;
 	
@@ -48,12 +51,28 @@ public class ProjectController {
 	
 	@PostMapping(value = "/projects")
 	public ResponseEntity<Project> postProject(@RequestBody Project project) {
-		return new ResponseEntity<>(this.projectService.save(project), HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(this.projectService.save(project), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.projectDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/projects/{id}")
 	public ResponseEntity<Project> updateProject(@PathVariable("id") int id, @RequestBody Project project) {
-		return new ResponseEntity<>(this.projectService.update(id, project),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.projectService.update(id, project),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.projectDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/projects/{id}")

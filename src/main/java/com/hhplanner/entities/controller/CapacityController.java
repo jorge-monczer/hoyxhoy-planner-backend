@@ -1,6 +1,7 @@
 package com.hhplanner.entities.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Capacity;
 import com.hhplanner.entities.service.CapacityService;
 import com.hhplanner.utils.CollectionUtils;
 
 @RestController
 @RequestMapping("/api")
-public class CapacityController {
+public class CapacityController extends BasicController {
 
 	private final CapacityService capacityService;
 	
@@ -43,12 +46,28 @@ public class CapacityController {
 
 	@PostMapping(value = "/springs/{sid}/capacities")
 	public ResponseEntity<Capacity> postCapacity(@PathVariable("sid") int sid,@RequestBody Capacity capacity) {
-		return new ResponseEntity<>(this.capacityService.save(capacity, sid), HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(this.capacityService.save(capacity, sid), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.capacityDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/springs/{sid}/capacities/{id}")
 	public ResponseEntity<Capacity> updateCapacity(@PathVariable("sid") int sid,@PathVariable("id") int id, @RequestBody Capacity capacity) {
-		return new ResponseEntity<>(this.capacityService.update(id, capacity, sid),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.capacityService.update(id, capacity, sid),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.capacityDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/springs/{sid}/capacities/{id}")

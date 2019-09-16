@@ -2,8 +2,6 @@ package com.hhplanner.mockups;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.hhplanner.entities.model.Project;
@@ -11,9 +9,9 @@ import com.hhplanner.entities.model.Project;
 public class MockupProjectsToTest {
 	public static List<Project> createProjectListToTest() {
 		List<Project> projects = new ArrayList<>();
-		projects.add(createProjectTLMK());
-		projects.add(createProjectTLMK2());
-		projects.add(createProjectTLMK3());
+		projects.add(createProjectTLMK(1));
+		projects.add(createProjectTLMK2(2));
+		projects.add(createProjectTLMK3(3));
 		return projects;
 	}
 
@@ -25,15 +23,6 @@ public class MockupProjectsToTest {
 		return projects;
 	}
 	
-	public static Project createProjectTLMK() {
-		return createProjectTLMK(1);
-	}
-	public static Project createProjectTLMK2() {
-		return createProjectTLMK2(2);
-	}
-	public static Project createProjectTLMK3() {
-		return createProjectTLMK3(3);
-	}
 	public static Project createProjectTLMK(int id) {
 		return new Project(id, "TLMK", "Mejoras Telemarketer", LocalDate.of(2019, 10, 1), 10);
 	}
@@ -44,7 +33,4 @@ public class MockupProjectsToTest {
 		return new Project(id, "TLMK3", "Mejoras Telemarketer3", LocalDate.of(2019, 10, 3), 20);
 	}
 	
-	public static Date newDate(int year,int month, int day) {
-		return new GregorianCalendar(year, month, day).getTime();
-	}
 }

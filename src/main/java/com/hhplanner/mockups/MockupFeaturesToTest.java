@@ -35,7 +35,7 @@ public class MockupFeaturesToTest {
 		return createFeatureF3(3);
 	}
 	public static Feature createFeatureF1(int id) {
-		return new Feature(id, "F1", "Feature 1", LocalDate.of(2019, 10, 1),48);
+		return new Feature(id, "F1", "Feature 1", LocalDate.of(2019, 10, 1),40);
 	}
 	public static Feature createFeatureF2(int id) {
 		return new Feature(id, "F2", "Feature 2", LocalDate.of(2019, 10, 2),52);

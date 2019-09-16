@@ -29,12 +29,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplanner.HoyxhoyPlannerBackendApplication;
-import com.hhplanner.entities.model.Project;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Spring;
-import com.hhplanner.entities.service.ProjectService;
 import com.hhplanner.entities.service.SpringService;
-import com.hhplanner.mockups.MockupProjectsToTest;
-import com.hhplanner.mockups.MockupSpringsToTest;
+import com.hhplanner.mockups.AsignmentBuilder;
+import com.hhplanner.mockups.BuilderFactory;
+import com.hhplanner.mockups.SpringBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -43,6 +43,7 @@ import com.hhplanner.mockups.MockupSpringsToTest;
 )
 @AutoConfigureMockMvc
 public class SpringIntegrationTest {
+	private static int ANY_PROJEC_ID = 1233333;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -51,57 +52,53 @@ public class SpringIntegrationTest {
 	private SpringService service;
 
 	@Autowired
-	private ProjectService projectService;
-    private int pid;
+	private BuilderFactory builderFactory;
 
-    @Before
-    public void init() {
-		Project projectInDB = this.projectService.save(MockupProjectsToTest.createProjectTLMK(0));
-    	this.pid = projectInDB.getId();
-    }
-    
+	SpringBuilder builder;
+ 
+	@Before
+	public void init() {
+		this.builderFactory.init();
+		this.builder = this.builderFactory.getSpringBuilder();
+	}
+	
 	@After
 	public void delecteAll() {
-		this.service.deleteAll();
-		this.projectService.delete(this.pid);
+		this.builder.deleteAll();
 	}
 	
 	@Test
 	public void getSpring_WithId_ReturnsSpring() throws Exception {
-		Spring springInDB = this.service.save(MockupSpringsToTest.createSpringS1(0),this.pid);
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs/{id}",this.pid, springInDB.getId()));
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs/{id}",this.builder.getProjectId(), springInDB.getId()));
 		expectedPerform(perform,status().isOk(), springInDB,null);
 	}
 
 	@Test
 	public void getSpring_WithId_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/projects/{pid}/springs/{id}",this.pid, 1))
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs/{id}",ANY_PROJEC_ID, 1))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.SPRING_NOT_FOUND));
 	}
 	
 	@Test
 	public void getSpring_WithCode_ReturnsSpring() throws Exception {
-		Spring springInDB =this.service.saveAndFlush(MockupSpringsToTest.createSpringS1(0),this.pid);
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs/code/{code}", this.pid, springInDB.getCode()));
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs/code/{code}", this.builder.getProjectId(), springInDB.getCode()));
 		expectedPerform(perform,status().isOk(), springInDB,null);
 	}
 
 	@Test
 	public void getSpring_WithCode_NotFound_Returns404() throws Exception {
-		this.mockMvc.perform(get("/api/projects/{pid}/springs/code/{code}", this.pid, "S1"))
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs/code/{code}", ANY_PROJEC_ID, "S1"))
 				.andExpect(status().isNotFound());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.SPRING_NOT_FOUND));
 	}
 	
 	@Test
 	public void getSpringsByProjectId() throws Exception {
-		List<Spring> springListToSave = MockupSpringsToTest.createSpringsListToSaveTest();
-//		int sizeProjectToSave = projectListToSave.size();
-		List<Spring> savedSprings = new ArrayList<>();
-		for (Spring springToSave : springListToSave) {
-			Spring savedSpring =this.service.saveAndFlush(springToSave,this.pid);
-			savedSprings.add(savedSpring);
-		}
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs",this.pid));
+		List<Spring> savedSprings = this.createSpringListSavedTest();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs",this.builder.getProjectId()));
 		perform.andExpect(status().isOk());
 		perform.andExpect(jsonPath("$").isArray());
         for (int i = 0; i < savedSprings.size(); i++) {
@@ -109,40 +106,49 @@ public class SpringIntegrationTest {
 		}
 	}
 
+	private List<Spring> createSpringListSavedTest() {
+		List<Spring> projects = new ArrayList<>();
+		projects.add(this.builder.buildP1().buildS1(0).save().getSpring());
+		projects.add(this.builder.buildS2(0).save().getSpring());
+		projects.add(this.builder.buildS3(0).save().getSpring());
+		return projects;
+	}
+	
+	
 	@Test
 	public void getSpringsByProjectId_ReturnsNoContent() throws Exception {
-		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs",this.pid));
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/springs",ANY_PROJEC_ID));
 		perform.andExpect(status().isNoContent());
 		perform.andExpect(jsonPath("$").isArray());
 	}
 	
 	@Test
 	public void postSpringOfProjectId_ReturnsSpring() throws Exception {
+		Spring springS1 = this.builder.buildP1().buildS1(0).getSpring();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/projects/{pid}/springs",this.pid).content(asJsonString(MockupSpringsToTest.createSpringS1(0)))
+				MockMvcRequestBuilders.post("/api/projects/{pid}/springs",this.builder.getProjectId()).content(asJsonString(springS1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		Spring retrievedProject = this.service.getSpringByCodeAndProjectId("S1",this.pid);
+		Spring retrievedProject = this.service.getSpringByCodeAndProjectId(springS1.getCode(),this.builder.getProjectId());
 		expectedPerform(perform,status().isCreated(), retrievedProject,null);
 	}
 
 	@Test
 	public void postSpringOfProjectId_WithDuplicateCode() throws Exception {
-		Spring projectInDB =this.service.saveAndFlush(MockupSpringsToTest.createSpringS1(0),this.pid);
+		this.builder.buildP1().buildS1(0).save().getSpring();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/projects/{pid}/springs",this.pid).content(asJsonString(MockupSpringsToTest.createSpringS1(0)))
+				MockMvcRequestBuilders.post("/api/projects/{pid}/springs",this.builder.getProjectId()).content(asJsonString(this.builder.buildS1(0).getSpring()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
-		this.service.delete(projectInDB.getId());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.SPRING_DUPLICATED));
 	}
 	
 	@Test
 	public void putSpring_WithId_ReturnsSpring() throws Exception {
-		Spring springInDB =this.service.saveAndFlush(MockupSpringsToTest.createSpringS1(0),this.pid);
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
 		springInDB.setSpringDays(30);
 		springInDB.setStartDate(LocalDate.of(2019, 11, 30));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.pid,springInDB.getId()).content(asJsonString(springInDB))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.builder.getProjectId(),springInDB.getId()).content(asJsonString(springInDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Spring retrievedSpring = this.service.getSpringById(springInDB.getId());
 		expectedPerform(perform,status().isOk(), springInDB,null);
@@ -150,11 +156,27 @@ public class SpringIntegrationTest {
 	}
 
 	@Test
-	public void putSpring_WithId_ChangeAllFields_ReturnsSpring() throws Exception {
-		Spring springInDB =this.service.saveAndFlush(MockupSpringsToTest.createSpringS1(0),this.pid);
-		Spring updatedSpringS1 = MockupSpringsToTest.createSpringS2(springInDB.getId());
+	public void putSpringWithAsignments_WithId_ReturnsSpring() throws Exception {
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		AsignmentBuilder asbuilder = this.builderFactory.getAsignmentBuilder();
+		asbuilder.buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		springInDB.setSpringDays(30);
+		springInDB.setStartDate(LocalDate.of(2019, 11, 30));
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.pid,springInDB.getId()).content(asJsonString(updatedSpringS1))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.builder.getProjectId(),springInDB.getId()).content(asJsonString(springInDB))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		Spring retrievedSpring = this.service.getSpringById(springInDB.getId());
+		expectedPerform(perform,status().isOk(), springInDB,null);
+		assertObjectsEqual(springInDB, retrievedSpring);
+		asbuilder.deleteAll();
+	}
+	
+	@Test
+	public void putSpring_WithId_ChangeAllFields_ReturnsSpring() throws Exception {
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		Spring updatedSpringS1 = this.builder.buildS2(springInDB.getId()).getSpring();
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.builder.getProjectId(),springInDB.getId()).content(asJsonString(updatedSpringS1))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		Spring retrievedSpring = this.service.getSpringById(updatedSpringS1.getId());
 		expectedPerform(perform,status().isOk(), updatedSpringS1,null);
@@ -163,46 +185,59 @@ public class SpringIntegrationTest {
 	
 	@Test
 	public void putSpring_WithId_NotFound() throws Exception {
+		this.builder.buildP1();
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",1,1).content(asJsonString(MockupSpringsToTest.createSpringS1()))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.builder.getProjectId(),1).content(asJsonString(this.builder.buildS1(1).getSpring()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.SPRING_NOT_FOUND));
 	}
 
 	@Test
 	public void putSpringOfProjectId_WithId_DuplicatedCode() throws Exception {
-		Spring springS1InDB =this.service.save(MockupSpringsToTest.createSpringS1(0),this.pid);
-		Spring springS2InDB =this.service.save(MockupSpringsToTest.createSpringS2(0),this.pid);
+		Spring springS1InDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		Spring springS2InDB = this.builder.buildS2(0).save().getSpring();
 		springS1InDB.setCode(springS2InDB.getCode());
 		springS1InDB.setStartDate(springS2InDB.getStartDate());		
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}", this.pid, springS1InDB.getId()).content(asJsonString(springS1InDB))
+				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}", this.builder.getProjectId(), springS1InDB.getId()).content(asJsonString(springS1InDB))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-		perform.andExpect(status().isForbidden());
-		perform.andExpect(jsonPath("$").doesNotExist());
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.SPRING_DUPLICATED));
+	}
+	
+	@Test
+	public void putSpringWithAsignments_WithId_SpringDaysInsufficient() throws Exception {
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		AsignmentBuilder asbuilder = this.builderFactory.getAsignmentBuilder();
+		asbuilder.buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		springInDB.setSpringDays(4);
+		springInDB.setStartDate(LocalDate.of(2019, 11, 30));
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/projects/{pid}/springs/{id}",this.builder.getProjectId(),springInDB.getId()).content(asJsonString(springInDB))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isConflict());
+		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.SPRING_DAYS_INSUFFICIENT));
+		Spring retrievedSpring = this.service.getSpringById(springInDB.getId());
+		assertObjectsEqual(this.builder.buildS1(springInDB.getId()).getSpring(), retrievedSpring);
+		asbuilder.deleteAll();
 	}
 	
 	@Test
 	public void deleteProject_WithId() throws Exception {
-		Spring springInDB =this.service.save(MockupSpringsToTest.createSpringS1(0),this.pid);
-		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/springs/{id}", this.pid, springInDB.getId()));
+		Spring springInDB = this.builder.buildP1().buildS1(0).save().getSpring();
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/springs/{id}", this.builder.getProjectId(), springInDB.getId()));
 		perform.andExpect(status().isOk());
-		Iterable<Spring> springs = this.service.getSpringsByProjectId(this.pid);
+		Iterable<Spring> springs = this.service.getSpringsByProjectId(this.builder.getProjectId());
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(springs));
 	}
 
 	@Test
 	public void deleteProjects() throws Exception {
-		List<Spring> springListToSave = MockupSpringsToTest.createSpringsListToSaveTest();
-		List<Spring> savedSprings = new ArrayList<>();
-		for (Spring springToSave : springListToSave) {
-			Spring savedSpring =this.service.save(springToSave,this.pid);
-			savedSprings.add(savedSpring);
-		}
-		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/springs", this.pid));
+		this.createSpringListSavedTest();
+		ResultActions perform = this.mockMvc.perform(delete("/api/projects/{pid}/springs", this.builder.getProjectId()));
 		perform	.andExpect(status().isNoContent());
-		Iterable<Spring> projects = this.service.getSpringsByProjectId(this.pid);
+		Iterable<Spring> projects = this.service.getSpringsByProjectId(this.builder.getProjectId());
 		Assert.assertTrue(IterableUtil.isNullOrEmpty(projects));
 	}
 	

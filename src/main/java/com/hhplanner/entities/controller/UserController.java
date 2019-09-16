@@ -1,6 +1,7 @@
 package com.hhplanner.entities.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.service.UserService;
 import com.hhplanner.utils.CollectionUtils;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserController extends BasicController {
 
 	private final UserService userService;
 	
@@ -43,12 +46,28 @@ public class UserController {
 
 	@PostMapping(value = "/users")
 	public ResponseEntity<User1> postUser(@RequestBody User1 user) {
-		return new ResponseEntity<>(this.userService.save(user), HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(this.userService.save(user), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.userAlreadyExistsException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/users/{username}")
 	public ResponseEntity<User1> updateProject(@PathVariable("username") String username, @RequestBody User1 user) {
-		return new ResponseEntity<>(this.userService.update(username, user),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.userService.update(username, user),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.userAlreadyExistsException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/users/{username}")

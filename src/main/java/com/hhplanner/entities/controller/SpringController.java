@@ -1,6 +1,7 @@
 package com.hhplanner.entities.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhplanner.entities.exception.BusinessException;
+import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Spring;
 import com.hhplanner.entities.service.SpringService;
 import com.hhplanner.utils.CollectionUtils;
 
 @RestController
 @RequestMapping("/api")
-public class SpringController {
+public class SpringController extends BasicController {
 
 	private final SpringService springService;
 	
@@ -48,12 +51,28 @@ public class SpringController {
 	
 	@PostMapping(value = "/projects/{pid}/springs")
 	public ResponseEntity<Spring> postSpring(@PathVariable("pid") int pid,@RequestBody Spring spring) {
-		return new ResponseEntity<>(this.springService.save(spring, pid), HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<>(this.springService.save(spring, pid), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.springDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/projects/{pid}/springs/{id}")
 	public ResponseEntity<Spring> updateSpring(@PathVariable("pid") int pid,@PathVariable("id") int id, @RequestBody Spring spring) {
-		return new ResponseEntity<>(this.springService.update(id, spring, pid),HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.springService.update(id, spring, pid),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.springDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/projects/{pid}/springs/{id}")

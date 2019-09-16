@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.hhplanner.entities.model.User1;
 
+@Transactional
 public interface UserRepository extends CrudRepository<User1, String> {
 
 	public Optional<User1> findByUsername(String username);
@@ -22,7 +23,6 @@ public interface UserRepository extends CrudRepository<User1, String> {
 	public int changePassword(@Param("username") String userName,@Param("password")  String password);
 
     @Modifying
-    @Transactional	
 	public void deleteByUsername(String username);
     public void flush();
 }
