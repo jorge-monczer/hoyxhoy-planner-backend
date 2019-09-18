@@ -15,7 +15,7 @@ import com.hhplanner.entities.model.User1;
 
 public interface AsignmentRepository extends CrudRepository<Asignment, Integer> {
 
-	public Iterable<Asignment> findBySpringId(int springId);
+	public List<Asignment> findBySpringIdOrderByUserAscFeatureAsc(int springId);
 	public Iterable<Asignment> findByUserAndSpringId(User1 user, int springId);
 	public Optional<Asignment> findByFeatureId(int featureId);	
 	public boolean existsByFeatureCode(String featureCode);	

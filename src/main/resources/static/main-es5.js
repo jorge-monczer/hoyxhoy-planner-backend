@@ -387,6 +387,7 @@ var AsignmentComponent = /** @class */ (function () {
             { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
             { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 400 },
             { headerName: 'Estimated Hs.', field: 'feature.estimatedHours', filter: 'text', width: 130 },
+            { headerName: 'Remaining Hs.', field: 'remaining', filter: 'text', width: 130 },
             { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
@@ -966,7 +967,9 @@ var CapacityComponent = /** @class */ (function () {
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'User', field: 'user.name', filter: 'text', width: 150 },
-            { headerName: 'Available Hs.', field: 'availableHours', filter: 'text', width: 130 },
+            { headerName: 'Available Hs', field: 'availableHours', filter: 'text', width: 130 },
+            { headerName: 'Total Hs', field: 'availableOnSpring', filter: 'text', width: 130 },
+            { headerName: 'Remaining Hs', field: 'remainingOnSpring', filter: 'text', width: 130 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];

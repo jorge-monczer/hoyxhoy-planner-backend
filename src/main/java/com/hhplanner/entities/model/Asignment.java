@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -37,7 +37,7 @@ public class Asignment {
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private User1 user;
 
-	@Transient
+	@Formula(value = "(select c.available_hours * s.spring_days - f.estimated_hours from capacity c, spring s, feature f where f.id = feature_id and s.id = spring_id and c.spring_id = spring_id and c.username = username)")
 	private double remaining;
 	
     public Asignment() {

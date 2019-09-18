@@ -1,5 +1,6 @@
 package com.hhplanner.entities.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Asignment;
 import com.hhplanner.entities.model.Feature;
 import com.hhplanner.entities.model.Spring;
+import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.repo.AsignmentRepository;
 
 @Service
@@ -55,8 +57,18 @@ public class AsignmentService {
 		return this.asignmentRepository.existsByFeatureCode(featureCode);
 	}
 	
-	public Iterable<Asignment> getAsignmentsBySpringId(int springId) {
-		return this.asignmentRepository.findBySpringId(springId);
+	public List<Asignment> getAsignmentsBySpringId(int springId) {
+		List<Asignment> asignments = this.asignmentRepository.findBySpringIdOrderByUserAscFeatureAsc(springId);
+		String username = "";
+		double remaining = 0d;
+		for (Asignment asignment : asignments) {
+			if (asignment.getUser().getUsername().equals(username)) {
+				asignment.setRemaining(remaining - asignment.getFeature().getEstimatedHours());
+			}
+			username = asignment.getUser().getUsername();
+			remaining = asignment.getRemaining();
+		}
+		return asignments;
 	}
 
 	@Transactional(rollbackOn = BusinessException.class)

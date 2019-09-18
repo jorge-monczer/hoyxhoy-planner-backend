@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -38,8 +39,10 @@ public class Capacity {
 	
 	@Column(name = "available_hours")
     private int availableHours;
-    
-
+	
+	@Formula(value = "( select sum(f.estimated_hours) from asignment a, feature f where a.spring_id = spring_id and a.username = username and a.feature_id = f.id )")
+	private Integer asignedOnSpring;
+	
     public Capacity() {
 		super();
 	}
@@ -76,6 +79,21 @@ public class Capacity {
 		this.availableHours = availableHours;
 	}
 
+	public int getAvailableOnSpring() {
+		if (this.getSpring() == null) {
+			return 0;
+		}
+		return this.availableHours * this.getSpring().getSpringDays();
+	}
+
+	public int getRemainingOnSpring() {
+		return this.getAvailableOnSpring() - (this.asignedOnSpring==null?0:this.asignedOnSpring);
+	}
+
+//	public void setRemainingOnSpring(int asignedOnSpring) {
+//		this.asignedOnSpring = asignedOnSpring;
+//	}
+	
 	@Override
 	public String toString() {
 		return new StringBuilder().append("<Capacity> {")
