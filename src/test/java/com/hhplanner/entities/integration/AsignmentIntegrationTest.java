@@ -1,6 +1,7 @@
 package com.hhplanner.entities.integration;
 
 import static com.hhplanner.utils.AssertUtils.assertObjectsEqual;
+import static org.hamcrest.Matchers.hasToString;
 import static org.junit.Assert.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.IterableUtil;
@@ -33,6 +35,7 @@ import com.hhplanner.entities.model.Asignment;
 import com.hhplanner.entities.service.AsignmentService;
 import com.hhplanner.mockups.AsignmentBuilder;
 import com.hhplanner.mockups.BuilderFactory;
+import com.hhplanner.mockups.SpendingBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -87,6 +90,18 @@ public class AsignmentIntegrationTest {
 	}
 
 	@Test
+	public void getAsignment_WithId_ReturnsAsignmentWithSpendings() throws Exception {
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		Integer[] arr = {null,8,null,null,null,6,null,7};
+		asignmentInDB.setSpendingsInt(Arrays.asList(arr));
+		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
+		spendingBuilder.buildSpendingsAndSave(arr);
+		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/{id}",this.builder.getSpringId(), asignmentInDB.getId()));
+		expectedPerform(perform,status().isOk(), asignmentInDB,null);
+		spendingBuilder.deleteAll();
+	}
+
+	@Test
 	public void getAsignment_WithFeatureId_NotFound_Returns404() throws Exception {
 		ResultActions perform = this.mockMvc.perform(get("/api/springs/{sid}/asignments/features/{fid}", ANY_SPRING_ID, 1))
 				.andExpect(status().isNotFound());
@@ -111,8 +126,6 @@ public class AsignmentIntegrationTest {
 		savedList.add(this.builder.buildF3().buildU3().buildCapacity(4).buildAsignment(0).save().getAsignment());
 		return savedList;
 	}
-	
-	
 	
 	@Test
 	public void getAsignmentsBySpringId_ReturnsNoContent() throws Exception {
@@ -224,6 +237,80 @@ public class AsignmentIntegrationTest {
 		perform.andExpect(status().isConflict());
 		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.FEATURE_ALREADY_ASIGNED));
 	}
+
+	@Test
+	public void putAsignment_ChangeSpendings_ReturnsAsignment() throws Exception {
+		List<Asignment> asignments = new ArrayList<Asignment>();
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
+		spendingBuilder.buildSpendingsAndSave(new Integer[] {null,8,null,null,null,6,null,7});
+		asignmentInDB.setSpendingsInt(Arrays.asList(new Integer[] {7,null,7,null,null,7,7,7,null,7}));
+		asignments.add(asignmentInDB);
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/spendings",this.builder.getSpringId()).content(asJsonString(asignments))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isOk());
+		perform.andExpect(jsonPath("$").isArray());
+        for (int i = 0; i < asignments.size(); i++) {
+    		Asignment retrievedAsignment = this.service.getAsignmentById(asignments.get(i).getId());
+        	expectedPerform(perform,status().isOk(), asignments.get(i), i);
+    		assertObjectsEqual(asignments.get(i), retrievedAsignment);
+		}
+		spendingBuilder.deleteAll();
+	}
+
+	@Test
+	public void putAsignment_DeleteAllSpendings_ReturnsAsignment() throws Exception {
+		List<Asignment> asignments = new ArrayList<Asignment>();
+		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
+		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
+		spendingBuilder.buildSpendingsAndSave(new Integer[] {8,8,8,8});
+		asignmentInDB.setSpendingsInt(Arrays.asList(new Integer[] {}));
+		asignments.add(asignmentInDB);
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/spendings",this.builder.getSpringId()).content(asJsonString(asignments))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isOk());
+		perform.andExpect(jsonPath("$").isArray());
+        for (int i = 0; i < asignments.size(); i++) {
+    		Asignment retrievedAsignment = this.service.getAsignmentById(asignments.get(i).getId());
+        	expectedPerform(perform,status().isOk(), asignments.get(i), i);
+    		assertObjectsEqual(asignments.get(i), retrievedAsignment);
+		}
+		spendingBuilder.deleteAll();
+	}
+	
+	@Test
+	public void putAllAsignments_ChangeSpendings_ReturnsAllAsignments() throws Exception {
+		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
+		List<Asignment> savedAsignments = this.createAsignmentListWithSpendingsSavedTest(spendingBuilder);
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/spendings",this.builder.getSpringId()).content(asJsonString(savedAsignments))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isOk());
+		perform.andExpect(jsonPath("$").isArray());
+        for (int i = 0; i < savedAsignments.size(); i++) {
+    		Asignment retrievedAsignment = this.service.getAsignmentById(savedAsignments.get(i).getId());
+        	expectedPerform(perform,status().isOk(), savedAsignments.get(i), i);
+    		assertObjectsEqual(savedAsignments.get(i), retrievedAsignment);
+		}
+		spendingBuilder.deleteAll();
+	}
+
+	private List<Asignment> createAsignmentListWithSpendingsSavedTest(SpendingBuilder spendingBuilder) {
+		List<Asignment> savedList = new ArrayList<>();
+		savedList.add(this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment());
+		spendingBuilder.buildSpendingsAndSave(new Integer[] {null,8,null,null,null,6,null,7});
+		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Integer[] {7,null,7,null,null,7,7,7,null,7}));
+		savedList.add(this.builder.buildF2().buildU2().buildCapacity(6).buildAsignment(0).save().getAsignment());
+		spendingBuilder.buildSpendingsAndSave(new Integer[] {8,null,null,7,null,6});
+		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Integer[] {7,7,7,null,null,8,8,8,null,7}));
+		savedList.add(this.builder.buildF3().buildU3().buildCapacity(4).buildAsignment(0).save().getAsignment());
+		spendingBuilder.buildSpendingsAndSave(new Integer[] {8,8,7,6});
+		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Integer[] {8,8,7,6,null,null,8,8,8,null,7}));
+		return savedList;
+	}
+	
 	
 	@Test
 	public void deleteAsignment_WithId() throws Exception {
@@ -250,6 +337,7 @@ public class AsignmentIntegrationTest {
 				.andExpect(jsonPath(arr + "feature.code").value(asignment.getFeature().getCode()))
 				.andExpect(jsonPath(arr + "feature.title").value(asignment.getFeature().getTitle()))
 				.andExpect(jsonPath(arr + "user.username").value(asignment.getUser().getUsername()))
+				.andExpect(jsonPath(arr + "spendingsInt", hasToString(asignment.getSpendingsInt().toString().replace(" ", ""))))
 				;
 	}
 	

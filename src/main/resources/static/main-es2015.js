@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a>\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<!--a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a-->\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t\t<a routerLink=\"/spending\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Spending</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -85,7 +85,7 @@ module.exports = "<mat-checkbox \r\n    [ngModel]=\"checked\" \r\n    (ngModelCh
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-container\">\r\n    <h1>Login to Your Account</h1><br>\r\n    <button class=\"login loginmodal-submit\" (click)=\"login()\">Login With Google</button>\r\n  </div>\r\n</div-->\r\n<div class=\"login-content\">\r\n<mat-card>\r\n  <mat-card-title>\r\n    <mat-toolbar>\r\n      HOYxHOY Application\r\n    </mat-toolbar>\r\n  </mat-card-title>\r\n  <mat-card-subtitle>\r\n      Login to Your Account\r\n  </mat-card-subtitle>\r\n  <mat-card-content>\r\n    <form  class=\"login-form\" #myForm=\"ngForm\">\r\n      <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \r\n      <mat-form-field class=\"field-full-width\">\r\n          <input matInput [(ngModel)]=\"username\" name=\"username\" placeholder=\"user name\" required>\r\n          <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <mat-form-field class=\"field-full-width\">\r\n        <input matInput [(ngModel)]=\"password\" name=\"password\" type=\"password\" placeholder=\"password\" required>\r\n        <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <button type=\"submit\" [disabled]=\"!myForm.valid\" color=\"primary\" (click)=\"login()\">\r\n           Login\r\n      </button>\r\n      <!-- users mrotger@plann.er 123456  larce@plann.er 123456  jm@gmail.com ??????-->\r\n   </form>\r\n  </mat-card-content>\r\n</mat-card>\r\n</div>\r\n"
+module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-container\">\r\n    <h1>Login to Your Account</h1><br>\r\n    <button class=\"login loginmodal-submit\" (click)=\"login()\">Login With Google</button>\r\n  </div>\r\n</div-->\r\n<div class=\"login-content\">\r\n<mat-card>\r\n  <mat-card-title>\r\n    <mat-toolbar>\r\n      HOYxHOY Application\r\n    </mat-toolbar>\r\n  </mat-card-title>\r\n  <mat-card-subtitle>\r\n      Login to Your Account\r\n  </mat-card-subtitle>\r\n  <mat-card-content>\r\n    <form  class=\"login-form\" #myForm=\"ngForm\">\r\n      <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \r\n      <mat-form-field class=\"field-full-width\">\r\n          <input matInput [(ngModel)]=\"username\" name=\"username\" placeholder=\"user name\" required>\r\n          <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <mat-form-field class=\"field-full-width\">\r\n        <input matInput [(ngModel)]=\"password\" name=\"password\" type=\"password\" placeholder=\"password\" required>\r\n        <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <div class=\"field-full-width txt_center margin1em\">\r\n        <button color=\"primary\" mat-raised-button type=\"submit\" [disabled]=\"!myForm.valid\" (click)=\"login()\">\r\n            Login\r\n        </button>\r\n      </div>\r\n      <!-- users mrotger@plann.er 123456  larce@plann.er 123456  jm@gmail.com ??????-->\r\n   </form>\r\n  </mat-card-content>\r\n</mat-card>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -97,6 +97,17 @@ module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-c
 /***/ (function(module, exports) {
 
 module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project Detail</mat-card-title>\n  </mat-card-header>\n  <form  #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"project.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.name\" name=\"name\" type=\"text\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.startDate\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required #startDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. 10,15,20\">\n      <input matInput [(ngModel)]=\"project.springDays\" name=\"springDays\" placeholder=\"Spring Days\" type=\"number\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addProject()\" matTooltip=\"Add {{project.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateProject()\" matTooltip=\"Confirm update {{project.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{project.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n  </form>\n</mat-card>\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project List</mat-card-title>\n  </mat-card-header>\n  <!--Selection: <span id=\"selectedRows\">{{ projectSelected | json }}</span-->\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    id=\"myGrid\"\n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/spending/spending.component.html":
+/*!****************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/spending/spending.component.html ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p class=\"text-danger\">{{errorMessage}}</p>    \n    <ag-grid-angular \n      #agGrid style=\"width: 100%; height: 200px;\" \n      class=\"ag-theme-fresh\" \n      [gridOptions]=\"gridOptions\" \n      [columnDefs]=\"columnDefs\" \n      [rowData]=\"rowData\" \n      [context]=\"context\" \n      (gridReady)=\"onGridReady($event)\"\n      (cellEditingStarted)=\"onCellEditingStarted($event)\">\n    </ag-grid-angular>\n  <div class=\"field-full-width txt_center margin1em\">\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"refeshAsignments()\">Cancel</button>\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"saveSpendings()\">Save</button>\n  </div>\n  </form>\n</mat-card>\n"
 
 /***/ }),
 
@@ -142,6 +153,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _backlog_features_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./backlog/features.component */ "./src/app/backlog/features.component.ts");
 /* harmony import */ var _asignment_asignment_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./asignment/asignment.component */ "./src/app/asignment/asignment.component.ts");
 /* harmony import */ var _capacity_capacity_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./capacity/capacity.component */ "./src/app/capacity/capacity.component.ts");
+/* harmony import */ var _spending_spending_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./spending/spending.component */ "./src/app/spending/spending.component.ts");
+
 
 
 
@@ -159,6 +172,7 @@ const routes = [
     { path: 'backlog', component: _backlog_features_component__WEBPACK_IMPORTED_MODULE_7__["FeaturesComponent"] },
     { path: 'asignment', component: _asignment_asignment_component__WEBPACK_IMPORTED_MODULE_8__["AsignmentComponent"] },
     { path: 'capacity', component: _capacity_capacity_component__WEBPACK_IMPORTED_MODULE_9__["CapacityComponent"] },
+    { path: 'spending', component: _spending_spending_component__WEBPACK_IMPORTED_MODULE_10__["SpendingComponent"] },
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_5__["UsersComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] }
 ];
@@ -262,6 +276,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _backlog_features_module__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./backlog/features.module */ "./src/app/backlog/features.module.ts");
 /* harmony import */ var _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./asignment/asignment.module */ "./src/app/asignment/asignment.module.ts");
 /* harmony import */ var _capacity_capacity_module__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./capacity/capacity.module */ "./src/app/capacity/capacity.module.ts");
+/* harmony import */ var _spending_spending_module__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./spending/spending.module */ "./src/app/spending/spending.module.ts");
+
 
 
 
@@ -294,8 +310,9 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _users_users_module__WEBPACK_IMPORTED_MODULE_13__["UsersModule"],
             _springs_springs_module__WEBPACK_IMPORTED_MODULE_14__["SpringsModule"],
             _backlog_features_module__WEBPACK_IMPORTED_MODULE_15__["FeaturesModule"],
-            _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__["AsignmentModule"],
             _capacity_capacity_module__WEBPACK_IMPORTED_MODULE_17__["CapacityModule"],
+            _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__["AsignmentModule"],
+            _spending_spending_module__WEBPACK_IMPORTED_MODULE_18__["SpendingModule"],
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
             _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
@@ -589,7 +606,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Asignment", function() { return Asignment; });
 class Asignment {
     constructor(values = {}) {
+        this.spendingsInt = [];
         Object.assign(this, values);
+        this.calculateSumSpending();
+    }
+    addSpendings(length) {
+        for (let index = 0; index < length; index++) {
+            this.spendingsInt[index] = null;
+        }
+        return this;
+    }
+    calculateSumSpending() {
+        let numOr0 = (n) => isNaN(n) ? 0 : n;
+        this.spending = this.spendingsInt.reduce((a, b) => numOr0(a) + numOr0(b));
     }
 }
 
@@ -2027,6 +2056,249 @@ SharedModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         declarations: [_date_weekend_directive__WEBPACK_IMPORTED_MODULE_9__["NoWeekendValidator"]]
     })
 ], SharedModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/spending/spending.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/spending/spending.component.scss ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3NwZW5kaW5nL3NwZW5kaW5nLmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/spending/spending.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/spending/spending.component.ts ***!
+  \************************************************/
+/*! exports provided: SpendingComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpendingComponent", function() { return SpendingComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _backlog_features_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../backlog/features.service */ "./src/app/backlog/features.service.ts");
+/* harmony import */ var _users_users_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../users/users.service */ "./src/app/users/users.service.ts");
+/* harmony import */ var _spending_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./spending.service */ "./src/app/spending/spending.service.ts");
+/* harmony import */ var _asignment_asignment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../asignment/asignment */ "./src/app/asignment/asignment.ts");
+
+
+
+
+
+
+
+
+let SpendingComponent = class SpendingComponent {
+    constructor(spendingsService, featuresService, userService, loginService) {
+        this.spendingsService = spendingsService;
+        this.featuresService = featuresService;
+        this.userService = userService;
+        this.loginService = loginService;
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.rowSelection = 'single';
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.gridOptions.enableCellChangeFlash = true;
+        this.columnDefs = [
+            { headerName: 'Id', field: 'id', hide: true },
+            { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
+            { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 200 },
+            { headerName: 'Estimated', field: 'feature.estimatedHours', filter: 'text', width: 100 },
+            { headerName: 'Spending', field: 'spending', filter: 'text', width: 100 },
+            { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 }
+        ];
+        for (let index = 0; index < 10; index++) {
+            this.columnDefs.push({ headerName: index + 1, valueGetter: (params) => params.data.spendingsInt[index], valueSetter: (params) => this.valueSetter(params, index), editable: true, filter: false, width: 50 });
+        }
+    }
+    valueSetter(params, index) {
+        let ret = false;
+        this.errorMessage = "";
+        if (params.newValue.length == 0) {
+            params.data.spendingsInt[index] = null;
+            ret = true;
+        }
+        else if (!isNaN(+params.newValue)) {
+            params.data.spendingsInt[index] = +params.newValue;
+            ret = true;
+        }
+        params.data.calculateSumSpending();
+        if (params.data.feature.estimatedHours < params.data.spending) {
+            this.errorMessage = "It has been consummed all the feature estimaded time, you must extend it";
+            params.data.spendingsInt[index] = null;
+            params.data.calculateSumSpending();
+            params.data.spendingsInt[index] = params.data.feature.estimatedHours - params.data.spending;
+            params.data.calculateSumSpending();
+        }
+        return ret;
+    }
+    ngOnInit() {
+        this.populateAsignments();
+    }
+    refeshAsignments() {
+        this.populateAsignments();
+        this.initialMode();
+    }
+    populateAsignments() {
+        //    asignmentList =>   this.rowData = asignmentList.map(asign => new Asignment(asign).addSpendings(this.loginService.currentSpring.springDays)),
+        this.asignments.subscribe(asignmentList => this.rowData = asignmentList.map(asign => new _asignment_asignment__WEBPACK_IMPORTED_MODULE_7__["Asignment"](asign)), error => this.handleError(error));
+    }
+    dateFormatter(params) {
+        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    }
+    get asignments() {
+        return this.spendingsService.getSpendings();
+    }
+    editAsignment(data) {
+        this.errorMessage = "";
+    }
+    handleError(res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
+    }
+    saveSpendings() {
+        this.spendingsService.saveSpendings(this.rowData).subscribe(data => this.refeshAsignments(), error => this.handleError(error));
+    }
+    resetControls() {
+        this.myForm.resetForm();
+        Object.keys(this.myForm.controls).forEach(field => {
+            const control = this.myForm.control.get(field);
+            control.markAsUntouched();
+        });
+    }
+    cancelEditMode() {
+        this.initialMode();
+    }
+    initialMode() {
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.resetControls();
+    }
+    onGridReady(params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    }
+    onCellEditingStarted(params) {
+        console.log("cellEditingStarted");
+        console.log(params);
+    }
+    compareFeatures(o1, o2) {
+        return (o1 && o2) ? o1.id === o2.id : o1 === o2;
+    }
+    compareUsers(o1, o2) {
+        return (o1 && o2) ? o1.username === o2.username : o1 === o2;
+    }
+};
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"])
+], SpendingComponent.prototype, "myForm", void 0);
+SpendingComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-spending',
+        template: __webpack_require__(/*! raw-loader!./spending.component.html */ "./node_modules/raw-loader/index.js!./src/app/spending/spending.component.html"),
+        styles: [__webpack_require__(/*! ./spending.component.scss */ "./src/app/spending/spending.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_spending_service__WEBPACK_IMPORTED_MODULE_6__["SpendingService"], _backlog_features_service__WEBPACK_IMPORTED_MODULE_4__["FeaturesService"], _users_users_service__WEBPACK_IMPORTED_MODULE_5__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+], SpendingComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/spending/spending.module.ts":
+/*!*********************************************!*\
+  !*** ./src/app/spending/spending.module.ts ***!
+  \*********************************************/
+/*! exports provided: SpendingModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpendingModule", function() { return SpendingModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _spending_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./spending.component */ "./src/app/spending/spending.component.ts");
+
+
+
+
+
+let SpendingModule = class SpendingModule {
+};
+SpendingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+        imports: [
+            _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"],
+            ag_grid_angular__WEBPACK_IMPORTED_MODULE_2__["AgGridModule"].withComponents([])
+        ],
+        declarations: [_spending_component__WEBPACK_IMPORTED_MODULE_4__["SpendingComponent"]]
+    })
+], SpendingModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/spending/spending.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/spending/spending.service.ts ***!
+  \**********************************************/
+/*! exports provided: SpendingService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpendingService", function() { return SpendingService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+
+
+
+
+let SpendingService = class SpendingService {
+    constructor(http, loginService) {
+        this.http = http;
+        this.loginService = loginService;
+        this._baseUrl = './api/springs/';
+    }
+    getSpendings() {
+        return this.http.get(this.baseUrl);
+    }
+    saveSpendings(asignments) {
+        return this.http.put(`${this.baseUrl}/spendings`, asignments);
+    }
+    get baseUrl() {
+        return this._baseUrl + this.loginService.currentSpringId + '/asignments';
+    }
+};
+SpendingService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+], SpendingService);
 
 
 

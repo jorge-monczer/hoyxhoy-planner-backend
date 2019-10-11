@@ -2,6 +2,7 @@ package com.hhplanner.entities.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,7 +13,6 @@ import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Asignment;
 import com.hhplanner.entities.model.Feature;
 import com.hhplanner.entities.model.Spring;
-import com.hhplanner.entities.model.User1;
 import com.hhplanner.entities.repo.AsignmentRepository;
 
 @Service
@@ -30,11 +30,13 @@ public class AsignmentService {
 	}
 
 	public Asignment getAsignmentById(int id) {
-		Optional<Asignment> asignment = this.asignmentRepository.findById(id);
-		if (!asignment.isPresent()) {
+		Optional<Asignment> optAsignment = this.asignmentRepository.findById(id);
+		if (!optAsignment.isPresent()) {
 			throw BusinessExceptionFactory.featureNotAsginedException();
 		}
-		return asignment.get();
+		Asignment asignment = optAsignment.get();
+		asignment.buildIntFromSpendings();
+		return asignment;
 	}
 
 	public Asignment getAsignmentByFeature( Feature feature) {
@@ -67,6 +69,7 @@ public class AsignmentService {
 			}
 			username = asignment.getUser().getUsername();
 			remaining = asignment.getRemaining();
+			asignment.buildIntFromSpendings();
 		}
 		return asignments;
 	}
@@ -75,7 +78,6 @@ public class AsignmentService {
 	public Asignment save(Asignment asignment, int springId) {
 		Spring spring = this.springService.getSpringById(springId);
 		this.capacityService.getCapacityByUserAndSpringId(asignment.getUser(), spring.getId());
-//		validateUserCapacity(asignment,spring);
 		asignment.setSpring(spring);
 		Asignment save = this.asignmentRepository.save(asignment);
 		if (!this.springService.validateEnoughSpringDays(spring)) {
@@ -83,16 +85,6 @@ public class AsignmentService {
 		}
 		return save;
 	}
-	
-//	private void validateUserCapacity(Asignment asignment,Spring spring) {
-//		Capacity capacity = this.capacityService.getCapacityByUserAndSpringId(asignment.getUser(), spring.getId());
-//		int totalCapacity = capacity.getAvailableHours() * spring.getSpringDays();
-//		Integer totalAsignment = this.asignmentRepository.sumEstimatedHoursByUserAndSpringIdButNotMe(asignment.getUser(), spring.getId(),asignment.getId());
-//		if (totalAsignment == null) totalAsignment = 0;
-//		if (totalCapacity < totalAsignment + asignment.getFeature().getEstimatedHours()) {
-//			throw BusinessExceptionFactory.userCapacityInsufficientException();
-//		}
-//	}
 	
 	public Asignment saveAndFlush(Asignment asignment,int springId) {
 		Asignment save = save(asignment,springId);
@@ -108,15 +100,34 @@ public class AsignmentService {
 		Spring spring = this.springService.getSpringById(springId);
 		this.capacityService.getCapacityByUserAndSpringId(asignment.getUser(), spring.getId());
 		asignment.setId(id);
-//		validateUserCapacity(asignment,spring);
 		asignment.setSpring(spring);
+		asignment.buildSpendingsFromInt();
 		Asignment save = this.asignmentRepository.save(asignment);
 		if (!this.springService.validateEnoughSpringDays(spring)) {
 			throw BusinessExceptionFactory.userCapacityInsufficientException();
 		}
+		save.buildIntFromSpendings();
 		return save;
 	}
 
+	@Transactional(rollbackOn = BusinessException.class)
+	public Asignment updateSpendings(Asignment asignment, Spring spring) {
+		Asignment asignmentDB = this.getAsignmentById(asignment.getId());
+		asignmentDB.setSpring(spring);
+		asignmentDB.setSpendingsInt(asignment.getSpendingsInt());
+		asignmentDB.buildSpendingsFromInt();
+		Asignment save = this.asignmentRepository.save(asignmentDB);
+		save.buildIntFromSpendings();
+		return save;
+	}
+	
+	@Transactional(rollbackOn = BusinessException.class)
+	public List<Asignment> updateAllSpendings(List<Asignment> asignments, int springId) {
+		Spring spring = this.springService.getSpringById(springId);
+		return asignments.stream().map(as -> updateSpendings(as,spring)).collect(Collectors.toList());
+	}
+
+	
 	public void delete(int id) {
 		this.asignmentRepository.deleteById(id);
 	}

@@ -16,6 +16,7 @@ public class BuilderFactory {
 	private CapacityBuilder capacityBuilder;
 	private FeatureBuilder featureBuilder;
 	private AsignmentBuilder asignmentBuilder;
+	private SpendingBuilder spendingBuilder;
 	
 	public void init() {
 		this.projectBuilder = null;
@@ -24,6 +25,7 @@ public class BuilderFactory {
 		this.capacityBuilder = null;
 		this.featureBuilder = null;
 		this.asignmentBuilder = null;
+		this.spendingBuilder = null;
 	}
 	
 	public BeanFactory getBeanFactory() {
@@ -70,6 +72,13 @@ public class BuilderFactory {
 			this.asignmentBuilder = new AsignmentBuilder(this);
 		}
 		return asignmentBuilder;
+	}
+	
+	public SpendingBuilder getSpendingBuilder() {
+		if (this.spendingBuilder == null) {
+			this.spendingBuilder = new SpendingBuilder(this);
+		}
+		return this.spendingBuilder;
 	}
 	
 }

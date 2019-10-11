@@ -16,6 +16,8 @@ public class BusinessExceptionFactory {
 	public static String FEATURE_ALREADY_ASIGNED = "Feature already asigned"; 
 	public static String USER_CAPACITY_INSUFFICIENT = "Insufficient user capacity"; 
 	public static String SPRING_DAYS_INSUFFICIENT = "Insufficient springs days because of features asigned"; 
+	public static String SPENDING_NOT_FOUND = "Spending not found"; 
+	public static String SPENDING_DUPLICATED = "Spending duplicated"; 
 
 	public static BusinessException businessException(String message) {
 		return new BusinessException(message);
@@ -80,4 +82,13 @@ public class BusinessExceptionFactory {
 	public static BusinessException springDaysInsufficientException() {
 		return new BusinessException(SPRING_DAYS_INSUFFICIENT);
 	}
+
+	public static EntityModelNotFoundException spendingNotFoundException() {
+		return new EntityModelNotFoundException(SPENDING_NOT_FOUND);
+	}
+	
+	public static EntityModelDuplicatedException spendingDuplicatedException() {
+		return new EntityModelDuplicatedException(SPENDING_DUPLICATED);
+	}
+
 }

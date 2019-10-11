@@ -1,5 +1,7 @@
 package com.hhplanner.entities.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -66,6 +68,19 @@ public class AsignmentController extends BasicController {
 	public ResponseEntity<Asignment> updateAsignment(@PathVariable("sid") int sid,@PathVariable("id") int id, @RequestBody Asignment asignment) {
 		try {
 			return new ResponseEntity<>(this.asignmentService.update(id, asignment, sid),HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.featureAlreadyAsignedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
+	}
+
+	@PutMapping("/springs/{sid}/asignments/spendings")
+	public ResponseEntity<List<Asignment>> updateSpendingsOfAsignments(@PathVariable("sid") int sid, @RequestBody List<Asignment> asignments) {
+		try {
+			return new ResponseEntity<>(this.asignmentService.updateAllSpendings(asignments, sid),HttpStatus.OK);
 		} catch (DataIntegrityViolationException e) {
 			throw BusinessExceptionFactory.featureAlreadyAsignedException();
 		} catch (BusinessException e) {
