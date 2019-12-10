@@ -140,7 +140,7 @@ public class SpendingIntegrationTest {
 	public void putSpending_WithAsignmentIdAndDay_ChangeAllFields_ReturnsSpending() throws Exception {
 		Spending spendingInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment().buildSpending(1, 8).save().getSpending();
 		Spending updatedSpending = this.builder.buildSpending(1,6).getSpending();
-		this.builderFactory.getAsignmentBuilder().getAsignment().getSpendingsInt().add(6);
+		this.builderFactory.getAsignmentBuilder().getAsignment().getSpendingsInt().add(6.0f);
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.put("/api/asignments/{aid}/spendings/{day}",this.builder.getAsignmentId(),spendingInDB.getId().getNumDay()).content(asJsonString(updatedSpending))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));

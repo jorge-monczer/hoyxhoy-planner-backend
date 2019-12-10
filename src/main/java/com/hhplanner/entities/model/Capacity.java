@@ -38,16 +38,16 @@ public class Capacity {
 
 	
 	@Column(name = "available_hours")
-    private int availableHours;
+    private float availableHours;
 	
 	@Formula(value = "( select sum(f.estimated_hours) from asignment a, feature f where a.spring_id = spring_id and a.username = username and a.feature_id = f.id )")
-	private Integer asignedOnSpring;
+	private Float asignedOnSpring;
 	
     public Capacity() {
 		super();
 	}
     
-    public Capacity(int id, User1 user, int availableHours) {
+    public Capacity(int id, User1 user, float availableHours) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -72,21 +72,21 @@ public class Capacity {
 	public void setUser(User1 user) {
 		this.user = user;
 	}
-	public int getAvailableHours() {
+	public double getAvailableHours() {
 		return availableHours;
 	}
-	public void setAvailableHours(int availableHours) {
+	public void setAvailableHours(float availableHours) {
 		this.availableHours = availableHours;
 	}
 
-	public int getAvailableOnSpring() {
+	public float getAvailableOnSpring() {
 		if (this.getSpring() == null) {
 			return 0;
 		}
 		return this.availableHours * this.getSpring().getSpringDays();
 	}
 
-	public int getRemainingOnSpring() {
+	public float getRemainingOnSpring() {
 		return this.getAvailableOnSpring() - (this.asignedOnSpring==null?0:this.asignedOnSpring);
 	}
 

@@ -15,12 +15,12 @@ public class SpendingBuilder {
 		this.asignmentBuilder = builderFactory.getAsignmentBuilder();
 	}
 	
-	public SpendingBuilder buildSpending(int day,int spent) {
+	public SpendingBuilder buildSpending(int day,float spent) {
 		this.spending = new Spending(this.asignmentBuilder.getAsignment(),day,spent);
 		return this;
 	}
 
-	public SpendingBuilder buildSpendingsAndSave(Integer[] spendings) {
+	public SpendingBuilder buildSpendingsAndSave(Float[] spendings) {
 		for (int i = 0; i < spendings.length; i++) {
 			if (spendings[i] != null) {
 				this.buildSpending(i+1, spendings[i]).save();

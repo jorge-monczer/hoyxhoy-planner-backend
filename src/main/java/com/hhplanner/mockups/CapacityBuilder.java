@@ -22,7 +22,7 @@ public class CapacityBuilder {
 		this.userBuilder = builderFactory.getUserBuilder();
 	}
 	
-	public CapacityBuilder buildCapacity(int id,int capPerDay) {
+	public CapacityBuilder buildCapacity(int id, float capPerDay) {
 		this.capacity = new Capacity(id,this.userBuilder.getUser(),capPerDay);
 		return this;
 	}

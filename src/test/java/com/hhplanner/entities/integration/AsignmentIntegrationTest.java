@@ -92,7 +92,7 @@ public class AsignmentIntegrationTest {
 	@Test
 	public void getAsignment_WithId_ReturnsAsignmentWithSpendings() throws Exception {
 		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
-		Integer[] arr = {null,8,null,null,null,6,null,7};
+		Float[] arr = {null,8.0f,null,null,null,6.0f,null,7.0f};
 		asignmentInDB.setSpendingsInt(Arrays.asList(arr));
 		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
 		spendingBuilder.buildSpendingsAndSave(arr);
@@ -243,8 +243,8 @@ public class AsignmentIntegrationTest {
 		List<Asignment> asignments = new ArrayList<Asignment>();
 		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
 		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
-		spendingBuilder.buildSpendingsAndSave(new Integer[] {null,8,null,null,null,6,null,7});
-		asignmentInDB.setSpendingsInt(Arrays.asList(new Integer[] {7,null,7,null,null,7,7,7,null,7}));
+		spendingBuilder.buildSpendingsAndSave(new Float[] {null,8.0f,null,null,null,6.0f,null,7.0f});
+		asignmentInDB.setSpendingsInt(Arrays.asList(new Float[] {7.0f,null,7.0f,null,null,7.0f,7.0f,7.0f,null,7.0f}));
 		asignments.add(asignmentInDB);
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/spendings",this.builder.getSpringId()).content(asJsonString(asignments))
@@ -264,8 +264,8 @@ public class AsignmentIntegrationTest {
 		List<Asignment> asignments = new ArrayList<Asignment>();
 		Asignment asignmentInDB = this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment();
 		SpendingBuilder spendingBuilder = this.builderFactory.getSpendingBuilder();
-		spendingBuilder.buildSpendingsAndSave(new Integer[] {8,8,8,8});
-		asignmentInDB.setSpendingsInt(Arrays.asList(new Integer[] {}));
+		spendingBuilder.buildSpendingsAndSave(new Float[] {8.0f,8.0f,8.0f,8.0f});
+		asignmentInDB.setSpendingsInt(Arrays.asList(new Float[] {}));
 		asignments.add(asignmentInDB);
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.put("/api/springs/{sid}/asignments/spendings",this.builder.getSpringId()).content(asJsonString(asignments))
@@ -300,14 +300,14 @@ public class AsignmentIntegrationTest {
 	private List<Asignment> createAsignmentListWithSpendingsSavedTest(SpendingBuilder spendingBuilder) {
 		List<Asignment> savedList = new ArrayList<>();
 		savedList.add(this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment());
-		spendingBuilder.buildSpendingsAndSave(new Integer[] {null,8,null,null,null,6,null,7});
-		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Integer[] {7,null,7,null,null,7,7,7,null,7}));
+		spendingBuilder.buildSpendingsAndSave(new Float[] {null,8.0f,null,null,null,6.0f,null,7.0f});
+		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Float[] {7.0f,null,7.0f,null,null,7.0f,7.0f,7.0f,null,7.0f}));
 		savedList.add(this.builder.buildF2().buildU2().buildCapacity(6).buildAsignment(0).save().getAsignment());
-		spendingBuilder.buildSpendingsAndSave(new Integer[] {8,null,null,7,null,6});
-		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Integer[] {7,7,7,null,null,8,8,8,null,7}));
+		spendingBuilder.buildSpendingsAndSave(new Float[] {8.0f,null,null,7.0f,null,6.0f});
+		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Float[] {7.0f,7.0f,7.0f,null,null,8.0f,8.0f,8.0f,null,7.0f}));
 		savedList.add(this.builder.buildF3().buildU3().buildCapacity(4).buildAsignment(0).save().getAsignment());
-		spendingBuilder.buildSpendingsAndSave(new Integer[] {8,8,7,6});
-		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Integer[] {8,8,7,6,null,null,8,8,8,null,7}));
+		spendingBuilder.buildSpendingsAndSave(new Float[] {8.0f,8.0f,7.0f,6.0f});
+		this.builder.getAsignment().setSpendingsInt(Arrays.asList(new Float[] {8.0f,8.0f,7.0f,6.0f,null,null,8.0f,8.0f,8.0f,null,7.0f}));
 		return savedList;
 	}
 	

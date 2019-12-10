@@ -17,6 +17,7 @@ public class BuilderFactory {
 	private FeatureBuilder featureBuilder;
 	private AsignmentBuilder asignmentBuilder;
 	private SpendingBuilder spendingBuilder;
+	private HolidayBuilder holidayBuilder;
 	
 	public void init() {
 		this.projectBuilder = null;
@@ -26,6 +27,7 @@ public class BuilderFactory {
 		this.featureBuilder = null;
 		this.asignmentBuilder = null;
 		this.spendingBuilder = null;
+		this.holidayBuilder = null;
 	}
 	
 	public BeanFactory getBeanFactory() {
@@ -80,5 +82,13 @@ public class BuilderFactory {
 		}
 		return this.spendingBuilder;
 	}
+	
+	public HolidayBuilder getHolidayBuilder() {
+		if (this.holidayBuilder == null) {
+			this.holidayBuilder = new HolidayBuilder(this);
+		}
+		return holidayBuilder;
+	}
+
 	
 }

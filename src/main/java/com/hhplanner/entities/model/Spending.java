@@ -11,13 +11,13 @@ public class Spending {
 	private SpendingId id;
 	
 	@Column(name = "spent")
-    private int spent;
+    private float spent;
 
     public Spending() {
 		super();
 	}
     
-    public Spending(Asignment asignment, int numDay, int spent) {
+    public Spending(Asignment asignment, int numDay, float spent) {
 		super();
 		this.id = new SpendingId(asignment,numDay);
 		this.spent = spent;
@@ -31,11 +31,11 @@ public class Spending {
 		this.id = id;
 	}
 
-	public int getSpent() {
+	public float getSpent() {
 		return spent;
 	}
 
-	public void setSpent(int spent) {
+	public void setSpent(float spent) {
 		this.spent = spent;
 	}
 

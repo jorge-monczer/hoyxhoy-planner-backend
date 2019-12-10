@@ -18,6 +18,8 @@ public class BusinessExceptionFactory {
 	public static String SPRING_DAYS_INSUFFICIENT = "Insufficient springs days because of features asigned"; 
 	public static String SPENDING_NOT_FOUND = "Spending not found"; 
 	public static String SPENDING_DUPLICATED = "Spending duplicated"; 
+	public static String HOLIDAY_NOT_FOUND = "Holiday not found"; 
+	public static String HOLIDAY_DUPLICATED = "Holiday duplicated"; 
 
 	public static BusinessException businessException(String message) {
 		return new BusinessException(message);
@@ -89,6 +91,14 @@ public class BusinessExceptionFactory {
 	
 	public static EntityModelDuplicatedException spendingDuplicatedException() {
 		return new EntityModelDuplicatedException(SPENDING_DUPLICATED);
+	}
+
+	public static EntityModelNotFoundException holidayNotFoundException() {
+		return new EntityModelNotFoundException(HOLIDAY_NOT_FOUND);
+	}
+	
+	public static EntityModelDuplicatedException holidayDuplicatedException() {
+		return new EntityModelDuplicatedException(HOLIDAY_DUPLICATED);
 	}
 
 }

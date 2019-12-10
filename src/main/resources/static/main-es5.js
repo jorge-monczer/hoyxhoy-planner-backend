@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<!--a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a-->\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item>Capacity</a>\n\t\t<a routerLink=\"/spending\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Spending</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<!--a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a-->\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Capacity</a>\n\t\t<a routerLink=\"/spending\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Spending</a>\n\t\t<a routerLink=\"/holidays\" routerLinkActive=\"active\" mat-menu-item>Holidays</a>\n\t\t<a routerLink=\"/outlook\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Outlook</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<!--The content below is only a placeholder and can be replace
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"asignment.feature\" name=\"featureSelected\" placeholder=\"Feature Selected\" [compareWith]=\"compareFeatures\" required>\n        <mat-option *ngFor=\"let feat of features\" [value]=\"feat\">\n            {{feat.code + \" \" + feat.title}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <mat-select [(ngModel)]=\"asignment.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addAsignment()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateAsignment()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"asignment.feature\" name=\"featureSelected\" placeholder=\"Feature Selected\" [compareWith]=\"compareFeatures\" required>\n        <mat-option *ngFor=\"let feat of features\" [value]=\"feat\">\n            {{feat.code + \" \" + feat.title}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <mat-select [(ngModel)]=\"asignment.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addAsignment()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateAsignment()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -52,7 +52,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring As
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"feature.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.title\" name=\"title\" placeholder=\"Title\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <!--mat-form-field>\n      <input matInput [(ngModel)]=\"feature.status\" name=\"status\" placeholder=\"Status\" required #status=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field-->\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.estimatedHours\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\" maxlength=\"3\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.committedDate\" name=\"committedDate\" placeholder=\"Committed Date\" type=\"date\" required #committedDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addFeature()\" matTooltip=\"Add {{feature.title}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateFeature()\" matTooltip=\"Confirm update {{feature.title}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{feature.title}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>BackLog List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"feature.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.title\" name=\"title\" placeholder=\"Title\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <!--span>{{feature.estimatedHours| number:'1.2-2'}}</span Show decimal format!-->\n    <mat-form-field>\n      <input matInput [ngModel]=\"feature.estimatedHours| number:'1.2-2'\"  (ngModelChange)=\"feature.estimatedHours=$event\" [ngModelOptions]=\"{updateOn: 'blur'}\" (change)=\"frm.setTwoNumberDecimal($event)\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\" min=\"0.00\" max=\"999.99\"  required>\n      <!--input matInput [(ngModel)]=\"feature.estimatedHours\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\"  min=\"0.00\" maxlength=\"3\" required (keyup)=\"frm.validateNumberTwoDecimal($event)\" -->\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.committedDate\" name=\"committedDate\" placeholder=\"Committed Date\" type=\"date\" required #committedDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addFeature()\" matTooltip=\"Add {{feature.title}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateFeature()\" matTooltip=\"Confirm update {{feature.title}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{feature.title}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>BackLog List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog D
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"capacity.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"capacity.availableHours\" name=\"availableHours\" placeholder=\"Available Hours\" type=\"number\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addCapacity()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateCapacity()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Capacity Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"capacity.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [ngModel]=\"capacity.availableHours| number:'1.2-2'\" (ngModelChange)=\"capacity.availableHours=$event\" [ngModelOptions]=\"{updateOn: 'blur'}\" (change)=\"frm.setTwoNumberDecimal($event)\" name=\"availableHours\" placeholder=\"Available Hours\" type=\"number\" min=\"0.00\" max=\"24.00\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addCapacity()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateCapacity()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Capacity List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -78,6 +78,17 @@ module.exports = "<mat-checkbox \r\n    [ngModel]=\"checked\" \r\n    (ngModelCh
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/holidays/holidays.component.html":
+/*!****************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/holidays/holidays.component.html ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holidays Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"holiday.date\" name=\"date\" placeholder=\"Date\" type=\"date\" required #date=\"ngModel\" [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"holiday.description\" name=\"description\" placeholder=\"Description\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addHoliday()\" matTooltip=\"Add {{holiday.description}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateHoliday()\" matTooltip=\"Confirm update {{holiday.descriptiion}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{holiday.description}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"!isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"createHoliday()\" matTooltip=\"Create Sequence\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holiday List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/login/login.component.html":
 /*!**********************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/login/login.component.html ***!
@@ -89,6 +100,17 @@ module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-c
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/outlook/outlook.component.html":
+/*!**************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/outlook/outlook.component.html ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  outlook works!\n</p>\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/projects/projects.component.html":
 /*!****************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/projects/projects.component.html ***!
@@ -96,7 +118,7 @@ module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project Detail</mat-card-title>\n  </mat-card-header>\n  <form  #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"project.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.name\" name=\"name\" type=\"text\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.startDate\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required #startDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. 10,15,20\">\n      <input matInput [(ngModel)]=\"project.springDays\" name=\"springDays\" placeholder=\"Spring Days\" type=\"number\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addProject()\" matTooltip=\"Add {{project.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateProject()\" matTooltip=\"Confirm update {{project.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{project.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n  </form>\n</mat-card>\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project List</mat-card-title>\n  </mat-card-header>\n  <!--Selection: <span id=\"selectedRows\">{{ projectSelected | json }}</span-->\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    id=\"myGrid\"\n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project Detail</mat-card-title>\n  </mat-card-header>\n  <form  #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"project.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.name\" name=\"name\" type=\"text\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.startDate\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required #startDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. 10,15,20\">\n      <input matInput [(ngModel)]=\"project.springDays\" name=\"springDays\" placeholder=\"Spring Days\" type=\"number\" min=\"0\" max=\"999\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addProject()\" matTooltip=\"Add {{project.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateProject()\" matTooltip=\"Confirm update {{project.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{project.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n  </form>\n</mat-card>\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project List</mat-card-title>\n  </mat-card-header>\n  <!--Selection: <span id=\"selectedRows\">{{ projectSelected | json }}</span-->\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    id=\"myGrid\"\n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -107,7 +129,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p class=\"text-danger\">{{errorMessage}}</p>    \n    <ag-grid-angular \n      #agGrid style=\"width: 100%; height: 200px;\" \n      class=\"ag-theme-fresh\" \n      [gridOptions]=\"gridOptions\" \n      [columnDefs]=\"columnDefs\" \n      [rowData]=\"rowData\" \n      [context]=\"context\" \n      (gridReady)=\"onGridReady($event)\"\n      (cellEditingStarted)=\"onCellEditingStarted($event)\">\n    </ag-grid-angular>\n  <div class=\"field-full-width txt_center margin1em\">\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"refeshAsignments()\">Cancel</button>\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"saveSpendings()\">Save</button>\n  </div>\n  </form>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spending List</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p class=\"text-danger\">{{errorMessage}}</p>    \n    <ag-grid-angular \n      #agGrid style=\"width: 100%; height: 200px;\" \n      class=\"ag-theme-fresh\" \n      [gridOptions]=\"gridOptions\" \n      [columnDefs]=\"columnDefs\" \n      [rowData]=\"rowData\" \n      [context]=\"context\" \n      (gridReady)=\"onGridReady($event)\"\n      (cellEditingStarted)=\"onCellEditingStarted($event)\">\n    </ag-grid-angular>\n  <div class=\"field-full-width txt_center margin1em\">\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"refeshAsignments()\">Cancel</button>\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"saveSpendings()\">Save</button>\n  </div>\n  </form>\n</mat-card>\n"
 
 /***/ }),
 
@@ -154,6 +176,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _asignment_asignment_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./asignment/asignment.component */ "./src/app/asignment/asignment.component.ts");
 /* harmony import */ var _capacity_capacity_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./capacity/capacity.component */ "./src/app/capacity/capacity.component.ts");
 /* harmony import */ var _spending_spending_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./spending/spending.component */ "./src/app/spending/spending.component.ts");
+/* harmony import */ var _holidays_holidays_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./holidays/holidays.component */ "./src/app/holidays/holidays.component.ts");
+/* harmony import */ var _outlook_outlook_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./outlook/outlook.component */ "./src/app/outlook/outlook.component.ts");
+
+
 
 
 
@@ -173,6 +199,8 @@ var routes = [
     { path: 'asignment', component: _asignment_asignment_component__WEBPACK_IMPORTED_MODULE_8__["AsignmentComponent"] },
     { path: 'capacity', component: _capacity_capacity_component__WEBPACK_IMPORTED_MODULE_9__["CapacityComponent"] },
     { path: 'spending', component: _spending_spending_component__WEBPACK_IMPORTED_MODULE_10__["SpendingComponent"] },
+    { path: 'holidays', component: _holidays_holidays_component__WEBPACK_IMPORTED_MODULE_11__["HolidaysComponent"] },
+    { path: 'outlook', component: _outlook_outlook_component__WEBPACK_IMPORTED_MODULE_12__["OutlookComponent"] },
     { path: 'users', component: _users_users_component__WEBPACK_IMPORTED_MODULE_5__["UsersComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"] }
 ];
@@ -281,6 +309,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./asignment/asignment.module */ "./src/app/asignment/asignment.module.ts");
 /* harmony import */ var _capacity_capacity_module__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./capacity/capacity.module */ "./src/app/capacity/capacity.module.ts");
 /* harmony import */ var _spending_spending_module__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./spending/spending.module */ "./src/app/spending/spending.module.ts");
+/* harmony import */ var _holidays_holidays_module__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./holidays/holidays.module */ "./src/app/holidays/holidays.module.ts");
+/* harmony import */ var _outlook_outlook_module__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./outlook/outlook.module */ "./src/app/outlook/outlook.module.ts");
+
+
 
 
 
@@ -318,6 +350,8 @@ var AppModule = /** @class */ (function () {
                 _capacity_capacity_module__WEBPACK_IMPORTED_MODULE_17__["CapacityModule"],
                 _asignment_asignment_module__WEBPACK_IMPORTED_MODULE_16__["AsignmentModule"],
                 _spending_spending_module__WEBPACK_IMPORTED_MODULE_18__["SpendingModule"],
+                _holidays_holidays_module__WEBPACK_IMPORTED_MODULE_19__["HolidaysModule"],
+                _outlook_outlook_module__WEBPACK_IMPORTED_MODULE_20__["OutlookModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
@@ -372,6 +406,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_users_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../users/users.service */ "./src/app/users/users.service.ts");
 /* harmony import */ var _asignment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./asignment */ "./src/app/asignment/asignment.ts");
 /* harmony import */ var _asignment_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./asignment.service */ "./src/app/asignment/asignment.service.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
 
 
 
@@ -383,11 +419,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AsignmentComponent = /** @class */ (function () {
-    function AsignmentComponent(asignmentsService, featuresService, userService, loginService) {
+    function AsignmentComponent(asignmentsService, featuresService, userService, loginService, frm) {
         this.asignmentsService = asignmentsService;
         this.featuresService = featuresService;
         this.userService = userService;
         this.loginService = loginService;
+        this.frm = frm;
         this.asignment = new _asignment__WEBPACK_IMPORTED_MODULE_8__["Asignment"]();
         this.errorMessage = "";
         this.isEditMode = false;
@@ -399,13 +436,14 @@ var AsignmentComponent = /** @class */ (function () {
         this.gridOptions.suppressRowClickSelection = false;
         this.gridOptions.enableColResize = true;
         this.gridOptions.enableCellChangeFlash = true;
+        this.gridOptions.headerHeight = 45;
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
             { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 400 },
-            { headerName: 'Estimated Hs.', field: 'feature.estimatedHours', filter: 'text', width: 130 },
-            { headerName: 'Remaining Hs.', field: 'remaining', filter: 'text', width: 130 },
+            { headerName: 'Estimated Hs.', field: 'feature.estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
             { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 },
+            { headerName: 'Asign </br>Remaining Hs.', field: 'remaining', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];
@@ -512,7 +550,7 @@ var AsignmentComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./asignment.component.html */ "./node_modules/raw-loader/index.js!./src/app/asignment/asignment.component.html"),
             styles: [__webpack_require__(/*! ./asignment.component.scss */ "./src/app/asignment/asignment.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_asignment_service__WEBPACK_IMPORTED_MODULE_9__["AsignmentService"], _backlog_features_service__WEBPACK_IMPORTED_MODULE_6__["FeaturesService"], _users_users_service__WEBPACK_IMPORTED_MODULE_7__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_asignment_service__WEBPACK_IMPORTED_MODULE_9__["AsignmentService"], _backlog_features_service__WEBPACK_IMPORTED_MODULE_6__["FeaturesService"], _users_users_service__WEBPACK_IMPORTED_MODULE_7__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_10__["AgFormatterService"]])
     ], AsignmentComponent);
     return AsignmentComponent;
 }());
@@ -709,6 +747,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
 /* harmony import */ var _feature__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./feature */ "./src/app/backlog/feature.ts");
 /* harmony import */ var _features_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./features.service */ "./src/app/backlog/features.service.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
 
 
 
@@ -718,9 +758,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var FeaturesComponent = /** @class */ (function () {
-    function FeaturesComponent(featuresService, loginService) {
+    function FeaturesComponent(featuresService, loginService, frm) {
         this.featuresService = featuresService;
         this.loginService = loginService;
+        this.frm = frm;
         this.feature = new _feature__WEBPACK_IMPORTED_MODULE_6__["Feature"]();
         this.errorMessage = "";
         this.isEditMode = false;
@@ -736,8 +777,8 @@ var FeaturesComponent = /** @class */ (function () {
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'F.Code', field: 'code', filter: 'text', width: 100 },
             { headerName: 'Feature Title', field: 'title', filter: 'text', width: 400 },
-            { headerName: 'Estimated Hours', field: 'estimatedHours', filter: 'text', width: 130 },
-            { headerName: 'Committed Date', field: 'committedDate', filter: 'text', width: 170 },
+            { headerName: 'Estimated Hours', field: 'estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Committed Date', field: 'committedDate', filter: 'text', valueFormatter: this.frm.ag_dateFormatter, width: 170 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];
@@ -754,7 +795,10 @@ var FeaturesComponent = /** @class */ (function () {
         this.features.subscribe(function (featureList) { return _this.rowData = featureList; }, function (error) { return _this.handleError(error); });
     };
     FeaturesComponent.prototype.dateFormatter = function (params) {
-        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+        return new Date(params.value).toLocaleDateString("en-US", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    FeaturesComponent.prototype.numberFormatter = function (params) {
+        return params.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
     Object.defineProperty(FeaturesComponent.prototype, "features", {
         get: function () {
@@ -829,7 +873,7 @@ var FeaturesComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./features.component.html */ "./node_modules/raw-loader/index.js!./src/app/backlog/features.component.html"),
             styles: [__webpack_require__(/*! ./features.component.scss */ "./src/app/backlog/features.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_features_service__WEBPACK_IMPORTED_MODULE_7__["FeaturesService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_features_service__WEBPACK_IMPORTED_MODULE_7__["FeaturesService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_8__["AgFormatterService"]])
     ], FeaturesComponent);
     return FeaturesComponent;
 }());
@@ -968,6 +1012,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_users_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../users/users.service */ "./src/app/users/users.service.ts");
 /* harmony import */ var _capacity__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./capacity */ "./src/app/capacity/capacity.ts");
 /* harmony import */ var _capacity_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./capacity.service */ "./src/app/capacity/capacity.service.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
 
 
 
@@ -978,10 +1024,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var CapacityComponent = /** @class */ (function () {
-    function CapacityComponent(capacitysService, userService, loginService) {
+    function CapacityComponent(capacitysService, userService, loginService, frm) {
         this.capacitysService = capacitysService;
         this.userService = userService;
         this.loginService = loginService;
+        this.frm = frm;
         this.capacity = new _capacity__WEBPACK_IMPORTED_MODULE_7__["Capacity"]();
         this.errorMessage = "";
         this.isEditMode = false;
@@ -996,9 +1043,9 @@ var CapacityComponent = /** @class */ (function () {
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'User', field: 'user.name', filter: 'text', width: 150 },
-            { headerName: 'Available Hs', field: 'availableHours', filter: 'text', width: 130 },
-            { headerName: 'Total Hs', field: 'availableOnSpring', filter: 'text', width: 130 },
-            { headerName: 'Remaining Hs', field: 'remainingOnSpring', filter: 'text', width: 130 },
+            { headerName: 'Available Hs', field: 'availableHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Total Hs', field: 'availableOnSpring', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Remaining Hs', field: 'remainingOnSpring', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];
@@ -1101,7 +1148,7 @@ var CapacityComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./capacity.component.html */ "./node_modules/raw-loader/index.js!./src/app/capacity/capacity.component.html"),
             styles: [__webpack_require__(/*! ./capacity.component.scss */ "./src/app/capacity/capacity.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_capacity_service__WEBPACK_IMPORTED_MODULE_8__["CapacityService"], _users_users_service__WEBPACK_IMPORTED_MODULE_6__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_capacity_service__WEBPACK_IMPORTED_MODULE_8__["CapacityService"], _users_users_service__WEBPACK_IMPORTED_MODULE_6__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__["AgFormatterService"]])
     ], CapacityComponent);
     return CapacityComponent;
 }());
@@ -1512,6 +1559,273 @@ var MatRemoveButtonGridRenderModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/holidays/holiday.ts":
+/*!*************************************!*\
+  !*** ./src/app/holidays/holiday.ts ***!
+  \*************************************/
+/*! exports provided: Holiday */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Holiday", function() { return Holiday; });
+var Holiday = /** @class */ (function () {
+    function Holiday(values) {
+        if (values === void 0) { values = {}; }
+        this.date = null;
+        this.description = '';
+        Object.assign(this, values);
+    }
+    return Holiday;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/holidays/holidays.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/holidays/holidays.component.scss ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2hvbGlkYXlzL2hvbGlkYXlzLmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/holidays/holidays.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/holidays/holidays.component.ts ***!
+  \************************************************/
+/*! exports provided: HolidaysComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HolidaysComponent", function() { return HolidaysComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _holiday__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./holiday */ "./src/app/holidays/holiday.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _holidays_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./holidays.service */ "./src/app/holidays/holidays.service.ts");
+/* harmony import */ var _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component */ "./src/app/grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component.ts");
+/* harmony import */ var _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component */ "./src/app/grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
+
+
+
+
+
+
+
+var HolidaysComponent = /** @class */ (function () {
+    function HolidaysComponent(holidayService, frm) {
+        this.holidayService = holidayService;
+        this.frm = frm;
+        this.holiday = new _holiday__WEBPACK_IMPORTED_MODULE_2__["Holiday"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.rowSelection = 'simple';
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.columnDefs = [
+            { headerName: 'Date', field: 'date', filter: 'text', valueFormatter: this.frm.ag_dateFormatter, width: 170 },
+            { headerName: 'Description', field: 'description', filter: 'text', width: 250 },
+            { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_5__["MatEditButtonGridRenderComponent"], width: 40 },
+            { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_6__["MatRemoveButtonGridRenderComponent"], width: 40 }
+        ];
+    }
+    HolidaysComponent.prototype.ngOnInit = function () {
+        this.populateHolidays();
+    };
+    HolidaysComponent.prototype.refeshHolidays = function () {
+        this.populateHolidays();
+        this.initialMode();
+        this.resetControls();
+    };
+    HolidaysComponent.prototype.populateHolidays = function () {
+        var _this = this;
+        this.holidayService.getHolidays().subscribe(function (userList) { return _this.rowData = userList; }, function (error) { return _this.handleError(error); });
+    };
+    HolidaysComponent.prototype.dateFormatter = function (params) {
+        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    Object.defineProperty(HolidaysComponent.prototype, "users", {
+        get: function () {
+            return this.holidayService.getHolidays();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    HolidaysComponent.prototype.getHolidayByDate = function (date) {
+        return this.holidayService.getHolidayByDate(date);
+    };
+    HolidaysComponent.prototype.removeHoliday = function (date) {
+        var _this = this;
+        this.holidayService.deleteHolidayByDate(date).subscribe(function (data) { return _this.refeshHolidays(); }, function (error) { return console.log(error); });
+    };
+    HolidaysComponent.prototype.editHoliday = function (data) {
+        this.holiday = new _holiday__WEBPACK_IMPORTED_MODULE_2__["Holiday"](data);
+        this.errorMessage = "";
+    };
+    HolidaysComponent.prototype.addHoliday = function () {
+        var _this = this;
+        this.holidayService.addHoliday(this.holiday).subscribe(function (data) { return _this.refeshHolidays(); }, function (error) { return _this.handleError(error); });
+    };
+    HolidaysComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
+    };
+    HolidaysComponent.prototype.updateHoliday = function () {
+        var _this = this;
+        this.holidayService.updateHoliday(this.holiday).subscribe(function (data) { return _this.refeshHolidays(); }, function (error) { return _this.handleError(error); });
+    };
+    HolidaysComponent.prototype.resetControls = function () {
+        var _this = this;
+        this.myForm.resetForm();
+        Object.keys(this.myForm.controls).forEach(function (field) {
+            var control = _this.myForm.control.get(field);
+            control.markAsUntouched();
+        });
+    };
+    // Call from MatRemoveButtonGridRenderComponent
+    HolidaysComponent.prototype.removeFromComponent = function (holiday) {
+        this.removeHoliday(holiday.date);
+        this.initialMode();
+    };
+    // Call from MatEditButtonGridRenderComponent
+    HolidaysComponent.prototype.editFromComponent = function (data) {
+        this.isEditMode = true;
+        this.editHoliday(data);
+    };
+    HolidaysComponent.prototype.cancelEditMode = function () {
+        this.initialMode();
+    };
+    HolidaysComponent.prototype.initialMode = function () {
+        this.holiday = new _holiday__WEBPACK_IMPORTED_MODULE_2__["Holiday"]();
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.resetControls();
+    };
+    HolidaysComponent.prototype.onGridReady = function (params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('myForm', { static: false }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgForm"])
+    ], HolidaysComponent.prototype, "myForm", void 0);
+    HolidaysComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-holidays',
+            template: __webpack_require__(/*! raw-loader!./holidays.component.html */ "./node_modules/raw-loader/index.js!./src/app/holidays/holidays.component.html"),
+            styles: [__webpack_require__(/*! ./holidays.component.scss */ "./src/app/holidays/holidays.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_holidays_service__WEBPACK_IMPORTED_MODULE_4__["HolidaysService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_7__["AgFormatterService"]])
+    ], HolidaysComponent);
+    return HolidaysComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/holidays/holidays.module.ts":
+/*!*********************************************!*\
+  !*** ./src/app/holidays/holidays.module.ts ***!
+  \*********************************************/
+/*! exports provided: HolidaysModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HolidaysModule", function() { return HolidaysModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _holidays_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./holidays.component */ "./src/app/holidays/holidays.component.ts");
+
+
+
+
+
+var HolidaysModule = /** @class */ (function () {
+    function HolidaysModule() {
+    }
+    HolidaysModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            declarations: [_holidays_component__WEBPACK_IMPORTED_MODULE_4__["HolidaysComponent"]],
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_2__["SharedModule"],
+                ag_grid_angular__WEBPACK_IMPORTED_MODULE_3__["AgGridModule"].withComponents([])
+            ]
+        })
+    ], HolidaysModule);
+    return HolidaysModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/holidays/holidays.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/holidays/holidays.service.ts ***!
+  \**********************************************/
+/*! exports provided: HolidaysService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HolidaysService", function() { return HolidaysService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var HolidaysService = /** @class */ (function () {
+    function HolidaysService(http) {
+        this.http = http;
+        this.baseUrl = './api/holidays';
+    }
+    HolidaysService.prototype.getHolidays = function () {
+        return this.http.get(this.baseUrl);
+    };
+    HolidaysService.prototype.getHolidayByDate = function (date) {
+        return this.http.get(this.baseUrl + "/" + date);
+    };
+    HolidaysService.prototype.addHoliday = function (holiday) {
+        return this.http.post(this.baseUrl, holiday);
+    };
+    HolidaysService.prototype.deleteHolidayByDate = function (date) {
+        return this.http.delete(this.baseUrl + "/" + date);
+    };
+    HolidaysService.prototype.updateHoliday = function (holiday) {
+        return this.http.put(this.baseUrl + "/" + holiday.date, holiday);
+    };
+    HolidaysService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], HolidaysService);
+    return HolidaysService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/login/login.component.scss":
 /*!********************************************!*\
   !*** ./src/app/login/login.component.scss ***!
@@ -1711,6 +2025,91 @@ var LoginService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/outlook/outlook.component.scss":
+/*!************************************************!*\
+  !*** ./src/app/outlook/outlook.component.scss ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL291dGxvb2svb3V0bG9vay5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/outlook/outlook.component.ts":
+/*!**********************************************!*\
+  !*** ./src/app/outlook/outlook.component.ts ***!
+  \**********************************************/
+/*! exports provided: OutlookComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OutlookComponent", function() { return OutlookComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var OutlookComponent = /** @class */ (function () {
+    function OutlookComponent() {
+    }
+    OutlookComponent.prototype.ngOnInit = function () {
+    };
+    OutlookComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-outlook',
+            template: __webpack_require__(/*! raw-loader!./outlook.component.html */ "./node_modules/raw-loader/index.js!./src/app/outlook/outlook.component.html"),
+            styles: [__webpack_require__(/*! ./outlook.component.scss */ "./src/app/outlook/outlook.component.scss")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], OutlookComponent);
+    return OutlookComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/outlook/outlook.module.ts":
+/*!*******************************************!*\
+  !*** ./src/app/outlook/outlook.module.ts ***!
+  \*******************************************/
+/*! exports provided: OutlookModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OutlookModule", function() { return OutlookModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _outlook_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./outlook.component */ "./src/app/outlook/outlook.component.ts");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ag-grid-angular */ "./node_modules/ag-grid-angular/main.js");
+/* harmony import */ var ag_grid_angular__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(ag_grid_angular__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+var OutlookModule = /** @class */ (function () {
+    function OutlookModule() {
+    }
+    OutlookModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            declarations: [_outlook_component__WEBPACK_IMPORTED_MODULE_2__["OutlookComponent"]],
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"],
+                ag_grid_angular__WEBPACK_IMPORTED_MODULE_4__["AgGridModule"].withComponents([])
+            ]
+        })
+    ], OutlookModule);
+    return OutlookModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/projects/project.ts":
 /*!*************************************!*\
   !*** ./src/app/projects/project.ts ***!
@@ -1767,6 +2166,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component */ "./src/app/grid-custom-components/mat-edit-button-grid-render/mat-edit-button-grid-render.component.ts");
 /* harmony import */ var _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component */ "./src/app/grid-custom-components/mat-remove-button-grid-render/mat-remove-button-grid-render.component.ts");
 /* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
 
 
 
@@ -1777,10 +2178,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ProjectsComponent = /** @class */ (function () {
-    function ProjectsComponent(projectsService, loginService, router) {
+    function ProjectsComponent(projectsService, loginService, router, frm) {
         this.projectsService = projectsService;
         this.loginService = loginService;
         this.router = router;
+        this.frm = frm;
         this.project = new _project__WEBPACK_IMPORTED_MODULE_2__["Project"]();
         this.errorMessage = "";
         this.isEditMode = false;
@@ -1793,7 +2195,7 @@ var ProjectsComponent = /** @class */ (function () {
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'Code', field: 'code', filter: 'text', width: 120 },
             { headerName: 'Name', field: 'name', filter: 'text', width: 250 },
-            { headerName: 'Start Date', field: 'startDate', filter: 'date', width: 140, valueFormatter: this.dateFormatter },
+            { headerName: 'Start Date', field: 'startDate', filter: 'date', width: 140, valueFormatter: this.frm.ag_dateFormatter },
             { headerName: 'Spring Days', field: 'springDays', type: "numericColumn", filter: 'number', width: 150 },
             { headerName: 'Status', field: 'status', filter: 'text', width: 120 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_6__["MatEditButtonGridRenderComponent"], width: 40 },
@@ -1810,9 +2212,6 @@ var ProjectsComponent = /** @class */ (function () {
     ProjectsComponent.prototype.populateProjects = function () {
         var _this = this;
         this.projects.subscribe(function (projectList) { return _this.rowData = projectList; }, function (error) { return _this.handleError(error); });
-    };
-    ProjectsComponent.prototype.dateFormatter = function (params) {
-        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
     };
     Object.defineProperty(ProjectsComponent.prototype, "projects", {
         get: function () {
@@ -1903,7 +2302,7 @@ var ProjectsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./projects.component.html */ "./node_modules/raw-loader/index.js!./src/app/projects/projects.component.html"),
             styles: [__webpack_require__(/*! ./projects.component.scss */ "./src/app/projects/projects.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_projects_service__WEBPACK_IMPORTED_MODULE_4__["ProjectsService"], _login_login_service__WEBPACK_IMPORTED_MODULE_8__["LoginService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_projects_service__WEBPACK_IMPORTED_MODULE_4__["ProjectsService"], _login_login_service__WEBPACK_IMPORTED_MODULE_8__["LoginService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__["AgFormatterService"]])
     ], ProjectsComponent);
     return ProjectsComponent;
 }());
@@ -2001,6 +2400,60 @@ var ProjectsService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/ag-formatter.service.ts":
+/*!************************************************!*\
+  !*** ./src/app/shared/ag-formatter.service.ts ***!
+  \************************************************/
+/*! exports provided: AgFormatterService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AgFormatterService", function() { return AgFormatterService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var AgFormatterService = /** @class */ (function () {
+    function AgFormatterService() {
+    }
+    AgFormatterService.prototype.ag_dateFormatter = function (params) {
+        return new Date(params.value).toLocaleDateString(undefined, { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    AgFormatterService.prototype.ag_numberTwoDecimalFormatter = function (params) {
+        if (params.value || params.value == 0) {
+            return params.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        return params.value;
+    };
+    AgFormatterService.prototype.setTwoNumberDecimal = function (event) {
+        event.target.value = parseFloat(event.target.value).toFixed(2);
+    };
+    AgFormatterService.prototype.validateNumberTwoDecimal = function (event) {
+        //let input = String.fromCharCode(e.charCode);
+        var specialKeys = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
+        if (specialKeys.indexOf(event.key) !== -1) {
+            return;
+        }
+        var input = event.srcElement.value;
+        var input2 = event.target.value;
+        var reg = new RegExp(/^\d+[.,]?\d{0,2}$/g);
+        //      if (!reg.test(input)) {
+        //        e.preventDefault();
+        //      }
+    };
+    AgFormatterService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        })
+    ], AgFormatterService);
+    return AgFormatterService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/date.model.ts":
 /*!**************************************!*\
   !*** ./src/app/shared/date.model.ts ***!
@@ -2053,6 +2506,9 @@ var DateModel = /** @class */ (function () {
     };
     DateModel.prototype.equalsThan = function (otherValue) {
         return this._value == this.toDate(otherValue);
+    };
+    DateModel.prototype.getDate = function () {
+        return this._value;
     };
     DateModel.prototype.toDate = function (value) {
         var valueToDate = null;
@@ -2132,6 +2588,59 @@ var NoWeekendValidator = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/decimal.directive.ts":
+/*!*********************************************!*\
+  !*** ./src/app/shared/decimal.directive.ts ***!
+  \*********************************************/
+/*! exports provided: TwoDigitDecimalNumber */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TwoDigitDecimalNumber", function() { return TwoDigitDecimalNumber; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var TwoDigitDecimalNumber = /** @class */ (function () {
+    function TwoDigitDecimalNumber(el) {
+        this.el = el;
+        this.regex = new RegExp(/^\d+[.,]?\d{0,2}$/g);
+        this.specialKeys = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
+        console.log(this.el.nativeElement.value);
+    }
+    TwoDigitDecimalNumber.prototype.onKeyDown = function (event) {
+        console.log(this.el.nativeElement.value);
+        // Allow Backspace, tab, end, and home keys
+        if (this.specialKeys.indexOf(event.key) !== -1) {
+            return;
+        }
+        var current = this.el.nativeElement.value;
+        var position = this.el.nativeElement.selectionStart;
+        var next = [current.slice(0, position), event.key == 'Decimal' ? '.' : event.key, current.slice(position)].join('');
+        if (next && !String(next).match(this.regex)) {
+            event.preventDefault();
+        }
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('keydown', ['$event']),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Function),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [KeyboardEvent]),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:returntype", void 0)
+    ], TwoDigitDecimalNumber.prototype, "onKeyDown", null);
+    TwoDigitDecimalNumber = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Directive"])({
+            selector: '[twoDigitDecimalNumber]'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+    ], TwoDigitDecimalNumber);
+    return TwoDigitDecimalNumber;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/shared.module.ts":
 /*!*****************************************!*\
   !*** ./src/app/shared/shared.module.ts ***!
@@ -2154,6 +2663,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _date_weekend_directive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./date.weekend.directive */ "./src/app/shared/date.weekend.directive.ts");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _decimal_directive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./decimal.directive */ "./src/app/shared/decimal.directive.ts");
+
 
 
 
@@ -2211,7 +2722,7 @@ var SharedModule = /** @class */ (function () {
                 _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_module__WEBPACK_IMPORTED_MODULE_8__["MatEditButtonGridRenderModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatStepperModule"]
             ],
-            declarations: [_date_weekend_directive__WEBPACK_IMPORTED_MODULE_9__["NoWeekendValidator"]]
+            declarations: [_date_weekend_directive__WEBPACK_IMPORTED_MODULE_9__["NoWeekendValidator"], _decimal_directive__WEBPACK_IMPORTED_MODULE_12__["TwoDigitDecimalNumber"]]
         })
     ], SharedModule);
     return SharedModule;
@@ -2250,6 +2761,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_users_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../users/users.service */ "./src/app/users/users.service.ts");
 /* harmony import */ var _spending_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./spending.service */ "./src/app/spending/spending.service.ts");
 /* harmony import */ var _asignment_asignment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../asignment/asignment */ "./src/app/asignment/asignment.ts");
+/* harmony import */ var _shared_date_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../shared/date.model */ "./src/app/shared/date.model.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
+
 
 
 
@@ -2259,12 +2774,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SpendingComponent = /** @class */ (function () {
-    function SpendingComponent(spendingsService, featuresService, userService, loginService) {
+    function SpendingComponent(spendingsService, featuresService, userService, loginService, frm) {
         var _this = this;
         this.spendingsService = spendingsService;
         this.featuresService = featuresService;
         this.userService = userService;
         this.loginService = loginService;
+        this.frm = frm;
         this.errorMessage = "";
         this.isEditMode = false;
         this.context = { componentParent: this };
@@ -2275,31 +2791,55 @@ var SpendingComponent = /** @class */ (function () {
         this.gridOptions.suppressRowClickSelection = false;
         this.gridOptions.enableColResize = true;
         this.gridOptions.enableCellChangeFlash = true;
+        this.gridOptions.getRowStyle = function (params) {
+            if (params.data.feature.estimatedHours - params.data.spending === 0) {
+                return { background: '#E08E8E' };
+            }
+        };
+        this.gridOptions.headerHeight = 65;
+        //    this.gridOptions.defaultColDef = { headerComponentParams : {
+        //          menuIcon: 'fa-bars',
+        //          template:
+        //          '<div class="ag-cell-label-container" role="presentation">' +
+        //          '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
+        //          '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
+        //          '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order" ></span>' +
+        //          '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon" ></span>' +
+        //          '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon" ></span>' +
+        //          '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon" ></span>' +
+        //          '    ** <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        //          '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
+        //          '  </div>' +
+        //          '</div>'
+        //      } }
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
             { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 200 },
-            { headerName: 'Estimated', field: 'feature.estimatedHours', filter: 'text', width: 100 },
-            { headerName: 'Spending', field: 'spending', filter: 'text', width: 100 },
+            { headerName: 'Estimated', field: 'feature.estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 100 },
+            { headerName: 'Spending', field: 'spending', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 100 },
             { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 }
         ];
         var _loop_1 = function (index) {
-            this_1.columnDefs.push({ headerName: index + 1, valueGetter: function (params) { return params.data.spendingsInt[index]; }, valueSetter: function (params) { return _this.valueSetter(params, index); }, editable: true, filter: false, width: 50 });
+            //        this.columnDefs.push( { headerName : this.dateHeader(index+1), children: [{ headerName: index+1, valueGetter: (params: any) => params.data.spendingsInt[index], valueSetter: (params: any) => this.valueSetter(params,index), editable: true, suppressSorting: true, suppressMenu : true, type: "numericColumn", width: 55 }] })
+            //      this.columnDefs.push({ headerName: index+1, valueGetter: (params: any) => params.data.spendingsInt[index], valueSetter: (params: any) => this.valueSetter(params,index), editable: true, suppressSorting: true, suppressMenu : true, type: "numericColumn", width: 55 })
+            this_1.columnDefs.push({ headerName: this_1.dateHeader(index + 1), valueGetter: function (params) { return params.data.spendingsInt[index]; }, valueSetter: function (params) { return _this.valueSetter(params, index); }, editable: true, suppressSorting: true, suppressMenu: true, type: "text", valueFormatter: this_1.frm.ag_numberTwoDecimalFormatter, width: 55, headerComponentParams: { template: this_1.getHeaderTemplate() } });
         };
         var this_1 = this;
-        for (var index = 0; index < 10; index++) {
+        for (var index = 0; index < loginService.currentSpring.springDays; index++) {
             _loop_1(index);
         }
     }
     SpendingComponent.prototype.valueSetter = function (params, index) {
         var ret = false;
         this.errorMessage = "";
+        params.newValue = params.newValue.length == 0 ? params.newValue : params.newValue.replace(",", ".");
         if (params.newValue.length == 0) {
             params.data.spendingsInt[index] = null;
             ret = true;
         }
         else if (!isNaN(+params.newValue)) {
-            params.data.spendingsInt[index] = +params.newValue;
+            params.data.spendingsInt[index] = Math.round(+params.newValue * 100) / 100;
             ret = true;
         }
         params.data.calculateSumSpending();
@@ -2326,6 +2866,51 @@ var SpendingComponent = /** @class */ (function () {
     };
     SpendingComponent.prototype.dateFormatter = function (params) {
         return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+    };
+    SpendingComponent.prototype.getHeaderTemplat2 = function () {
+        return '<div class="ag-cell-label-container" role="presentation">' +
+            '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
+            '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
+            '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order" ></span>' +
+            '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon" ></span>' +
+            '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon" ></span>' +
+            '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon" ></span>' +
+            '    ** <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+            '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
+            '  </div>' +
+            '</div>';
+    };
+    SpendingComponent.prototype.getHeaderTemplate = function () {
+        return '<div class="ag-cell-label-container ag-header-center" role="presentation">' +
+            '    <span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+            '</div>';
+    };
+    SpendingComponent.prototype.dateHeader = function (numDay) {
+        var dtM = new _shared_date_model__WEBPACK_IMPORTED_MODULE_8__["DateModel"](this.loginService.currentSpring.startDate.toString());
+        dtM.setAddWorkableDays(dtM, numDay);
+        return numDay + "</br>" + this.getDayAndMounthFromDate(dtM.getDate()) + "</br>" + this.getWeekdayFromDate(dtM.getDate());
+    };
+    SpendingComponent.prototype.getDayAndMounthFromDate = function (d) {
+        var format = d.toLocaleDateString(undefined, { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
+        // Check locale format and strip year
+        if (format.match(/.[0-9]{4}/g)) {
+            format = format.replace(/.[0-9]{4}/, '');
+        }
+        else if (format.match(/[0-9]{4}./g)) {
+            format = format.replace(/[0-9]{4}./, '');
+        }
+        else if (format.match(new RegExp('/[0-9]{4}'))) {
+            format = format.replace(new RegExp('/[0-9]{4}'), '');
+        }
+        else if (format.match(new RegExp('[0-9]{4}/'))) {
+            format = format.replace(new RegExp('[0-9]{4}/'), '');
+        }
+        return format;
+    };
+    SpendingComponent.prototype.getWeekdayFromDate = function (d) {
+        var format = d.toLocaleDateString(undefined, { timeZone: 'UTC', weekday: "short" });
+        format = format.replace('.', '');
+        return format;
     };
     Object.defineProperty(SpendingComponent.prototype, "asignments", {
         get: function () {
@@ -2367,8 +2952,8 @@ var SpendingComponent = /** @class */ (function () {
         this.gridColumnApi.autoSizeColumns();
     };
     SpendingComponent.prototype.onCellEditingStarted = function (params) {
-        console.log("cellEditingStarted");
-        console.log(params);
+        //    console.log("cellEditingStarted");
+        //    console.log(params);
         //    console.log(params.value);
         //    console.log(params.column);
         //    console.log(params.data.capacity);
@@ -2391,7 +2976,7 @@ var SpendingComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./spending.component.html */ "./node_modules/raw-loader/index.js!./src/app/spending/spending.component.html"),
             styles: [__webpack_require__(/*! ./spending.component.scss */ "./src/app/spending/spending.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_spending_service__WEBPACK_IMPORTED_MODULE_6__["SpendingService"], _backlog_features_service__WEBPACK_IMPORTED_MODULE_4__["FeaturesService"], _users_users_service__WEBPACK_IMPORTED_MODULE_5__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_spending_service__WEBPACK_IMPORTED_MODULE_6__["SpendingService"], _backlog_features_service__WEBPACK_IMPORTED_MODULE_4__["FeaturesService"], _users_users_service__WEBPACK_IMPORTED_MODULE_5__["UserService"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__["AgFormatterService"]])
     ], SpendingComponent);
     return SpendingComponent;
 }());
@@ -2558,6 +3143,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _spirng__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./spirng */ "./src/app/springs/spirng.ts");
 /* harmony import */ var _shared_date_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../shared/date.model */ "./src/app/shared/date.model.ts");
 /* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
+
 
 
 
@@ -2568,9 +3155,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SpringsComponent = /** @class */ (function () {
-    function SpringsComponent(springsService, loginService) {
+    function SpringsComponent(springsService, loginService, frm) {
         this.springsService = springsService;
         this.loginService = loginService;
+        this.frm = frm;
         this.errorMessage = "";
         this.isEditMode = false;
         this.context = { componentParent: this };
@@ -2587,9 +3175,9 @@ var SpringsComponent = /** @class */ (function () {
             { headerName: 'Spring Code', field: 'code', filter: 'text', width: 150 },
             { headerName: 'Spring Name', field: 'name', filter: 'text', width: 150 },
             { headerName: 'Status', field: 'status', filter: 'text', width: 150 },
-            { headerName: 'Spring Days', field: 'springDays', filter: 'number', width: 150 },
-            { headerName: 'Start Date', field: 'startDate', filter: 'text', width: 150, valueFormatter: this.dateFormatter },
-            { headerName: 'End Date', field: 'endDate', filter: 'text', width: 150, valueFormatter: this.dateFormatter },
+            { headerName: 'Spring Days', field: 'springDays', type: "numericColumn", filter: 'number', width: 150 },
+            { headerName: 'Start Date', field: 'startDate', filter: 'text', width: 150, valueFormatter: this.frm.ag_dateFormatter },
+            { headerName: 'End Date', field: 'endDate', filter: 'text', width: 150, valueFormatter: this.frm.ag_dateFormatter },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];
@@ -2610,9 +3198,6 @@ var SpringsComponent = /** @class */ (function () {
     };
     SpringsComponent.prototype.currencyFormatter = function (params) {
         return '£' + params.value;
-    };
-    SpringsComponent.prototype.dateFormatter = function (params) {
-        return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
     };
     Object.defineProperty(SpringsComponent.prototype, "springs", {
         get: function () {
@@ -2718,7 +3303,7 @@ var SpringsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./springs.component.html */ "./node_modules/raw-loader/index.js!./src/app/springs/springs.component.html"),
             styles: [__webpack_require__(/*! ./springs.component.scss */ "./src/app/springs/springs.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_springs_service__WEBPACK_IMPORTED_MODULE_5__["SpringsService"], _login_login_service__WEBPACK_IMPORTED_MODULE_8__["LoginService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_springs_service__WEBPACK_IMPORTED_MODULE_5__["SpringsService"], _login_login_service__WEBPACK_IMPORTED_MODULE_8__["LoginService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_9__["AgFormatterService"]])
     ], SpringsComponent);
     return SpringsComponent;
 }());

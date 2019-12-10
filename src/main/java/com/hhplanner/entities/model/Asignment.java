@@ -50,10 +50,10 @@ public class Asignment implements Serializable {
 	private User1 user;
 
 	@Formula(value = "(select c.available_hours * s.spring_days - f.estimated_hours from capacity c, spring s, feature f where f.id = feature_id and s.id = spring_id and c.spring_id = spring_id and c.username = username)")
-	private double remaining;
+	private float remaining;
 
 	@Formula(value = "(select c.available_hours from capacity c where c.spring_id = spring_id and c.username = username)")
-	private int capacity;
+	private float capacity;
 	
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "id.asignment", orphanRemoval=true)
     @OrderBy("id")
@@ -61,7 +61,7 @@ public class Asignment implements Serializable {
     private Set<Spending> spendings = new HashSet<>();	
 
     @Transient
-    private List<Integer> spendingsInt = new ArrayList<>();	
+    private List<Float> spendingsInt = new ArrayList<>();	
     
    public Asignment() {
 		super();
@@ -98,16 +98,16 @@ public class Asignment implements Serializable {
 	public void setUser(User1 user) {
 		this.user = user;
 	}
-	public double getRemaining() {
+	public float getRemaining() {
 		return remaining;
 	}
-	public void setRemaining(double remaining) {
+	public void setRemaining(float remaining) {
 		this.remaining = remaining;
 	}
-	public int getCapacity() {
+	public float getCapacity() {
 		return capacity;
 	}
-	public void setCapacity(int capacity) {
+	public void setCapacity(float capacity) {
 		this.capacity = capacity;
 	}
 	public Set<Spending> getSpendings() {
@@ -116,19 +116,19 @@ public class Asignment implements Serializable {
 	public void setSpendings(Set<Spending> spendings) {
 		this.spendings = spendings;
 	}
-   public void addSpending(int numDay, int spent) {
+   public void addSpending(int numDay, float spent) {
         this.spendings.add(new Spending(this,numDay,spent));
     }
-	public List<Integer> getSpendingsInt() {
+	public List<Float> getSpendingsInt() {
 		return spendingsInt;
 	}
-	public void setSpendingsInt(List<Integer> spendingsInt) {
+	public void setSpendingsInt(List<Float> spendingsInt) {
 		this.spendingsInt = spendingsInt;
 	}
 	public void buildSpendingsFromInt() {
 		int numDay = 1;
 		this.getSpendings().clear();
-		for (Integer spent : this.getSpendingsInt()) {
+		for (Float spent : this.getSpendingsInt()) {
 			if (spent != null) {
 				this.addSpending(numDay,spent);
 			}

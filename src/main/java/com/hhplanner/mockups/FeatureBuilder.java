@@ -18,7 +18,7 @@ public class FeatureBuilder {
 	}
 	
 	public FeatureBuilder buildF1(int id) {
-		this.feature = new Feature(id, "F1", "Feature 1", LocalDate.of(2019, 10, 1),40);
+		this.feature = new Feature(id, "F1", "Feature 1", LocalDate.of(2019, 10, 1),40.50f);
 		return this;
 	}
 	

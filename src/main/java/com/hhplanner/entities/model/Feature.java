@@ -41,7 +41,7 @@ public class Feature implements SimpleIdCode {
     @Column(name = "committed_date", columnDefinition = "DATE")
     private LocalDate committedDate;
     @Column(name = "estimated_hours")
-    private int estimatedHours;
+    private float estimatedHours;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
@@ -53,7 +53,7 @@ public class Feature implements SimpleIdCode {
 		super();
 	}
     
-    public Feature(int id, String code, String title, LocalDate committedDate, int estimatedHours) {
+    public Feature(int id, String code, String title, LocalDate committedDate, float estimatedHours) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -87,10 +87,10 @@ public class Feature implements SimpleIdCode {
 	public void setCommittedDate(LocalDate committedDate) {
 		this.committedDate = committedDate;
 	}
-	public int getEstimatedHours() {
+	public float getEstimatedHours() {
 		return estimatedHours;
 	}
-	public void setEstimatedHours(int estimatedHours) {
+	public void setEstimatedHours(float estimatedHours) {
 		this.estimatedHours = estimatedHours;
 	}
 	public Project getProject() {

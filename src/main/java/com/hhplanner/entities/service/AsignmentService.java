@@ -62,7 +62,7 @@ public class AsignmentService {
 	public List<Asignment> getAsignmentsBySpringId(int springId) {
 		List<Asignment> asignments = this.asignmentRepository.findBySpringIdOrderByUserAscFeatureAsc(springId);
 		String username = "";
-		double remaining = 0d;
+		float remaining = 0.0f;
 		for (Asignment asignment : asignments) {
 			if (asignment.getUser().getUsername().equals(username)) {
 				asignment.setRemaining(remaining - asignment.getFeature().getEstimatedHours());

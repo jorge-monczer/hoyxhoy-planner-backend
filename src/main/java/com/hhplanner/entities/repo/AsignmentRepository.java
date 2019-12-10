@@ -26,7 +26,7 @@ public interface AsignmentRepository extends CrudRepository<Asignment, Integer> 
     public void flush();
     
     @Query("SELECT SUM(a.feature.estimatedHours) from Asignment a where a.user = ?1 and a.spring.id = ?2 and a.id != ?3")
-	public Integer sumEstimatedHoursByUserAndSpringIdButNotMe(User1 user, int springId, int id);
+	public Float sumEstimatedHoursByUserAndSpringIdButNotMe(User1 user, int springId, int id);
    
     @Query(value = "SELECT a.username as username, c.available_hours as availableHours, SUM(f.estimated_hours) as estimatedHours " 
     	+  " from asignment a, capacity c, feature f " 
@@ -39,7 +39,7 @@ public interface AsignmentRepository extends CrudRepository<Asignment, Integer> 
     
  	public interface Q_CapacitySumary {
  	    String getUsername();
- 	    Integer getAvailableHours();
- 	    Integer getEstimatedHours();
+ 	    Float getAvailableHours();
+ 	    Float getEstimatedHours();
  	}
 }

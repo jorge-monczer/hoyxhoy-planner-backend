@@ -27,7 +27,7 @@ public class AsignmentBuilder {
 		return this;
 	}
 
-	public AsignmentBuilder buildCapacity(int capPerDay) {
+	public AsignmentBuilder buildCapacity(float capPerDay) {
 		this.capacityBuilder.buildCapacity(0, capPerDay).save();
 		return this;
 	}
