@@ -85,7 +85,7 @@ module.exports = "<mat-checkbox \r\n    [ngModel]=\"checked\" \r\n    (ngModelCh
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holidays Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"holiday.date\" name=\"date\" placeholder=\"Date\" type=\"date\" required #date=\"ngModel\" [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"holiday.description\" name=\"description\" placeholder=\"Description\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addHoliday()\" matTooltip=\"Add {{holiday.description}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateHoliday()\" matTooltip=\"Confirm update {{holiday.descriptiion}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{holiday.description}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"!isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"createHoliday()\" matTooltip=\"Create Sequence\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holiday List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holidays Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"holiday.date\" name=\"date\" placeholder=\"Date\" type=\"date\" required #date=\"ngModel\" [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"holiday.description\" name=\"description\" placeholder=\"Description\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"years\" name=\"years\" placeholder=\"Years\" type=\"number\" min=\"0\" max=\"99\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addHoliday()\" matTooltip=\"Add {{holiday.description}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateHoliday()\" matTooltip=\"Confirm update {{holiday.descriptiion}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{holiday.description}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"!isEditMode\"  [disabled]=\"!myForm.valid || !years\" mat-mini-fab color=\"primary\" (click)=\"addHolidaysForYears()\" matTooltip=\"Create Sequence\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holiday List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -1568,7 +1568,7 @@ let HolidaysComponent = class HolidaysComponent {
     dateFormatter(params) {
         return new Date(params.value).toLocaleDateString("es-ES", { timeZone: 'UTC', year: "numeric", month: "2-digit", day: "2-digit" });
     }
-    get users() {
+    get holidays() {
         return this.holidayService.getHolidays();
     }
     getHolidayByDate(date) {
@@ -1580,9 +1580,13 @@ let HolidaysComponent = class HolidaysComponent {
     editHoliday(data) {
         this.holiday = new _holiday__WEBPACK_IMPORTED_MODULE_2__["Holiday"](data);
         this.errorMessage = "";
+        this.years = NaN;
     }
     addHoliday() {
         this.holidayService.addHoliday(this.holiday).subscribe(data => this.refeshHolidays(), error => this.handleError(error));
+    }
+    addHolidaysForYears() {
+        this.holidayService.addHolidaysForYears(this.holiday, this.years).subscribe(data => this.refeshHolidays(), error => this.handleError(error));
     }
     handleError(res) {
         this.errorMessage = res.error.error_message;
@@ -1706,6 +1710,9 @@ let HolidaysService = class HolidaysService {
     }
     addHoliday(holiday) {
         return this.http.post(this.baseUrl, holiday);
+    }
+    addHolidaysForYears(holiday, years) {
+        return this.http.post(`${this.baseUrl}/${years}`, holiday);
     }
     deleteHolidayByDate(date) {
         return this.http.delete(`${this.baseUrl}/${date}`);
@@ -2606,7 +2613,7 @@ let SpendingComponent = class SpendingComponent {
         this.gridOptions.enableCellChangeFlash = true;
         this.gridOptions.getRowStyle = function (params) {
             if (params.data.feature.estimatedHours - params.data.spending === 0) {
-                return { background: '#E08E8E' };
+                return { background: '#DAEFFE' };
             }
         };
         this.gridOptions.headerHeight = 65;

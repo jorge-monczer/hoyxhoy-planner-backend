@@ -1,6 +1,7 @@
 package com.hhplanner.entities.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,5 +49,12 @@ public class Holiday {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-    
+
+	@Override
+	public String toString() {
+		return new StringBuilder().append("<Holiday> {")
+				.append("'date':").append("'").append(this.date != null ? this.date.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
+				.append("'description':").append("'").append(this.description).append("'").append("}").toString();
+	}
+	
 }

@@ -68,7 +68,7 @@ public class HolidayIntegrationTest {
 	
 	@Test
 	public void getHoliday_WithDate_ReturnsHoliday() throws Exception {
-		Holiday holidayInDB =this.builder.buildRevolucion().save().getHoliday();
+		Holiday holidayInDB =this.builder.buildRevolucion_2019().save().getHoliday();
 		ResultActions perform = this.mockMvc.perform(get("/api/holidays/{date}", holidayInDB.getDate()));
 		expectedPerform(perform,status().isOk(), holidayInDB,null);
 	}
@@ -93,9 +93,9 @@ public class HolidayIntegrationTest {
 
 	private List<Holiday> createHolidayListSavedToTest() {
 		List<Holiday> users = new ArrayList<>();
-		users.add(this.builder.buildRevolucion().save().getHoliday());
-		users.add(this.builder.buildBandera().save().getHoliday());
-		users.add(this.builder.buildIndependencia().save().getHoliday());
+		users.add(this.builder.buildRevolucion_2019().save().getHoliday());
+		users.add(this.builder.buildBandera_2019().save().getHoliday());
+		users.add(this.builder.buildIndependencia_2019().save().getHoliday());
 		return users;
 	}
 	
@@ -109,7 +109,7 @@ public class HolidayIntegrationTest {
 	
 	@Test
 	public void postHoliday_ReturnsHoliday() throws Exception {
-		Holiday holidayToSave = this.builder.buildRevolucion().getHoliday();
+		Holiday holidayToSave = this.builder.buildRevolucion_2019().getHoliday();
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.post("/api/holidays").content(asJsonString(holidayToSave))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
@@ -119,8 +119,8 @@ public class HolidayIntegrationTest {
 
 	@Test
 	public void postHoliday_WithDuplicateDate() throws Exception {
-		Holiday holidayInDB =this.builder.buildRevolucion().save().getHoliday();
-		Holiday holidayToSave = this.builder.buildBandera().getHoliday();
+		Holiday holidayInDB =this.builder.buildRevolucion_2019().save().getHoliday();
+		Holiday holidayToSave = this.builder.buildBandera_2019().getHoliday();
 		holidayToSave.setDate(holidayInDB.getDate());
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.post("/api/holidays").content(asJsonString(holidayToSave))
@@ -130,8 +130,22 @@ public class HolidayIntegrationTest {
 	}
 	
 	@Test
+	public void postHolidayForYears_ReturnsHolidays() throws Exception {
+		Holiday holidayToSave = this.builder.buildRevolucion_2019().getHoliday();
+		ResultActions perform = this.mockMvc.perform(
+				MockMvcRequestBuilders.post("/api/holidays/{years}",5).content(asJsonString(holidayToSave))
+				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+		perform.andExpect(status().isCreated());
+		perform.andExpect(jsonPath("$").isArray());
+        for (int i = 0; i < 5; i++) {
+        	Holiday retrievedHoliday = this.service.getHolidayByDate(holidayToSave.getDate().plusYears(i));
+        	expectedPerform(perform,status().isCreated(), retrievedHoliday,i);
+		}
+	}
+
+	@Test
 	public void putHoliday_WithDate_ReturnsHoliday() throws Exception {
-		Holiday holidayInDB =this.builder.buildRevolucion().save().getHoliday();
+		Holiday holidayInDB =this.builder.buildRevolucion_2019().save().getHoliday();
 		holidayInDB.setDescription("Revolucion 1810");
 		ResultActions perform = this.mockMvc.perform(
 				MockMvcRequestBuilders.put("/api/holidays/{date}",holidayInDB.getDate()).content(asJsonString(holidayInDB))
@@ -143,7 +157,7 @@ public class HolidayIntegrationTest {
 	@Test
 	public void putHoliday_WithDate_NotFound() throws Exception {
 		ResultActions perform = this.mockMvc.perform(
-				MockMvcRequestBuilders.put("/api/holidays/{date}",LocalDate.of(2019, 5, 25)).content(asJsonString(this.builder.buildRevolucion().getHoliday()))
+				MockMvcRequestBuilders.put("/api/holidays/{date}",LocalDate.of(2019, 5, 25)).content(asJsonString(this.builder.buildRevolucion_2019().getHoliday()))
 				   .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 		perform.andExpect(status().isNotFound());
 		perform.andExpect(jsonPath("error_message").value(BusinessExceptionFactory.HOLIDAY_NOT_FOUND));
@@ -151,7 +165,7 @@ public class HolidayIntegrationTest {
 
 	@Test
 	public void deleteHoliday_WithDate() throws Exception {
-		Holiday holidayInDB =this.builder.buildRevolucion().save().getHoliday();
+		Holiday holidayInDB =this.builder.buildRevolucion_2019().save().getHoliday();
 		ResultActions perform = this.mockMvc.perform(delete("/api/holidays/{date}", holidayInDB.getDate()));
 		perform.andExpect(status().isOk());
 		Iterable<Holiday> holidays = this.service.getHolidays();

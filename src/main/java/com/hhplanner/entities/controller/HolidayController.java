@@ -47,7 +47,7 @@ public class HolidayController extends BasicController {
 	}
 
 	@PostMapping(value = "/holidays")
-	public ResponseEntity<Holiday> postHoliday(@RequestBody Holiday holiday) {
+	public ResponseEntity<Holiday> postHolidays(@RequestBody Holiday holiday) {
 		try {
 			return new ResponseEntity<>(this.holidayService.save(holiday), HttpStatus.CREATED);
 		} catch (DataIntegrityViolationException e) {
@@ -59,6 +59,20 @@ public class HolidayController extends BasicController {
 		}
 	}
 
+	@PostMapping(value = "/holidays/{years}")
+	public ResponseEntity<Iterable<Holiday>> postHolidaysForYears(@PathVariable("years") int years, @RequestBody Holiday holiday) {
+		try {
+			return new ResponseEntity<>(this.holidayService.saveForYears(holiday,years), HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			throw BusinessExceptionFactory.holidayDuplicatedException();
+		} catch (BusinessException e) {
+			throw e;
+		} catch (Exception e) {
+			throw BusinessExceptionFactory.businessException(e.getMessage());
+		}
+	}
+	
+	
 	@PutMapping("/holidays/{date}")
 	public ResponseEntity<Holiday> updateProject(@PathVariable("date") String date, @RequestBody Holiday holiday) {
 		try {

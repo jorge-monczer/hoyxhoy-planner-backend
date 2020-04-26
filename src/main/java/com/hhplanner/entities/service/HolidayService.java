@@ -1,6 +1,8 @@
 package com.hhplanner.entities.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -40,6 +42,16 @@ public class HolidayService {
 		return this.holidayRepository.save(holiday);
 	}
 
+	public List<Holiday> saveForYears(Holiday holiday,int years) {
+		List<Holiday> holidays = new ArrayList<>();
+		for (int i = 0; i < years; i++) {
+			Holiday holidayToAdd = new Holiday(holiday.getDate().plusYears(i),holiday.getDescription());
+			this.holidayRepository.save(holidayToAdd);
+			holidays.add(holidayToAdd);
+		}
+		return holidays;
+	}
+	
 	public Holiday saveAndFlush(Holiday holiday) {
 		Holiday save = save(holiday);
 		this.holidayRepository.flush();

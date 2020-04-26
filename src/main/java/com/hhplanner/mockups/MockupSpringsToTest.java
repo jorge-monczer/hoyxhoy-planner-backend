@@ -17,13 +17,13 @@ public class MockupSpringsToTest {
 	}
 	
 	public static Spring createSpringS1(int id) {
-		return new Spring(id, "S11", "Spring 11", LocalDate.of(2019, 10, 1),LocalDate.of(2019, 10, 10), 10);
+		return new Spring(id, "S11", "Spring 11", 10);
 	}
 	public static Spring createSpringS2(int id) {
-		return new Spring(id, "S2", "Spring 2", LocalDate.of(2019, 10, 2),LocalDate.of(2019, 10, 17), 15);
+		return new Spring(id, "S2", "Spring 2", 15);
 	}
 	public static Spring createSpringS3(int id) {
-		return new Spring(id, "S3", "Spring 3", LocalDate.of(2019, 10, 3),LocalDate.of(2019, 10, 23), 20);
+		return new Spring(id, "S3", "Spring 3", 20);
 	}
 	
 }

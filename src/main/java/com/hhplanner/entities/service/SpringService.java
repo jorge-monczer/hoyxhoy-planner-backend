@@ -1,5 +1,6 @@
 package com.hhplanner.entities.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -12,9 +13,12 @@ import com.hhplanner.entities.exception.BusinessException;
 import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.model.Spring;
+import com.hhplanner.entities.model.WorkableDays;
 import com.hhplanner.entities.repo.AsignmentRepository;
+import com.hhplanner.entities.repo.HolidayRepository;
 import com.hhplanner.entities.repo.AsignmentRepository.Q_CapacitySumary;
 import com.hhplanner.entities.repo.SpringRepository;
+import com.hhplanner.utils.DateUtils;
 
 @Service
 @Transactional
@@ -22,12 +26,14 @@ public class SpringService {
 
 	private SpringRepository springRepository;
 	private ProjectService projectService;
+	private HolidayRepository holidayRepository;
 	private AsignmentRepository asignmentRepository;
 	
-	public SpringService(SpringRepository springRepository, ProjectService projectService, AsignmentRepository asignmentRepository ) {
+	public SpringService(SpringRepository springRepository, ProjectService projectService, AsignmentRepository asignmentRepository, HolidayRepository holidayRepository ) {
 		this.springRepository = springRepository;
 		this.projectService = projectService;
 		this.asignmentRepository = asignmentRepository;
+		this.holidayRepository = holidayRepository;
 	}
 
 	public Spring getSpringById(int id) {
@@ -47,7 +53,18 @@ public class SpringService {
 	}
 
 	public Iterable<Spring> getSpringsByProjectId(int projectId) {
-		return this.springRepository.findByProjectIdOrderByStartDate(projectId);
+		Project project = this.projectService.getProjectById(projectId);
+		WorkableDays wd = new WorkableDays(DateUtils.WORKABLE_DAYS);
+		wd.setHolidays(this.holidayRepository.findAll());
+		LocalDate startDate = project.getStartDate();
+		Iterable<Spring> springs = this.springRepository.findByProjectIdOrderByCode(projectId);
+		for (Spring spring : springs) {
+			spring.setStartDate(startDate);
+			LocalDate endDate = wd.plusWorkableDays(startDate, spring.getSpringDays());
+			spring.setEndDate(endDate);
+			startDate = DateUtils.plusWorkableDays(endDate, 2);
+		}
+		return springs;
 	}
 
 	public Spring save(Spring spring, int projectId) {

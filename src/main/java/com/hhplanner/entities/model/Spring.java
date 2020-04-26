@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.OnDelete;
@@ -38,11 +39,13 @@ public class Spring implements SimpleIdCode {
     private String name;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @Column(name = "start_date", columnDefinition = "DATE")
+//    @Column(name = "start_date", columnDefinition = "DATE")
+    @Transient
     private LocalDate startDate;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @Column(name = "end_date", columnDefinition = "DATE")
+//    @Column(name = "end_date", columnDefinition = "DATE")
+    @Transient
     private LocalDate endDate;
     @Column(name = "spring_days")
     private int springDays;
@@ -57,13 +60,13 @@ public class Spring implements SimpleIdCode {
 		super();
 	}
     
-    public Spring(int id, String code, String name, LocalDate startDate, LocalDate endDate, int springDays) {
+    public Spring(int id, String code, String name, int springDays) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.name = name;
-		this.startDate = startDate;
-		this.endDate = endDate;
+//		this.startDate = startDate;
+//		this.endDate = endDate;
 		this.springDays = springDays;
 	}
 
@@ -117,8 +120,8 @@ public class Spring implements SimpleIdCode {
 				.append("'id':").append(this.id).append(",")
 				.append("'code':").append("'").append(this.code).append("'").append(",")
 				.append("'name':").append("'").append(this.name).append("'").append(",")
-				.append("'startDate':").append("'").append(this.startDate != null ? this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
-				.append("'endDate':").append("'").append(this.endDate != null ? this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
+//				.append("'startDate':").append("'").append(this.startDate != null ? this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
+//				.append("'endDate':").append("'").append(this.endDate != null ? this.startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : "null").append("'").append(",")
 				.append("'springDays':").append(this.springDays).append("}").toString();
 	}
 	

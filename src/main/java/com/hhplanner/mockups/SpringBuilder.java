@@ -1,7 +1,5 @@
 package com.hhplanner.mockups;
 
-import java.time.LocalDate;
-
 import com.hhplanner.entities.exception.BusinessException;
 import com.hhplanner.entities.model.Spring;
 import com.hhplanner.entities.service.SpringService;
@@ -18,17 +16,20 @@ public class SpringBuilder {
 	}
 	
 	public SpringBuilder buildS1(int id) {
-		this.spring = new Spring(id, "S1", "Spring 1", LocalDate.of(2019, 10, 1),LocalDate.of(2019, 10, 10), 10);
+//		this.spring = new Spring(id, "S1", "Spring 1", LocalDate.of(2019, 10, 1),LocalDate.of(2019, 10, 10), 10);
+		this.spring = new Spring(id, "S1", "Spring 1", 10);
 		return this;
 	}
 	
 	public SpringBuilder buildS2(int id) {
-		this.spring = new Spring(id, "S2", "Spring 2", LocalDate.of(2019, 10, 2),LocalDate.of(2019, 10, 17), 15);
+//		this.spring = new Spring(id, "S2", "Spring 2", LocalDate.of(2019, 10, 2),LocalDate.of(2019, 10, 17), 15);
+		this.spring = new Spring(id, "S2", "Spring 2", 15);
 		return this;
 	}
 
 	public SpringBuilder buildS3(int id) {
-		this.spring = new Spring(id, "S3", "Spring 3", LocalDate.of(2019, 10, 3),LocalDate.of(2019, 10, 23), 20);
+//		this.spring = new Spring(id, "S3", "Spring 3", LocalDate.of(2019, 10, 3),LocalDate.of(2019, 10, 23), 20);
+		this.spring = new Spring(id, "S3", "Spring 3", 20);
 		return this;
 	}
 	
