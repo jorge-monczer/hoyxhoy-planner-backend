@@ -35,11 +35,12 @@ public interface AsignmentRepository extends CrudRepository<Asignment, Integer> 
     	+   " and a.feature_id = f.id "
     	+   " and a.spring_id = ?1 "
     	+   " group by a.username,c.available_hours ", nativeQuery = true)
- 	public List<Q_CapacitySumary> sumHoursAsignedForUserBySpringId(int springId);
+ 	public List<Q_CapacitySummary> sumHoursAsignedForUserBySpringId(int springId);
     
- 	public interface Q_CapacitySumary {
+ 	public interface Q_CapacitySummary {
  	    String getUsername();
  	    Float getAvailableHours();
  	    Float getEstimatedHours();
  	}
+
 }

@@ -49,6 +49,15 @@ public class FeatureController extends BasicController {
 		return new ResponseEntity<>(this.featrueService.getFeatureByCodeAndProjectId(code, pid), HttpStatus.OK);
 	}
 	
+	@GetMapping("/projects/{pid}/features/toAsign")
+	public ResponseEntity<Iterable<Feature>> getAllFeaturesToAsignByProjectID(@PathVariable("pid") int pid) {
+		Iterable<Feature> features = this.featrueService.getFeaturesToAsignByProjectId(pid);
+		if (CollectionUtils.isEmpty(features)) {
+			return new ResponseEntity<>(features, HttpStatus.NO_CONTENT);		
+		}
+		return new ResponseEntity<>(features, HttpStatus.OK);		
+	}
+
 	@PostMapping(value = "/projects/{pid}/features")
 	public ResponseEntity<Feature> postFeature(@PathVariable("pid") int pid,@RequestBody Feature feature) {
 		try {

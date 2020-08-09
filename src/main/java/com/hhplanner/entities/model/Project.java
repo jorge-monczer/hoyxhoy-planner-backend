@@ -14,7 +14,7 @@ import com.hhplanner.entities.converter.LocalDateDeserializer;
 import com.hhplanner.entities.converter.LocalDateSerializer;
 
 @Entity
-public class Project implements SimpleIdCode {
+public class Project implements SimpleIdCodeName {
 	
 	@Id
 	@GeneratedValue

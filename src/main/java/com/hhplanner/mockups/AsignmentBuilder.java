@@ -2,6 +2,7 @@ package com.hhplanner.mockups;
 
 import com.hhplanner.entities.exception.BusinessException;
 import com.hhplanner.entities.model.Asignment;
+import com.hhplanner.entities.model.Feature;
 import com.hhplanner.entities.service.AsignmentService;
 
 public class AsignmentBuilder {
@@ -102,6 +103,14 @@ public class AsignmentBuilder {
 	
 	public int getSpringId() {
 		return this.springBuilder.getSpring().getId();
+	}
+
+	public int getProjectId() {
+		return this.springBuilder.getProjectId();
+	}
+	
+	public Feature getFeature() {
+		return this.featureBuilder.getFeature();
 	}
 	
 	public void deleteAll() {

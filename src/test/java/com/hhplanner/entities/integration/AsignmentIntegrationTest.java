@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplanner.HoyxhoyPlannerBackendApplication;
 import com.hhplanner.entities.exception.BusinessExceptionFactory;
 import com.hhplanner.entities.model.Asignment;
+import com.hhplanner.entities.model.Feature;
 import com.hhplanner.entities.service.AsignmentService;
 import com.hhplanner.mockups.AsignmentBuilder;
 import com.hhplanner.mockups.BuilderFactory;
@@ -118,7 +119,7 @@ public class AsignmentIntegrationTest {
         	expectedPerform(perform,status().isOk(), savedAsignments.get(i), i);
 		}
 	}
-
+	
 	private List<Asignment> createAsignmentListSavedTest() {
 		List<Asignment> savedList = new ArrayList<>();
 		savedList.add(this.builder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save().getAsignment());

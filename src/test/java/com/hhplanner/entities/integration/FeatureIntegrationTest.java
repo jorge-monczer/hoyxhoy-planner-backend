@@ -106,6 +106,19 @@ public class FeatureIntegrationTest {
 		}
 	}
 
+	@Test
+	public void getFeaturesToAsignByProjectId() throws Exception {
+		AsignmentBuilder abuilder = this.builderFactory.getAsignmentBuilder();
+		abuilder.buildP1().buildS1().buildF1().buildU1().buildCapacity(8).buildAsignment(0).save();
+		abuilder.buildS2().buildF2().buildU2().buildCapacity(8).buildAsignment(0).save();
+		Feature f3 = abuilder.buildF3().getFeature();
+		ResultActions perform = this.mockMvc.perform(get("/api/projects/{pid}/features/toAsign",this.builder.getProjectId()));
+		perform.andExpect(status().isOk());
+		perform.andExpect(jsonPath("$").isArray());
+       	expectedPerform(perform,status().isOk(), f3, 0);
+		abuilder.deleteAll();
+	}
+	
 	private List<Feature> createFeatureListSavedTest() {
 		List<Feature> savedList = new ArrayList<>();
 		savedList.add(this.builder.buildP1().buildF1(0).save().getFeature());

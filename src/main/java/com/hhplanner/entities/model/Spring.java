@@ -1,7 +1,6 @@
 package com.hhplanner.entities.model;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ import com.hhplanner.entities.converter.LocalDateSerializer;
 @Table(uniqueConstraints= {
           @UniqueConstraint(columnNames = {"project_id", "code"}),
           @UniqueConstraint(columnNames={"project_id", "name"})  })
-public class Spring implements SimpleIdCode {
+public class Spring implements SimpleIdCodeName {
 	
 	@Id
 	@GeneratedValue

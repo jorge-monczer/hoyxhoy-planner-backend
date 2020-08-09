@@ -15,8 +15,8 @@ import com.hhplanner.entities.model.Project;
 import com.hhplanner.entities.model.Spring;
 import com.hhplanner.entities.model.WorkableDays;
 import com.hhplanner.entities.repo.AsignmentRepository;
+import com.hhplanner.entities.repo.AsignmentRepository.Q_CapacitySummary;
 import com.hhplanner.entities.repo.HolidayRepository;
-import com.hhplanner.entities.repo.AsignmentRepository.Q_CapacitySumary;
 import com.hhplanner.entities.repo.SpringRepository;
 import com.hhplanner.utils.DateUtils;
 
@@ -97,10 +97,10 @@ public class SpringService {
 	}
 
 	public boolean validateEnoughSpringDays(Spring spring) {
-		List<Q_CapacitySumary> listCapacitySumary = this.asignmentRepository.sumHoursAsignedForUserBySpringId(spring.getId());
-		listCapacitySumary.forEach(s -> {  System.out.println(s);});
-		listCapacitySumary.forEach(System.out::println);
-		OptionalDouble maxDaysAsigned = listCapacitySumary.stream().mapToDouble(s -> (double) s.getEstimatedHours() / s.getAvailableHours() ).max();
+		List<Q_CapacitySummary> listCapacitySummary = this.asignmentRepository.sumHoursAsignedForUserBySpringId(spring.getId());
+		listCapacitySummary.forEach(s -> {  System.out.println(s);});
+		listCapacitySummary.forEach(System.out::println);
+		OptionalDouble maxDaysAsigned = listCapacitySummary.stream().mapToDouble(s -> (double) s.getEstimatedHours() / s.getAvailableHours() ).max();
 		return 	!maxDaysAsigned.isPresent() || spring.getSpringDays() >= maxDaysAsigned.getAsDouble();
 	}
 	

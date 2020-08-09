@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\"/></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<!--a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a-->\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Capacity</a>\n\t\t<a routerLink=\"/spending\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Spending</a>\n\t\t<a routerLink=\"/holidays\" routerLinkActive=\"active\" mat-menu-item>Holidays</a>\n\t\t<a routerLink=\"/outlook\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Outlook</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div *ngIf=\"loginService.isUserLoggedIn\" style=\"padding: 20px;\" >\n\t<mat-toolbar #toolbar1 color=\"primary\">\n\t\t<!--mat-icon>done</mat-icon-->\n\t\t<span><img src=\"../assets/planner-logo.png\" width=\"192\" height=\"45\"></span>\n\t\t<!--span> v1</span-->\n\t\t<span class=\"example-spacer\"></span>\n\t\t<button mat-button [mat-menu-trigger-for]=\"menu\">\n\t\t\t<mat-icon>menu</mat-icon>\n\t\t</button>\n\t\t&nbsp;\n\t\t<button mat-button (click)=\"logout()\">\n\t\t\t<mat-icon>exit_to_app</mat-icon>\n\t\t</button>\n\t</mat-toolbar>\n\t\t\n\t<mat-menu #menu=\"matMenu\">\n\t\t<a routerLink=\"/projects\" routerLinkActive=\"active\" mat-menu-item>Projects</a>\n\t\t<a routerLink=\"/users\" routerLinkActive=\"active\" mat-menu-item>Users</a>\n\t\t<a routerLink=\"/backlog\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Backlog</a>\n\t\t<a routerLink=\"/springs\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs</a>\n\t\t<a routerLink=\"/asignment\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Asignment</a>\n\t\t<!--a routerLink=\"/springWizard\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Springs Wizard</a-->\n\t\t<a routerLink=\"/capacity\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Capacity</a>\n\t\t<a routerLink=\"/spending\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Spending</a>\n\t\t<a routerLink=\"/holidays\" routerLinkActive=\"active\" mat-menu-item>Holidays</a>\n\t\t<a routerLink=\"/outlook\" routerLinkActive=\"active\" mat-menu-item [disabled]=\"!loginService.currentProject\">Outlook</a>\n\t</mat-menu>\n\n\t<mat-toolbar style=\"display: flex;\">\n\t\t<span >Welcome, {{loginService.currentName }}</span>\n\t\t<span class=\"example-spacer\"></span>\n\t\t<span >{{loginService.currentProjectName + \" \" + loginService.currentSpringName}}</span>\n\t</mat-toolbar>\n</div>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = "<!--The content below is only a placeholder and can be replace
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"asignment.feature\" name=\"featureSelected\" placeholder=\"Feature Selected\" [compareWith]=\"compareFeatures\" required>\n        <mat-option *ngFor=\"let feat of features\" [value]=\"feat\">\n            {{feat.code + \" \" + feat.title}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <mat-select [(ngModel)]=\"asignment.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addAsignment()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateAsignment()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"asignment.feature\" name=\"featureSelected\" placeholder=\"Feature Selected\" [compareWith]=\"compareFeatures\" [disabled]=\"isEditMode\" required>\n        <mat-option *ngFor=\"let feat of features\" [value]=\"feat\">\n            {{feat.code + \" \" + feat.title}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <mat-select [(ngModel)]=\"asignment.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addAsignment()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateAsignment()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\"\n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -52,7 +52,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Asignment
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"feature.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.title\" name=\"title\" placeholder=\"Title\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <!--span>{{feature.estimatedHours| number:'1.2-2'}}</span Show decimal format!-->\n    <mat-form-field>\n      <input matInput [ngModel]=\"feature.estimatedHours| number:'1.2-2'\"  (ngModelChange)=\"feature.estimatedHours=$event\" [ngModelOptions]=\"{updateOn: 'blur'}\" (change)=\"frm.setTwoNumberDecimal($event)\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\" min=\"0.00\" max=\"999.99\"  required>\n      <!--input matInput [(ngModel)]=\"feature.estimatedHours\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\"  min=\"0.00\" maxlength=\"3\" required (keyup)=\"frm.validateNumberTwoDecimal($event)\" -->\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.committedDate\" name=\"committedDate\" placeholder=\"Committed Date\" type=\"date\" required #committedDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addFeature()\" matTooltip=\"Add {{feature.title}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateFeature()\" matTooltip=\"Confirm update {{feature.title}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{feature.title}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>BackLog List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"feature.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.title\" name=\"title\" placeholder=\"Title\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <!--span>{{feature.estimatedHours| number:'1.2-2'}}</span Show decimal format!-->\n    <mat-form-field>\n      <input matInput [ngModel]=\"feature.estimatedHours| number:'1.2-2'\"  (ngModelChange)=\"feature.estimatedHours=$event\" [ngModelOptions]=\"{updateOn: 'blur'}\" (change)=\"frm.setTwoNumberDecimal($event)\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\" min=\"0.00\" max=\"999.99\"  required>\n      <!--input matInput [(ngModel)]=\"feature.estimatedHours\" name=\"estimatedHours\" placeholder=\"Estimated Hours\" type=\"number\"  min=\"0.00\" maxlength=\"3\" required (keyup)=\"frm.validateNumberTwoDecimal($event)\" -->\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"feature.committedDate\" name=\"committedDate\" placeholder=\"Committed Date\" type=\"date\" required #committedDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addFeature()\" matTooltip=\"Add {{feature.title}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateFeature()\" matTooltip=\"Confirm update {{feature.title}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{feature.title}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>BackLog List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Backlog D
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Capacity Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"capacity.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [ngModel]=\"capacity.availableHours| number:'1.2-2'\" (ngModelChange)=\"capacity.availableHours=$event\" [ngModelOptions]=\"{updateOn: 'blur'}\" (change)=\"frm.setTwoNumberDecimal($event)\" name=\"availableHours\" placeholder=\"Available Hours\" type=\"number\" min=\"0.00\" max=\"24.00\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addCapacity()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateCapacity()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Capacity List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Capacity Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field class=\"field-half-width\">\n      <mat-select [(ngModel)]=\"capacity.user\" name=\"userSelected\" placeholder=\"User Selected\" [compareWith]=\"compareUsers\" required>\n        <mat-option *ngFor=\"let user of users\" [value]=\"user\">\n            {{user.name}}\n        </mat-option>\n      </mat-select>        \n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [ngModel]=\"capacity.availableHours| number:'1.2-2'\" (ngModelChange)=\"capacity.availableHours=$event\" [ngModelOptions]=\"{updateOn: 'blur'}\" (change)=\"frm.setTwoNumberDecimal($event)\" name=\"availableHours\" placeholder=\"Available Hours\" type=\"number\" min=\"0.00\" max=\"24.00\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addCapacity()\" matTooltip=\"Add {{getMatTooltipButton()}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateCapacity()\" matTooltip=\"Confirm update {{getMatTooltipButton()}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{getMatTooltipButton()}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Capacity List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -85,7 +85,7 @@ module.exports = "<mat-checkbox \r\n    [ngModel]=\"checked\" \r\n    (ngModelCh
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holidays Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"holiday.date\" name=\"date\" placeholder=\"Date\" type=\"date\" required #date=\"ngModel\" [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"holiday.description\" name=\"description\" placeholder=\"Description\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"years\" name=\"years\" placeholder=\"Years\" type=\"number\" min=\"0\" max=\"99\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addHoliday()\" matTooltip=\"Add {{holiday.description}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateHoliday()\" matTooltip=\"Confirm update {{holiday.descriptiion}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{holiday.description}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"!isEditMode\"  [disabled]=\"!myForm.valid || !years\" mat-mini-fab color=\"primary\" (click)=\"addHolidaysForYears()\" matTooltip=\"Create Sequence\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holiday List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holidays Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"holiday.date\" name=\"date\" placeholder=\"Date\" type=\"date\" required #date=\"ngModel\" [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"holiday.description\" name=\"description\" placeholder=\"Description\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"years\" name=\"years\" placeholder=\"Years\" type=\"number\" min=\"0\" max=\"99\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addHoliday()\" matTooltip=\"Add {{holiday.description}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateHoliday()\" matTooltip=\"Confirm update {{holiday.descriptiion}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{holiday.description}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"!isEditMode\"  [disabled]=\"!myForm.valid || !years\" mat-mini-fab color=\"primary\" (click)=\"addHolidaysForYears()\" matTooltip=\"Create Sequence\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holiday List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -96,7 +96,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Holidays 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-container\">\r\n    <h1>Login to Your Account</h1><br>\r\n    <button class=\"login loginmodal-submit\" (click)=\"login()\">Login With Google</button>\r\n  </div>\r\n</div-->\r\n<div class=\"login-content\">\r\n<mat-card>\r\n  <mat-card-title>\r\n    <mat-toolbar>\r\n      HOYxHOY Application\r\n    </mat-toolbar>\r\n  </mat-card-title>\r\n  <mat-card-subtitle>\r\n      Login to Your Account\r\n  </mat-card-subtitle>\r\n  <mat-card-content>\r\n    <form  class=\"login-form\" #myForm=\"ngForm\">\r\n      <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \r\n      <mat-form-field class=\"field-full-width\">\r\n          <input matInput [(ngModel)]=\"username\" name=\"username\" placeholder=\"user name\" required>\r\n          <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <mat-form-field class=\"field-full-width\">\r\n        <input matInput [(ngModel)]=\"password\" name=\"password\" type=\"password\" placeholder=\"password\" required>\r\n        <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <div class=\"field-full-width txt_center margin1em\">\r\n        <button color=\"primary\" mat-raised-button type=\"submit\" [disabled]=\"!myForm.valid\" (click)=\"login()\">\r\n            Login\r\n        </button>\r\n      </div>\r\n      <!-- users mrotger@plann.er 123456  larce@plann.er 123456  jm@gmail.com ??????-->\r\n   </form>\r\n  </mat-card-content>\r\n</mat-card>\r\n</div>\r\n"
+module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-container\">\r\n    <h1>Login to Your Account</h1><br>\r\n    <button class=\"login loginmodal-submit\" (click)=\"login()\">Login With Google</button>\r\n  </div>\r\n</div-->\r\n<div class=\"login-content\">\r\n<mat-card>\r\n  <mat-card-title>\r\n    <mat-toolbar>\r\n      <div width=\"100%\" style=\"text-align: center;\"><img src=\"../assets/planner-logo.png\" width=\"128\" height=\"30\"></div>\r\n    </mat-toolbar>\r\n  </mat-card-title>\r\n  <mat-card-subtitle>\r\n      Login to Your Account\r\n  </mat-card-subtitle>\r\n  <mat-card-content>\r\n    <form  class=\"login-form\" #myForm=\"ngForm\">\r\n      <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \r\n      <mat-form-field class=\"field-full-width\">\r\n          <input matInput [(ngModel)]=\"username\" name=\"username\" placeholder=\"user name\" required>\r\n          <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <mat-form-field class=\"field-full-width\">\r\n        <input matInput [(ngModel)]=\"password\" name=\"password\" type=\"password\" placeholder=\"password\" required>\r\n        <mat-error>This field is required</mat-error>\r\n      </mat-form-field>\r\n      <div class=\"field-full-width txt_center margin1em\">\r\n        <button color=\"primary\" mat-raised-button type=\"submit\" [disabled]=\"!myForm.valid\" (click)=\"login()\">\r\n            Login\r\n        </button>\r\n      </div>\r\n      <!-- users mrotger@plann.er 123456  larce@plann.er 123456  jm@gmail.com ??????-->\r\n   </form>\r\n  </mat-card-content>\r\n</mat-card>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -107,7 +107,7 @@ module.exports = "<!--div class=\"modal-dialog\">\r\n  <div class=\"loginmodal-c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  outlook works!\n</p>\n"
+module.exports = "<div class=\"flex-container\">\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project Advance</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 300px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\"\n    [headerHeight]=\"0\" \n    [rowSelection]=\"rowSelection\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project Projection</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 300px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs2\" \n    [rowData]=\"rowData2\" \n    [context]=\"context\" \n    [headerHeight]=\"0\" \n    [rowSelection]=\"rowSelection\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n</div>\n"
 
 /***/ }),
 
@@ -118,7 +118,7 @@ module.exports = "<p>\n  outlook works!\n</p>\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project Detail</mat-card-title>\n  </mat-card-header>\n  <form  #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"project.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.name\" name=\"name\" type=\"text\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.startDate\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required #startDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. 10,15,20\">\n      <input matInput [(ngModel)]=\"project.springDays\" name=\"springDays\" placeholder=\"Spring Days\" type=\"number\" min=\"0\" max=\"999\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addProject()\" matTooltip=\"Add {{project.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateProject()\" matTooltip=\"Confirm update {{project.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{project.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n  </form>\n</mat-card>\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project List</mat-card-title>\n  </mat-card-header>\n  <!--Selection: <span id=\"selectedRows\">{{ projectSelected | json }}</span-->\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    id=\"myGrid\"\n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project Detail</mat-card-title>\n  </mat-card-header>\n  <form  #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"project.code\" name=\"code\" placeholder=\"Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.name\" name=\"name\" type=\"text\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"project.startDate\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required #startDate=\"ngModel\">\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. 10,15,20\">\n      <input matInput [(ngModel)]=\"project.springDays\" name=\"springDays\" placeholder=\"Spring Days\" type=\"number\" min=\"0\" max=\"999\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addProject()\" matTooltip=\"Add {{project.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateProject()\" matTooltip=\"Confirm update {{project.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{project.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n  </form>\n</mat-card>\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Project List</mat-card-title>\n  </mat-card-header>\n  <!--Selection: <span id=\"selectedRows\">{{ projectSelected | json }}</span-->\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    id=\"myGrid\"\n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -129,7 +129,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title >Project 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spending List</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p class=\"text-danger\">{{errorMessage}}</p>    \n    <ag-grid-angular \n      #agGrid style=\"width: 100%; height: 200px;\" \n      class=\"ag-theme-fresh\" \n      [gridOptions]=\"gridOptions\" \n      [columnDefs]=\"columnDefs\" \n      [rowData]=\"rowData\" \n      [context]=\"context\" \n      (gridReady)=\"onGridReady($event)\"\n      (cellEditingStarted)=\"onCellEditingStarted($event)\">\n    </ag-grid-angular>\n  <div class=\"field-full-width txt_center margin1em\">\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"refeshAsignments()\">Cancel</button>\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"saveSpendings()\">Save</button>\n  </div>\n  </form>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spending List</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p class=\"text-danger\">{{errorMessage}}</p>    \n    <ag-grid-angular \n      #agGrid style=\"width: 100%; height: 300px;\" \n      class=\"ag-theme-material\" \n      [gridOptions]=\"gridOptions\" \n      [columnDefs]=\"columnDefs\" \n      [rowData]=\"rowData\" \n      [context]=\"context\" \n      (gridReady)=\"onGridReady($event)\"\n      (cellEditingStarted)=\"onCellEditingStarted($event)\">\n    </ag-grid-angular>\n  <div class=\"field-full-width txt_center margin1em\">\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"refeshAsignments()\">Cancel</button>\n      <button color=\"primary\" class=\"my_button\" mat-raised-button (click)=\"saveSpendings()\">Save</button>\n  </div>\n  </form>\n</mat-card>\n"
 
 /***/ }),
 
@@ -140,7 +140,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spending 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"spring.code\" name=\"code\" placeholder=\"Spring Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.name\" name=\"name\" placeholder=\"Spring Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.springDays\" name=\"springDays\" placeholder=\"Spring Day\" type=\"number\" (change)=\"spring.setEndDateMdCalculed()\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.startDateMd.value\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required disabled no-weekend #startDate=\"ngModel\" (change)=\"spring.setEndDateMdCalculed()\" >\n      <mat-error *ngIf=\"startDate.errors && startDate.errors.required\">Email required</mat-error>\n      <mat-error *ngIf=\"startDate.errors && startDate.errors.weekend && !startDate.errors.required \">Start Date on weekend</mat-error>\n      <!--mat-error>This field is required</mat-error-->\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.endDateMd.value\" name=\"endDate\" placeholder=\"End Date\" type=\"date\" required disabled>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addSpring()\" matTooltip=\"Add {{spring.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateSpring()\" matTooltip=\"Confirm update {{spring.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{spring.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"spring.code\" name=\"code\" placeholder=\"Spring Code\" required>\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.name\" name=\"name\" placeholder=\"Spring Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.springDays\" name=\"springDays\" placeholder=\"Spring Day\" type=\"number\" (change)=\"spring.setEndDateMdCalculed()\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.startDateMd.value\" name=\"startDate\" placeholder=\"Start Date\" type=\"date\" required disabled no-weekend #startDate=\"ngModel\" (change)=\"spring.setEndDateMdCalculed()\" >\n      <mat-error *ngIf=\"startDate.errors && startDate.errors.required\">Email required</mat-error>\n      <mat-error *ngIf=\"startDate.errors && startDate.errors.weekend && !startDate.errors.required \">Start Date on weekend</mat-error>\n      <!--mat-error>This field is required</mat-error-->\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"spring.endDateMd.value\" name=\"endDate\" placeholder=\"End Date\" type=\"date\" required disabled>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addSpring()\" matTooltip=\"Add {{spring.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateSpring()\" matTooltip=\"Confirm update {{spring.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{spring.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    [rowSelection]=\"rowSelection\"\n    (selectionChanged)=\"onSelectionChanged($event)\"\n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -151,7 +151,7 @@ module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>Spring De
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>User Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"user.username\" name=\"user\" placeholder=\"user\" required [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"user.name\" name=\"name\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"user.email\" name=\"email\" placeholder=\"Email\" type=\"email\" required email #email=\"ngModel\">\n      <mat-error *ngIf=\"email.errors && email.errors.required\">Email required</mat-error>\n      <mat-error *ngIf=\"email.errors && email.errors.email && !email.errors.required \">Email invalid format</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. +541112341234\">\n      <input matInput [(ngModel)]=\"user.phone\" maxlength=\"13\" name=\"phone\" type=\"tel\" placeholder=\"Phone\" pattern=\"\\+[0-9]*\">\n      <mat-error>Phone invalid format</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. +5491112341234\">\n      <input matInput [(ngModel)]=\"user.mobile\" maxlength=\"14\" name=\"mobile\" type=\"tel\" placeholder=\"Mobile\" pattern=\"\\+[0-9]*\">\n      <mat-error>Mobile invalid format</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addUser()\" matTooltip=\"Add {{user.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateUser()\" matTooltip=\"Confirm update {{user.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{user.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"createUser()\" matTooltip=\"Create User {{user.name}}\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>User List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-fresh\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
+module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title>User Detail</mat-card-title>\n  </mat-card-header>\n  <form #myForm=\"ngForm\">\n    <p *ngIf=\"errorMessage.length > 0\" class=\"text-danger\"> {{errorMessage}}</p>    \n    <mat-form-field>\n        <input matInput [(ngModel)]=\"user.username\" name=\"user\" placeholder=\"user\" required [disabled]=\"isEditMode\">\n        <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"user.name\" name=\"name\" placeholder=\"Name\" required>\n      <mat-error>This field is required</mat-error>\n    </mat-form-field>\n    <mat-form-field>\n      <input matInput [(ngModel)]=\"user.email\" name=\"email\" placeholder=\"Email\" type=\"email\" required email #email=\"ngModel\">\n      <mat-error *ngIf=\"email.errors && email.errors.required\">Email required</mat-error>\n      <mat-error *ngIf=\"email.errors && email.errors.email && !email.errors.required \">Email invalid format</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. +541112341234\">\n      <input matInput [(ngModel)]=\"user.phone\" maxlength=\"13\" name=\"phone\" type=\"tel\" placeholder=\"Phone\" pattern=\"\\+[0-9]*\">\n      <mat-error>Phone invalid format</mat-error>\n    </mat-form-field>\n    <mat-form-field hintLabel=\"Ej. +5491112341234\">\n      <input matInput [(ngModel)]=\"user.mobile\" maxlength=\"14\" name=\"mobile\" type=\"tel\" placeholder=\"Mobile\" pattern=\"\\+[0-9]*\">\n      <mat-error>Mobile invalid format</mat-error>\n    </mat-form-field>\n    <button type=\"submit\" *ngIf=\"!isEditMode\" [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"addUser()\" matTooltip=\"Add {{user.name}}\">\n      <mat-icon>add</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"updateUser()\" matTooltip=\"Confirm update {{user.name}}\">\n      <mat-icon>check</mat-icon>\n    </button>  \n    <button type=\"submit\" *ngIf=\"isEditMode\"  mat-mini-fab color=\"primary\" (click)=\"cancelEditMode()\" matTooltip=\"Cancel update {{user.name}}\">\n      <mat-icon>close</mat-icon>\n    </button>\n    <button type=\"submit\" *ngIf=\"isEditMode\"  [disabled]=\"!myForm.valid\" mat-mini-fab color=\"primary\" (click)=\"createUser()\" matTooltip=\"Create User {{user.name}}\">\n        <mat-icon>group_add</mat-icon>\n      </button>  \n    </form>\n</mat-card>\n\n<mat-card>\n  <mat-card-header>\n    <mat-card-title>User List</mat-card-title>\n  </mat-card-header>\n  <ag-grid-angular \n    #agGrid style=\"width: 100%; height: 200px;\" \n    class=\"ag-theme-material\" \n    [gridOptions]=\"gridOptions\" \n    [columnDefs]=\"columnDefs\" \n    [rowData]=\"rowData\" \n    [context]=\"context\" \n    (gridReady)=\"onGridReady($event)\">\n  </ag-grid-angular>\n</mat-card>\n"
 
 /***/ }),
 
@@ -436,14 +436,14 @@ var AsignmentComponent = /** @class */ (function () {
         this.gridOptions.suppressRowClickSelection = false;
         this.gridOptions.enableColResize = true;
         this.gridOptions.enableCellChangeFlash = true;
-        this.gridOptions.headerHeight = 45;
+        this.gridOptions.headerHeight = 56;
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
-            { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
+            { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 110 },
             { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 400 },
-            { headerName: 'Estimated Hs.', field: 'feature.estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Estimated Hs.', field: 'feature.estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 160 },
             { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 },
-            { headerName: 'Asign </br>Remaining Hs.', field: 'remaining', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Asign Remaining Hs.', field: 'remaining', colId: 'remaining2x', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 150 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];
@@ -451,10 +451,12 @@ var AsignmentComponent = /** @class */ (function () {
     AsignmentComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.populateAsignments();
-        this.featuresService.getFeatures().toPromise().then(function (feats) { return _this.features = feats; });
+        this.featuresService.getFeaturesToAsign().toPromise().then(function (feats) { return _this.features = feats; });
         this.userService.getUsers().toPromise().then(function (users) { return _this.users = users; });
     };
     AsignmentComponent.prototype.refeshAsignments = function () {
+        var _this = this;
+        this.featuresService.getFeaturesToAsign().toPromise().then(function (feats) { return _this.features = feats; });
         this.populateAsignments();
         this.initialMode();
     };
@@ -481,6 +483,7 @@ var AsignmentComponent = /** @class */ (function () {
     };
     AsignmentComponent.prototype.editAsignment = function (data) {
         this.asignment = new _asignment__WEBPACK_IMPORTED_MODULE_8__["Asignment"](data);
+        this.features.push(this.asignment.feature);
         this.errorMessage = "";
     };
     AsignmentComponent.prototype.addAsignment = function () {
@@ -515,6 +518,8 @@ var AsignmentComponent = /** @class */ (function () {
         this.editAsignment(data);
     };
     AsignmentComponent.prototype.cancelEditMode = function () {
+        var _this = this;
+        this.features = this.features.filter(function (item) { return item !== _this.asignment.feature; });
         this.initialMode();
     };
     AsignmentComponent.prototype.initialMode = function () {
@@ -775,9 +780,9 @@ var FeaturesComponent = /** @class */ (function () {
         this.gridOptions.enableCellChangeFlash = true;
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
-            { headerName: 'F.Code', field: 'code', filter: 'text', width: 100 },
+            { headerName: 'F.Code', field: 'code', filter: 'text', width: 110 },
             { headerName: 'Feature Title', field: 'title', filter: 'text', width: 400 },
-            { headerName: 'Estimated Hours', field: 'estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Estimated Hours', field: 'estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 160 },
             { headerName: 'Committed Date', field: 'committedDate', filter: 'text', valueFormatter: this.frm.ag_dateFormatter, width: 170 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
@@ -953,6 +958,9 @@ var FeaturesService = /** @class */ (function () {
     FeaturesService.prototype.getFeatureById = function (id) {
         return this.http.get(this.baseUrl + "/" + id);
     };
+    FeaturesService.prototype.getFeaturesToAsign = function () {
+        return this.http.get(this.baseUrl + "/toAsign");
+    };
     FeaturesService.prototype.addFeature = function (feature) {
         return this.http.post(this.baseUrl, feature);
     };
@@ -1043,9 +1051,9 @@ var CapacityComponent = /** @class */ (function () {
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
             { headerName: 'User', field: 'user.name', filter: 'text', width: 150 },
-            { headerName: 'Available Hs', field: 'availableHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Available Hs', field: 'availableHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 140 },
             { headerName: 'Total Hs', field: 'availableOnSpring', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
-            { headerName: 'Remaining Hs', field: 'remainingOnSpring', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Remaining Hs', field: 'remainingOnSpring', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 150 },
             { headerName: '', cellRendererFramework: _grid_custom_components_mat_edit_button_grid_render_mat_edit_button_grid_render_component__WEBPACK_IMPORTED_MODULE_3__["MatEditButtonGridRenderComponent"], width: 75 },
             { headerName: '', suppressFilter: true, cellRendererFramework: _grid_custom_components_mat_remove_button_grid_render_mat_remove_button_grid_render_component__WEBPACK_IMPORTED_MODULE_4__["MatRemoveButtonGridRenderComponent"], width: 75 }
         ];
@@ -2033,6 +2041,30 @@ var LoginService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/outlook/advance.ts":
+/*!************************************!*\
+  !*** ./src/app/outlook/advance.ts ***!
+  \************************************/
+/*! exports provided: Advance */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Advance", function() { return Advance; });
+var Advance = /** @class */ (function () {
+    function Advance(values) {
+        if (values === void 0) { values = {}; }
+        this.code = '';
+        this.name = '';
+        Object.assign(this, values);
+    }
+    return Advance;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/outlook/outlook.component.scss":
 /*!************************************************!*\
   !*** ./src/app/outlook/outlook.component.scss ***!
@@ -2040,7 +2072,7 @@ var LoginService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL291dGxvb2svb3V0bG9vay5jb21wb25lbnQuc2NzcyJ9 */"
+module.exports = "th.mat-sort-header-sorted {\n  color: black;\n}\n\n.flex-container {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\nmat-card {\n  width: 45%;\n  margin: 1em;\n  padding: 10px;\n  text-align: left;\n}\n\ntable {\n  width: 70%;\n  margin: 1em auto;\n  padding: 10px;\n  text-align: left;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3V0bG9vay9DOlxcZ21hY1xcc3RzX3dvcmtzcGFjZXNcXGhveXhob3ktcGxhbm5lclxcaG95eGhveS1wbGFubmVyLWZyb250ZW5kL3NyY1xcYXBwXFxvdXRsb29rXFxvdXRsb29rLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9vdXRsb29rL291dGxvb2suY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQ0E7RUFDSSxZQUFBO0FDQUo7O0FER0E7RUFDSSxhQUFBO0VBQ0EsbUJBQUE7RUFDQSxlQUFBO0VBQ0EsdUJBQUE7QUNBSjs7QURHQTtFQUNJLFVBQUE7RUFDQSxXQUFBO0VBQ0EsYUFBQTtFQUNBLGdCQUFBO0FDQUo7O0FER0E7RUFDSSxVQUFBO0VBQ0EsZ0JBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7QUNBSiIsImZpbGUiOiJzcmMvYXBwL291dGxvb2svb3V0bG9vay5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIiBcclxudGgubWF0LXNvcnQtaGVhZGVyLXNvcnRlZCB7XHJcbiAgICBjb2xvcjogYmxhY2s7XHJcbn1cclxuXHJcbi5mbGV4LWNvbnRhaW5lciB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuICAgIGZsZXgtd3JhcDogd3JhcDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG5tYXQtY2FyZCB7XHJcbiAgICB3aWR0aDogNDUlO1xyXG4gICAgbWFyZ2luOiAxZW07XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxufVxyXG5cclxudGFibGUge1xyXG4gICAgd2lkdGg6IDcwJTtcclxuICAgIG1hcmdpbjogMWVtIGF1dG87XHJcbiAgICBwYWRkaW5nOiAxMHB4O1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxufVxyXG5cclxuIiwidGgubWF0LXNvcnQtaGVhZGVyLXNvcnRlZCB7XG4gIGNvbG9yOiBibGFjaztcbn1cblxuLmZsZXgtY29udGFpbmVyIHtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgZmxleC13cmFwOiB3cmFwO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxubWF0LWNhcmQge1xuICB3aWR0aDogNDUlO1xuICBtYXJnaW46IDFlbTtcbiAgcGFkZGluZzogMTBweDtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbn1cblxudGFibGUge1xuICB3aWR0aDogNzAlO1xuICBtYXJnaW46IDFlbSBhdXRvO1xuICBwYWRkaW5nOiAxMHB4O1xuICB0ZXh0LWFsaWduOiBsZWZ0O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -2056,12 +2088,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OutlookComponent", function() { return OutlookComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _advance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./advance */ "./src/app/outlook/advance.ts");
+/* harmony import */ var _outlook_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./outlook.service */ "./src/app/outlook/outlook.service.ts");
+/* harmony import */ var _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shared/ag-formatter.service */ "./src/app/shared/ag-formatter.service.ts");
 
 
+
+
+
+var ELEMENT_DATA = [
+    { name: 'PROYECCION AL ', value: null, date: '10/10/2020' },
+    { name: 'Hs Restantes', value: 140.00, date: null },
+    { name: 'Hs Recursos Disponibles x Día', value: 9.00, date: null },
+    { name: 'Días Hábiles Restantes', value: 15.00, date: null },
+    { name: 'Días Hábiles Restantes', value: 15.00, date: null },
+    { name: 'Fecha Finalización Estimada', value: null, date: '20/10/2020' },
+];
 var OutlookComponent = /** @class */ (function () {
-    function OutlookComponent() {
+    function OutlookComponent(outlookService, frm) {
+        this.outlookService = outlookService;
+        this.frm = frm;
+        this.errorMessage = "";
+        this.isEditMode = false;
+        this.context = { componentParent: this };
+        this.gridOptions = {};
+        this.gridOptions.enableFilter = true;
+        this.gridOptions.enableSorting = true;
+        this.gridOptions.suppressRowClickSelection = false;
+        this.gridOptions.enableColResize = true;
+        this.gridOptions.enableCellChangeFlash = true;
+        this.gridOptions.rowSelection = 'single';
+        this.columnDefs = [
+            { headerName: 'Name', field: 'name', filter: 'text', width: 300 },
+            { headerName: 'Spent', field: 'spent', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 150 },
+            { headerName: 'Advance', field: 'advance', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_percentageTwoDecimalFormatter, width: 150 }
+        ];
+        this.columnDefs2 = [
+            { headerName: 'Name', field: 'name', filter: 'text', width: 300 },
+            { headerName: 'Value', field: 'value', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 150 },
+            { headerName: 'Date', field: 'date', filter: 'text', width: 150 }
+        ];
     }
     OutlookComponent.prototype.ngOnInit = function () {
+        this.populateAdvance();
+        this.rowData2 = ELEMENT_DATA;
+    };
+    OutlookComponent.prototype.populateAdvance = function () {
+        var _this = this;
+        this.outlookService.getAdvance().subscribe(function (list) {
+            _this.rowData = list ? list.map(function (s) { return new _advance__WEBPACK_IMPORTED_MODULE_2__["Advance"](s); }) : list;
+        }, function (error) { return _this.handleError(error); });
+    };
+    OutlookComponent.prototype.onGridReady = function (params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridColumnApi.autoSizeColumns();
+    };
+    OutlookComponent.prototype.handleError = function (res) {
+        this.errorMessage = res.error.error_message;
+        console.log(res);
     };
     OutlookComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -2069,7 +2154,7 @@ var OutlookComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./outlook.component.html */ "./node_modules/raw-loader/index.js!./src/app/outlook/outlook.component.html"),
             styles: [__webpack_require__(/*! ./outlook.component.scss */ "./src/app/outlook/outlook.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_outlook_service__WEBPACK_IMPORTED_MODULE_3__["OutlookService"], _shared_ag_formatter_service__WEBPACK_IMPORTED_MODULE_4__["AgFormatterService"]])
     ], OutlookComponent);
     return OutlookComponent;
 }());
@@ -2112,6 +2197,54 @@ var OutlookModule = /** @class */ (function () {
         })
     ], OutlookModule);
     return OutlookModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/outlook/outlook.service.ts":
+/*!********************************************!*\
+  !*** ./src/app/outlook/outlook.service.ts ***!
+  \********************************************/
+/*! exports provided: OutlookService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OutlookService", function() { return OutlookService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _login_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../login/login.service */ "./src/app/login/login.service.ts");
+
+
+
+
+var OutlookService = /** @class */ (function () {
+    function OutlookService(http, loginService) {
+        this.http = http;
+        this.loginService = loginService;
+        this.currentProjectId = "";
+        this._baseUrl = './api/projects/';
+    }
+    OutlookService.prototype.getAdvance = function () {
+        return this.http.get(this.baseUrl);
+    };
+    Object.defineProperty(OutlookService.prototype, "baseUrl", {
+        get: function () {
+            return this._baseUrl + this.loginService.currentProjectId + '/q_spring';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    OutlookService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _login_login_service__WEBPACK_IMPORTED_MODULE_3__["LoginService"]])
+    ], OutlookService);
+    return OutlookService;
 }());
 
 
@@ -2434,6 +2567,13 @@ var AgFormatterService = /** @class */ (function () {
         }
         return params.value;
     };
+    AgFormatterService.prototype.ag_percentageTwoDecimalFormatter = function (params) {
+        if (params.value || params.value == 0) {
+            var value = params.value * 100;
+            return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "%";
+        }
+        return params.value;
+    };
     AgFormatterService.prototype.setTwoNumberDecimal = function (event) {
         event.target.value = parseFloat(event.target.value).toFixed(2);
     };
@@ -2701,6 +2841,7 @@ var SharedModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatFormFieldModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatInputModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSortModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTooltipModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatCheckboxModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSelectModule"],
@@ -2721,6 +2862,7 @@ var SharedModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatFormFieldModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatInputModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSortModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTooltipModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatCheckboxModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatSelectModule"],
@@ -2822,16 +2964,16 @@ var SpendingComponent = /** @class */ (function () {
         //      } }
         this.columnDefs = [
             { headerName: 'Id', field: 'id', hide: true },
-            { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 100 },
+            { headerName: 'F.Code', field: 'feature.code', filter: 'text', width: 110 },
             { headerName: 'Feature Title', field: 'feature.title', filter: 'text', width: 200 },
-            { headerName: 'Estimated', field: 'feature.estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 100 },
-            { headerName: 'Spending', field: 'spending', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 100 },
+            { headerName: 'Estimated', field: 'feature.estimatedHours', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 130 },
+            { headerName: 'Spending', field: 'spending', type: "numericColumn", filter: 'number', valueFormatter: this.frm.ag_numberTwoDecimalFormatter, width: 120 },
             { headerName: 'Asigned', field: 'user.name', filter: 'text', width: 150 }
         ];
         var _loop_1 = function (index) {
             //        this.columnDefs.push( { headerName : this.dateHeader(index+1), children: [{ headerName: index+1, valueGetter: (params: any) => params.data.spendingsInt[index], valueSetter: (params: any) => this.valueSetter(params,index), editable: true, suppressSorting: true, suppressMenu : true, type: "numericColumn", width: 55 }] })
             //      this.columnDefs.push({ headerName: index+1, valueGetter: (params: any) => params.data.spendingsInt[index], valueSetter: (params: any) => this.valueSetter(params,index), editable: true, suppressSorting: true, suppressMenu : true, type: "numericColumn", width: 55 })
-            this_1.columnDefs.push({ headerName: this_1.dateHeader(index + 1), valueGetter: function (params) { return params.data.spendingsInt[index]; }, valueSetter: function (params) { return _this.valueSetter(params, index); }, editable: true, suppressSorting: true, suppressMenu: true, type: "text", valueFormatter: this_1.frm.ag_numberTwoDecimalFormatter, width: 55, headerComponentParams: { template: this_1.getHeaderTemplate() } });
+            this_1.columnDefs.push({ headerName: this_1.dateHeader(index + 1), valueGetter: function (params) { return params.data.spendingsInt[index]; }, valueSetter: function (params) { return _this.valueSetter(params, index); }, editable: true, suppressSorting: true, suppressMenu: true, type: "text", valueFormatter: this_1.frm.ag_numberTwoDecimalFormatter, width: 75, headerComponentParams: { template: this_1.getHeaderTemplate() } });
         };
         var this_1 = this;
         for (var index = 0; index < loginService.currentSpring.springDays; index++) {

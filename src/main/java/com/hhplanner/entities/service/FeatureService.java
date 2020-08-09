@@ -50,6 +50,10 @@ public class FeatureService {
 		return this.featureRepository.findByProjectId(projectId);
 	}
 
+	public Iterable<Feature> getFeaturesToAsignByProjectId(int projectId) {
+		return this.featureRepository.findToAsignByProjectId(projectId);
+	}
+
 	public Feature save(Feature feature, int projectId) {
 		Project project = this.projectService.getProjectById(projectId);
 		feature.setProject(project);
